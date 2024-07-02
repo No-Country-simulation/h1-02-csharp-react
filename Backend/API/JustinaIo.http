@@ -1,0 +1,6 @@
+@JustinaIo_HostAddress = http://localhost:5212
+
+GET {{JustinaIo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
