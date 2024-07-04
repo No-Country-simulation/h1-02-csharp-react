@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Core
+namespace Core;
+
+public static class ServiceExtensions
 {
-    public static class ServiceExtensions
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddCoreServiceCollection(this IServiceCollection services)
-        {
-            return services;
-        }
+        // add services
+
+        return services;
     }
 }
