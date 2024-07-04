@@ -1,0 +1,15 @@
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Infrastructure.Configuration;
+
+public class HealthCareProviderConfig : IEntityTypeConfiguration<HealthCareProvider>
+{
+    public void Configure(EntityTypeBuilder<HealthCareProvider> builder)
+    {
+        builder.HasMany(h => h.Specialities)
+            .WithOne(s => s.HealtCareProvider)
+            .HasForeignKey(s => s.HealthCareProviderId);
+    }
+}
