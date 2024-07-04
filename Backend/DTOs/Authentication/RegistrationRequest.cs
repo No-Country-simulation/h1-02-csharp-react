@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Core.Models.Authentication;
+namespace DTOs.Authentication;
 
 public class RegistrationRequest
 {
@@ -16,9 +16,9 @@ public class RegistrationRequest
     [Required]
     public string Speciality { get; set; } = string.Empty;
 
-    public string MP { get; set; } = string.Empty;
+    public string LocalRegistrationNumber { get; set; } = string.Empty;
 
-    public string MN { get; set; } = string.Empty;
+    public string NationalRegistrationNumber { get; set; } = string.Empty;
 
     [Required]
     [EmailAddress]

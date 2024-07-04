@@ -1,5 +1,6 @@
 ﻿using Core.Contracts.Services;
 using Core.Models.Authentication;
+using DTOs.Authentication;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

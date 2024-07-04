@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Interfaces\" />
+    <Compile Remove="Repositories\Interfaces\**" />
+    <EmbeddedResource Remove="Repositories\Interfaces\**" />
+    <None Remove="Repositories\Interfaces\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,10 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

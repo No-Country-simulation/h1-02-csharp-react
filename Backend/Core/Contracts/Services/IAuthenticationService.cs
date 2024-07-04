@@ -1,4 +1,4 @@
-﻿using Core.Models.Authentication;
+﻿using DTOs.Authentication;
 
 namespace Core.Contracts.Services;
 

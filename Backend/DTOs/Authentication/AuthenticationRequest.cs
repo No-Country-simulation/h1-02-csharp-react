@@ -1,6 +1,4 @@
-﻿
-
-namespace Core.Models.Authentication;
+﻿namespace DTOs.Authentication;
 
 public class AuthenticationRequest
 {

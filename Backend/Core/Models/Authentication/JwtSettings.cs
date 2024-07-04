@@ -1,5 +1,4 @@
-﻿
-namespace Core.Models.Authentication;
+﻿namespace Core.Models.Authentication;
 
 public class JwtSettings
 {

@@ -1,6 +1,5 @@
-﻿
+﻿namespace DTOs.Authentication;
 
-namespace Core.Models.Authentication;
 
 public class AuthenticationResponse
 {
