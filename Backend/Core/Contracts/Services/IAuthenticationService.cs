@@ -1,6 +1,6 @@
 ﻿using DTOs.Authentication;
 
-namespace Core.Contracts.Services;
+namespace Application.Contracts.Services;
 
 public interface IAuthenticationService
 {

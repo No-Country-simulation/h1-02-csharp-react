@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Identity;
+namespace Persistence.Identity;
 
 public static class DbInitializer
 {

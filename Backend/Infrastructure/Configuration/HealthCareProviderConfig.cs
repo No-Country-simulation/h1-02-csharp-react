@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Configuration;
+namespace Persistence.Configuration;
 
 public class HealthCareProviderConfig : IEntityTypeConfiguration<HealthCareProvider>
 {

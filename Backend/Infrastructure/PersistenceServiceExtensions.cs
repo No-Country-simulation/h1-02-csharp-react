@@ -1,9 +1,9 @@
-﻿using Infrastructure.Data;
+﻿using Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure;
+namespace Persistence;
 
 public static class PersistenceServiceExtensions
 {

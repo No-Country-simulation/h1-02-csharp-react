@@ -1,7 +1,8 @@
 ﻿using Domain.Entities;
-using Core.Models.Authentication;
-using Infrastructure.Data;
-using Infrastructure.Identity;
+using Application.Models.Authentication;
+using Application.Contracts.Services;
+using Persistence.Data;
+using Persistence.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,10 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json;
-using Core.Contracts.Services;
 
 
-namespace Infrastructure;
+namespace Persistence;
 
 
 public static class IdentityServiceExtensions
