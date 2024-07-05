@@ -1,8 +1,8 @@
 ﻿using Core;
 using Domain.Entities;
-using Infrastructure;
-using Infrastructure.Data;
-using Infrastructure.Identity;
+using Persistence;
+using Persistence.Data;
+using Persistence.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;

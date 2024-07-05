@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Infrastructure.Data;
+namespace Persistence.Data;
 
 public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
