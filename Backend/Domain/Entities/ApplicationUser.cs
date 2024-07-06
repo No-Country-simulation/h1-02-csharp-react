@@ -9,8 +9,9 @@ public class ApplicationUser : IdentityUser
     public DateTime Birthdate { get; set; }
     public string Gender { get; set; } = string.Empty;
 
-    public int IdentificationTypeId { get; set; }
+    public int? IdentificationTypeId { get; set; }
     public IdentificationType IdentificationType { get; set; } = null!;
     public string IdentificationNumber { get; set; } = string.Empty;
 
+    public HealthCareProvider HealthCareProvider { get; set; }
 }
