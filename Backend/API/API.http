@@ -1,0 +1,28 @@
+﻿@API_HostAddress = https://localhost:7254
+
+POST {{API_HostAddress}}/api/account/authenticate
+Content-Type: application/json
+
+{
+  "email": "",
+  "password": ""
+}
+
+###
+
+POST {{API_HostAddress}}/api/account/register-health-care-provider
+Content-Type: application/json
+
+{
+  "firstName": "first",
+  "lastName": "test",
+  "phoneNumber": "11223344",
+  "speciality": "Oncólogo",
+  "localRegistrationNumber": "112233",
+  "nationalRegistrationNumber": "445566",
+  "email": "test@example.com",
+  "emailConfirmed": "test@example.com",
+  "password": "Password#123"
+}
+
+###
