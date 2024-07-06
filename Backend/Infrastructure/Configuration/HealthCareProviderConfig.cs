@@ -9,7 +9,7 @@ public class HealthCareProviderConfig : IEntityTypeConfiguration<HealthCareProvi
     public void Configure(EntityTypeBuilder<HealthCareProvider> builder)
     {
         builder.HasMany(h => h.Specialities)
-            .WithOne(s => s.HealtCareProvider)
+            .WithOne(s => s.HealthCareProvider)
             .HasForeignKey(s => s.HealthCareProviderId);
     }
 }
