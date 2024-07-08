@@ -1,7 +1,8 @@
-﻿using Application.Contracts.Services;
+﻿using Application.Contracts.Persistence;
+using Application.Contracts.Services;
 using Application.Models.Authentication;
-using DTOs.Authentication;
 using Domain.Entities;
+using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,16 +17,22 @@ public class AuthenticationService : IAuthenticationService
     public readonly UserManager<ApplicationUser> _userManager;
     public readonly SignInManager<ApplicationUser> _signInManager;
     public readonly JwtSettings _jwtSettings;
+    private readonly IHealthCareProviderRepository _healthCareProviderRepository;
+    private readonly ISpecialityRepository _specialityRepository;
 
 
     public AuthenticationService(
         UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        IHealthCareProviderRepository healthCareProviderRepository,
+        ISpecialityRepository specialityRepository)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings.Value;
         _signInManager = signInManager;
+        _healthCareProviderRepository = healthCareProviderRepository;
+        _specialityRepository = specialityRepository;
     }
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -34,14 +41,14 @@ public class AuthenticationService : IAuthenticationService
 
         if (user == null)
         {
-            throw new Exception($"Usuario con {request.Email} no encontrado.");
+            throw new Exception($"User with {request.Email} not found.");
         }
 
         var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
 
         if (!result.Succeeded)
         {
-            throw new Exception($"Las credenciales para '{request.Email} no son válidas.");
+            throw new Exception($"The credentials are not valid.");
         }
 
         JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
@@ -59,41 +66,76 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
     {
-        var existingEmail = await _userManager.FindByEmailAsync(request.Email);
-
-        if (existingEmail != null)
+        try
         {
-            throw new Exception($"Email '{request.Email}' ya existe");
+            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+
+            if (existingEmail != null)
+            {
+                throw new Exception($"Email '{request.Email}' already exists");
+            }
+
+            var user = new ApplicationUser
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                UserName = request.Email,
+                EmailConfirmed = true, // Modify email confirmation
+                IdentificationTypeId = new Guid("7bb44abb-5730-4ef9-be12-d0018c8dd51b"),
+                IdentificationNumber = "11111111"
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+
+            // Edit Roles
+            var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
+
+            if (!roleResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+            }
+
+            var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+
+            // Create HealthCareProvider record
+            var healthCareProvider = new HealthCareProvider
+            {
+                LocalRegistrationNumber = request.LocalRegistrationNumber,
+                NationalRegistrationNumber = request.NationalRegistrationNumber,
+                Specialities = specialities.ToList(),
+                ApplicationUserId = user.Id
+            };
+
+            try
+            {
+                await _healthCareProviderRepository.AddAsync(healthCareProvider);
+                await _healthCareProviderRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Handle exception related to health care provider addition
+                await _userManager.DeleteAsync(user);
+                throw new Exception($"Error adding Healthcare Provider:: {ex.Message}");
+            }
+
+            return new RegistrationResponse() { UserId = user.Id };
         }
-
-        var user = new ApplicationUser
+        catch (Exception ex)
         {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            UserName = request.Email,
-            // Modify email confirmation
-            EmailConfirmed = true
-        };
+            // Log exception
+            //_logger.LogError(ex, "Error during registration");
 
-        var result = await _userManager.CreateAsync(user, request.Password);
-
-        if (!result.Succeeded)
-        {
-            throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+            // Rethrow or handle the exception as needed
+            throw;
         }
-
-        // Edit Roles
-        var roleResult = await _userManager.AddToRoleAsync(user, "User");
-
-        if (!roleResult.Succeeded)
-        {
-            await _userManager.DeleteAsync(user);
-            throw new Exception($"Error asignando el rol: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
-        }
-
-        return new RegistrationResponse() { UserId = user.Id };
-
     }
 
     private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)

@@ -8,7 +8,7 @@ public static class DbInitializer
 {
     public static async Task InitializeAsync(IServiceProvider serviceProvider, UserManager<ApplicationUser> userManager)
     {
-        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
         // Add more roles
         string[] roleNames = [
@@ -24,7 +24,7 @@ public static class DbInitializer
             var roleExist = await roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                roleResult = await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
             }
         }
 
