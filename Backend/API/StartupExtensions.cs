@@ -1,4 +1,4 @@
-﻿using Core;
+﻿using Application;
 using Domain.Entities;
 using Persistence;
 using Persistence.Data;
@@ -13,8 +13,6 @@ public static class StartupExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        //AddSwagger(builder.Services);
-
         builder.Services.AddApplicationServices();
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
