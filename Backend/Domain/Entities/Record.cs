@@ -9,10 +9,9 @@
         public Guid LastModifiedBy { get; set; }
         public Guid MedicalRecordId { get; set; }
         public MedicalRecord MedicalRecord { get; set; }
-        public Guid MedicalCenterId { get; set; }
-        public MedicalCenter MedicalCenter { get; set; }
-        public Guid HealthCareProviderId { get; set; }
-        public HealthCareProvider HealthCareProvider { get; set; }
+        public Guid HealthCareProviderMedicalCenterId { get; set; }
+        public HealthCareProviderMedicalCenter HealthCareProviderMedicalCenter { get; set; }
         public ICollection<Treatment> Treatments { get; set; }
+        
     }
 }

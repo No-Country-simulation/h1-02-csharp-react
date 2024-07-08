@@ -7,6 +7,5 @@ public class HealthCareProvider : BaseEntity<Guid>
     public string LocalRegistrationNumber { get; set; } = string.Empty;
     public string NationalRegistrationNumber { get; set; } = string.Empty;
     public ICollection<Speciality> Specialities { get; set; } = null!;
-    public ICollection<Record> Records { get; set; }
-    public ICollection<MedicalCenter> MedicalCenters { get; set; }
+    public ICollection<HealthCareProviderMedicalCenter> HealthCareProvidersMedicalCenter { get; set; }
 }

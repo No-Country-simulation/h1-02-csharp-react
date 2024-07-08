@@ -4,8 +4,7 @@
     {
         public string Name { get; set; }
         public string CUIT { get; set; }
-        public ICollection<HealthCareProvider> HealthCareProviders { get; set; }
-        public ICollection<Record> Records { get; set; }
+        public ICollection<HealthCareProviderMedicalCenter> HealthCareProviderMedicalCenters { get; set; }
         public ICollection<Patient> Patients { get; set; }
     }
 }
