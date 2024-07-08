@@ -35,7 +35,7 @@ public static class DbInitializer
             UserName = "h1-02-csharp-react@proton.me",
             Email = "h1-02-csharp-react@proton.me",
             EmailConfirmed = true,
-            IdentificationTypeId = 1
+            IdentificationTypeId = new Guid("7bb44abb-5730-4ef9-be12-d0018c8dd51b")
         };
 
         var user = await userManager.FindByEmailAsync(adminUser.Email);
