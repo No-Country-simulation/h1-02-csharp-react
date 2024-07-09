@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Persistence.Data;
 
-public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
     public JustinaDbContext(DbContextOptions<JustinaDbContext> options) : base(options)
     {
@@ -15,6 +15,18 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole,
     public DbSet<HealthCareProvider> HealthCareProviders { get; set; }
     public DbSet<Speciality> Specialities { get; set; }
     public DbSet<IdentificationType> IdentificationTypes { get; set; }
+    public DbSet<Patient> Patients { get; set; }
+    public DbSet<BloodType> BloodTypes { get; set; }
+    public DbSet<Doner> Doners { get; set; }
+    public DbSet<Drug> Drugs { get; set; }
+    public DbSet<MedicalCenter> MedicalCenters { get; set; }
+    public DbSet<MedicalRecord> MedicalRecords { get; set; }
+    public DbSet<Pathology> Pathologies { get; set; }
+    public DbSet<Prescription> Prescriptions { get; set; }
+    public DbSet<Record> Records { get; set; }
+    public DbSet<Treatment> Treatments { get; set; }
+
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

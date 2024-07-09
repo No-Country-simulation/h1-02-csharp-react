@@ -17,7 +17,7 @@ Content-Type: application/json
   "firstName": "first",
   "lastName": "test",
   "phoneNumber": "11223344",
-  "speciality": "Oncólogo",
+  "specialitiesIds": ["98ecada4-4ac5-4042-8ac1-7baf2a984d4d"],
   "localRegistrationNumber": "112233",
   "nationalRegistrationNumber": "445566",
   "email": "test@example.com",

@@ -11,11 +11,17 @@ public class SpecialityRepository : GenericRepository<Speciality>, ISpecialityRe
     {
     }
 
-    public async Task<Speciality> GetByNameAsync(string healthCareProviderId, string description)
+    public async Task<Speciality> GetByNameAsync(string description)
     {
         return await _dbContext.Set<Speciality>()
                              .FirstOrDefaultAsync(
-                                s => s.Description == description &&
-                                s.HealthCareProviderId == healthCareProviderId);
+                                s => s.Description == description);
+    }
+
+    public async Task<IEnumerable<Speciality>> GetSpecialitiesByIds(IEnumerable<Guid> specialityIds)
+    {
+        return await _dbContext.Specialities
+            .Where(x => specialityIds.Contains(x.Id))
+            .ToListAsync();
     }
 }

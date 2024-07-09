@@ -1,15 +1,14 @@
 ﻿using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.Configuration;
-
-public class HealthCareProviderConfig : IEntityTypeConfiguration<HealthCareProvider>
+namespace Persistence.Configuration
 {
-    public void Configure(EntityTypeBuilder<HealthCareProvider> builder)
+    public class HealthCareProviderConfig : IEntityTypeConfiguration<HealthCareProvider>
     {
-        builder.HasMany(h => h.Specialities)
-            .WithOne(s => s.HealthCareProvider)
-            .HasForeignKey(s => s.HealthCareProviderId);
+        public void Configure(EntityTypeBuilder<HealthCareProvider> builder)
+        {
+            builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+        }
     }
 }

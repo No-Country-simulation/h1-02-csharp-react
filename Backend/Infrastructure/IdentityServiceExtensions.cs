@@ -27,7 +27,7 @@ public static class IdentityServiceExtensions
             options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
             b => b.MigrationsAssembly(typeof(JustinaDbContext).Assembly.FullName)));
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<JustinaDbContext>().AddDefaultTokenProviders();
 
         services.AddTransient<IAuthenticationService, AuthenticationService>();

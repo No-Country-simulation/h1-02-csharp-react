@@ -11,10 +11,10 @@ public class RegistrationRequest
     public string LastName { get; set; } = string.Empty;
 
     [Required]
-    public string PhoneNumber { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;    
 
     [Required]
-    public string Speciality { get; set; } = string.Empty;
+    public List<Guid> SpecialitiesIds { get; set; } = [];
 
     public string LocalRegistrationNumber { get; set; } = string.Empty;
 

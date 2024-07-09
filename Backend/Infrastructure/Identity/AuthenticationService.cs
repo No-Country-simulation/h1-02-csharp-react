@@ -1,16 +1,14 @@
-﻿using Application.Contracts.Services;
+﻿using Application.Contracts.Persistence;
+using Application.Contracts.Services;
 using Application.Models.Authentication;
-using DTOs.Authentication;
 using Domain.Entities;
+using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Contracts.Persistence;
-using Application.Exceptions;
-using Microsoft.Extensions.Logging;
 
 namespace Persistence.Identity;
 
@@ -19,16 +17,16 @@ public class AuthenticationService : IAuthenticationService
     public readonly UserManager<ApplicationUser> _userManager;
     public readonly SignInManager<ApplicationUser> _signInManager;
     public readonly JwtSettings _jwtSettings;
-    private readonly IGenericRepository<HealthCareProvider> _healthCareProviderRepository;
-    private readonly IGenericRepository<Speciality> _specialityRepository;
+    private readonly IHealthCareProviderRepository _healthCareProviderRepository;
+    private readonly ISpecialityRepository _specialityRepository;
 
 
     public AuthenticationService(
         UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ApplicationUser> signInManager,
-        IGenericRepository<HealthCareProvider> healthCareProviderRepository,
-        IGenericRepository<Speciality> specialityRepository)
+        IHealthCareProviderRepository healthCareProviderRepository,
+        ISpecialityRepository specialityRepository)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings.Value;
@@ -84,7 +82,9 @@ public class AuthenticationService : IAuthenticationService
                 LastName = request.LastName,
                 PhoneNumber = request.PhoneNumber,
                 UserName = request.Email,
-                EmailConfirmed = true // Modify email confirmation
+                EmailConfirmed = true, // Modify email confirmation
+                IdentificationTypeId = new Guid("7bb44abb-5730-4ef9-be12-d0018c8dd51b"),
+                IdentificationNumber = "11111111"
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -103,33 +103,16 @@ public class AuthenticationService : IAuthenticationService
                 throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
             }
 
+            var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+
             // Create HealthCareProvider record
             var healthCareProvider = new HealthCareProvider
             {
-                Id = user.Id,
                 LocalRegistrationNumber = request.LocalRegistrationNumber,
                 NationalRegistrationNumber = request.NationalRegistrationNumber,
+                Specialities = specialities.ToList(),
+                ApplicationUserId = user.Id
             };
-
-            var speciality = new Speciality
-            {
-                Description = request.Speciality,
-                HealthCareProviderId = user.Id
-            };
-
-            // Use try-catch for speciality addition
-            try
-            {
-                await _specialityRepository.AddAsync(speciality);
-            }
-            catch (Exception ex)
-            {
-                // Handle exception related to speciality addition
-                await _userManager.DeleteAsync(user);
-                throw new Exception($"Error adding specialty: {ex.Message}");
-            }
-
-            healthCareProvider.Specialities = new List<Speciality> { speciality };
 
             try
             {
@@ -140,7 +123,6 @@ public class AuthenticationService : IAuthenticationService
             {
                 // Handle exception related to health care provider addition
                 await _userManager.DeleteAsync(user);
-                await _specialityRepository.DeleteAsync(speciality);
                 throw new Exception($"Error adding Healthcare Provider:: {ex.Message}");
             }
 
@@ -170,7 +152,7 @@ public class AuthenticationService : IAuthenticationService
 
         var claims = new[]
         {
-            new Claim("uid", user.Id),
+            new Claim("uid", user.Id.ToString()),
             //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email)
