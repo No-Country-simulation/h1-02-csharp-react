@@ -1,10 +1,12 @@
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
-import Loader from './components/loader/Loader'
+import Loader from './components/Loader/Loader'
 
 import {
-    Login
+    Login,
+    Register,
+    Landing
   } from './pages'
 
 
@@ -17,15 +19,30 @@ export const router = createBrowserRouter([
       </Suspense>
     ),
     children: [
-
       {
         path: '/',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Landing />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/login',
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
           </Suspense>
         )
       },   
+      {
+        path: '/register',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Register />
+          </Suspense>
+        )
+      },  
 
     ]
   }
