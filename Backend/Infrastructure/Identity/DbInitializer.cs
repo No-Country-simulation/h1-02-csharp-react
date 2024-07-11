@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Utilities.Enums;
 
 namespace Persistence.Identity;
 
@@ -11,12 +12,7 @@ public static class DbInitializer
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
         // Add more roles
-        string[] roleNames = [
-            "Admin", 
-            "HealthCareProvider", 
-            "Patient", 
-            "Doner"
-            ];
+        string[] roleNames = Enum.GetNames(typeof(AccountType));
         IdentityResult roleResult;
 
         foreach (var roleName in roleNames)
