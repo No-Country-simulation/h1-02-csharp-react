@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Utilities.Enums;
 
 namespace DTOs.Authentication;
 
@@ -11,14 +12,13 @@ public class RegistrationRequest
     public string LastName { get; set; } = string.Empty;
 
     [Required]
-    public string PhoneNumber { get; set; } = string.Empty;    
+    public string PhoneNumber { get; set; } = string.Empty;
 
-    [Required]
     public List<Guid> SpecialitiesIds { get; set; } = [];
 
-    public string LocalRegistrationNumber { get; set; } = string.Empty;
+    [Required]
+    public AccountType AccountType { get; set; }
 
-    public string NationalRegistrationNumber { get; set; } = string.Empty;
 
     [Required]
     [EmailAddress]
@@ -31,4 +31,14 @@ public class RegistrationRequest
     [Required]
     [MinLength(8)]
     public string Password { get; set; } = string.Empty;
+
+    //HealthCareProvider
+    public string LocalRegistrationNumber { get; set; } = string.Empty;
+
+    public string NationalRegistrationNumber { get; set; } = string.Empty;
+
+    //Patient
+    public Guid BloodTypeId {  get; set; }
+
+
 }

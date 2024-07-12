@@ -38,7 +38,7 @@ public class AccountController : ControllerBase
         }
     }
 
-    [HttpPost("register-health-care-provider")]
+    [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesDefaultResponseType]

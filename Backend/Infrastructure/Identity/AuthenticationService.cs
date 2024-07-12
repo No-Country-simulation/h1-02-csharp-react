@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Utilities.Enums;
 
 namespace Persistence.Identity;
 
@@ -19,6 +20,7 @@ public class AuthenticationService : IAuthenticationService
     public readonly JwtSettings _jwtSettings;
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly ISpecialityRepository _specialityRepository;
+    private readonly IPatientRepository _patientRepository;
 
 
     public AuthenticationService(
@@ -26,13 +28,15 @@ public class AuthenticationService : IAuthenticationService
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ApplicationUser> signInManager,
         IHealthCareProviderRepository healthCareProviderRepository,
-        ISpecialityRepository specialityRepository)
+        ISpecialityRepository specialityRepository,
+        IPatientRepository pacientRepository)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings.Value;
         _signInManager = signInManager;
         _healthCareProviderRepository = healthCareProviderRepository;
         _specialityRepository = specialityRepository;
+        _patientRepository = pacientRepository;
     }
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -82,6 +86,7 @@ public class AuthenticationService : IAuthenticationService
                 LastName = request.LastName,
                 PhoneNumber = request.PhoneNumber,
                 UserName = request.Email,
+                AccountType = request.AccountType,
                 EmailConfirmed = true, // Modify email confirmation
                 IdentificationTypeId = new Guid("7bb44abb-5730-4ef9-be12-d0018c8dd51b"),
                 IdentificationNumber = "11111111"
@@ -94,40 +99,32 @@ public class AuthenticationService : IAuthenticationService
                 throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
 
-            // Edit Roles
-            var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
-
-            if (!roleResult.Succeeded)
-            {
-                await _userManager.DeleteAsync(user);
-                throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
-            }
-
-            var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
-
-            // Create HealthCareProvider record
-            var healthCareProvider = new HealthCareProvider
-            {
-                LocalRegistrationNumber = request.LocalRegistrationNumber,
-                NationalRegistrationNumber = request.NationalRegistrationNumber,
-                Specialities = specialities.ToList(),
-                ApplicationUserId = user.Id
-            };
+            await AddUserRole(user, request);
 
             try
             {
-                await _healthCareProviderRepository.AddAsync(healthCareProvider);
-                await _healthCareProviderRepository.SaveChangesAsync();
+                switch (request.AccountType)
+                {
+                    case AccountType.HealthCareProvider:
+                        await AddHealthCareProvider(user, request);
+                        break;
+                    case AccountType.Patient:
+                        await AddPatient(user, request);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
             catch (Exception ex)
             {
-                // Handle exception related to health care provider addition
+                // Handle exception related to addition
                 await _userManager.DeleteAsync(user);
-                throw new Exception($"Error adding Healthcare Provider:: {ex.Message}");
+                throw new Exception($"Error adding {request.AccountType}: {ex.Message}");
             }
 
             return new RegistrationResponse() { UserId = user.Id };
         }
+
         catch (Exception ex)
         {
             // Log exception
@@ -173,5 +170,47 @@ public class AuthenticationService : IAuthenticationService
         return jwtSecurityToken;
 
     }
+
+    private async Task<bool> AddUserRole(ApplicationUser user, RegistrationRequest request)
+    {
+        var roleResult = await _userManager.AddToRoleAsync(user, request.AccountType.ToString());
+
+        if (!roleResult.Succeeded)
+        {
+            await _userManager.DeleteAsync(user);
+            throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+        }
+
+        return true;
+    }
+
+    private async Task AddHealthCareProvider(ApplicationUser user, RegistrationRequest request)
+    {
+        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+
+        var healthCareProvider = new HealthCareProvider
+        {
+            LocalRegistrationNumber = request.LocalRegistrationNumber,
+            NationalRegistrationNumber = request.NationalRegistrationNumber,
+            Specialities = specialities.ToList(),
+            ApplicationUserId = user.Id
+        };
+
+        await _healthCareProviderRepository.AddAsync(healthCareProvider);
+        await _healthCareProviderRepository.SaveChangesAsync();
+    }
+
+    private async Task AddPatient(ApplicationUser user, RegistrationRequest request)
+    {
+        var patient = new Patient
+        {
+            ApplicationUserId = user.Id,
+            BloodTypeId = request.BloodTypeId
+        };
+
+        await _patientRepository.AddAsync(patient);
+        await _patientRepository.SaveChangesAsync();
+    }
+
 }
 
