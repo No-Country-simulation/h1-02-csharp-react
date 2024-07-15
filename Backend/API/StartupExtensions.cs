@@ -6,6 +6,7 @@ using Persistence.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RealTime;
 
 namespace API;
 
@@ -16,6 +17,7 @@ public static class StartupExtensions
         builder.Services.AddApplicationServices();
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
+        builder.Services.AddRealTimeServices();
 
         builder.Services.AddHttpContextAccessor();
 
@@ -23,13 +25,20 @@ public static class StartupExtensions
 
         builder.Services.AddControllers();
 
+        builder.Services.AddSignalR();
+
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.WithOrigins("http://127.0.0.1:5500")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials();
+            });
         });
 
         return builder.Build();
-
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
@@ -46,7 +55,11 @@ public static class StartupExtensions
         app.UseHttpsRedirection();
         app.UseRouting();
 
-        app.UseCors("Open");
+        //app.UseCors("Open");
+        app.UseCors();
+
+        // RealTime 
+        app.MapHubs();
 
         app.UseAuthentication();
         app.UseAuthorization();
@@ -55,7 +68,7 @@ public static class StartupExtensions
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Justina API v1");
-            c.RoutePrefix = string.Empty; // Para que Swagger UI esté en la raíz
+            //c.RoutePrefix = string.Empty; // Para que Swagger UI esté en la raíz
         });
 
         app.MapControllers();
