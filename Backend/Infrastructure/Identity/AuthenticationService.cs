@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Utilities.Enums;
+using Utilities.Enums.ExtensionMethods;
 
 namespace Persistence.Identity;
 
@@ -88,8 +89,8 @@ public class AuthenticationService : IAuthenticationService
                 UserName = request.Email,
                 AccountType = request.AccountType,
                 EmailConfirmed = true, // Modify email confirmation
-                IdentificationTypeId = new Guid("7bb44abb-5730-4ef9-be12-d0018c8dd51b"),
-                IdentificationNumber = "11111111"
+                IdentificationType = request.IdentificationType,
+                IdentificationNumber = request.IdentificationNumber,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -205,7 +206,7 @@ public class AuthenticationService : IAuthenticationService
         var patient = new Patient
         {
             ApplicationUserId = user.Id,
-            BloodTypeId = request.BloodTypeId
+            BloodType = request.BloodType,
         };
 
         await _patientRepository.AddAsync(patient);

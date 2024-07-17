@@ -14,9 +14,7 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
 
     public DbSet<HealthCareProvider> HealthCareProviders { get; set; }
     public DbSet<Speciality> Specialities { get; set; }
-    public DbSet<IdentificationType> IdentificationTypes { get; set; }
     public DbSet<Patient> Patients { get; set; }
-    public DbSet<BloodType> BloodTypes { get; set; }
     public DbSet<Doner> Doners { get; set; }
     public DbSet<Drug> Drugs { get; set; }
     public DbSet<MedicalCenter> MedicalCenters { get; set; }

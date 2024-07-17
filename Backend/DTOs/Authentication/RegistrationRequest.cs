@@ -19,6 +19,11 @@ public class RegistrationRequest
     [Required]
     public AccountType AccountType { get; set; }
 
+    [Required]
+    public IdentificationType IdentificationType { get; set; }
+
+    [Required]
+    public string IdentificationNumber { get; set; } = string.Empty;
 
     [Required]
     [EmailAddress]
@@ -38,7 +43,7 @@ public class RegistrationRequest
     public string NationalRegistrationNumber { get; set; } = string.Empty;
 
     //Patient
-    public Guid BloodTypeId {  get; set; }
+    public BloodType BloodType {  get; set; }
 
 
 }
