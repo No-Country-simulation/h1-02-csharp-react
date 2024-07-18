@@ -6,7 +6,8 @@ import Loader from './components/Loader/Loader'
 import {
     Login,
     Register,
-    Landing
+    Landing,
+    DrDashboard
   } from './pages'
 
 
@@ -40,6 +41,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Register />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/drdashboard',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <DrDashboard />
           </Suspense>
         )
       },  
