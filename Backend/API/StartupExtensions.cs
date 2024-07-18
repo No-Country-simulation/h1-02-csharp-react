@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RealTime;
+using Mappings;
 
 namespace API;
 
@@ -18,6 +19,7 @@ public static class StartupExtensions
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddRealTimeServices();
+        builder.Services.AddDomainProfiles();
 
         builder.Services.AddHttpContextAccessor();
 
