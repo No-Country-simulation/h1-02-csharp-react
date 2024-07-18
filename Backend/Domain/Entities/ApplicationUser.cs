@@ -13,8 +13,7 @@ public class ApplicationUser : IdentityUser<Guid>
 
     public Patient? Patient { get; set; }
     public HealthCareProvider? HealthCareProvider { get; set; }
-    public Guid IdentificationTypeId { get; set; }
-    public IdentificationType IdentificationType { get; set; } = null!;
+    public IdentificationType IdentificationType { get; set; }
     public string IdentificationNumber { get; set; } = string.Empty;
 
 }

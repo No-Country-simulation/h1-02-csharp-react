@@ -7,7 +7,7 @@ var app = builder
     .ConfigurePipeline();
 
 // Inicializar roles y usuarios
-//await app.InitializeDatabase();
+await app.InitializeDatabase();
 
 app.MapGet("/", () => "Justina IO");
 
