@@ -1,7 +1,10 @@
 ﻿using Application.Contracts.Services;
 using DTOs.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers;
 
@@ -45,5 +48,27 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<RegistrationResponse>> RegisterAsync(RegistrationRequest request)
     {
         return Ok(await _authenticationService.RegisterAsync(request));
+    }
+
+    [HttpGet("me")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<ActionResult<AuthenticatedUserReponse>> GetCurrentUser()
+    {
+        //var userId = User.FindFirst(ClaimTypes.Name)?.Value;
+        var userId = User.FindFirstValue("uid");
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var user = await _authenticationService.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user);
     }
 }
