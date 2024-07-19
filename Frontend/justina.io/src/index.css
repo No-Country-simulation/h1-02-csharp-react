@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,4 +10,19 @@
       0 4px 6px -1px rgba(0, 0, 0, 0.6),   
       -4px -4px 6px -1px rgba(255, 255, 255, 0.5)
   }
+
+}
+a{
+    text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+body{
+    font-family: 'Noto Sans', sans-serif;
+    background-image: url('../src/assets/imgs/template.png');
+    background-position: center;
+    background-size: cover;
+    
 }

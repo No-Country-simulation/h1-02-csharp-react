@@ -7,7 +7,8 @@ import {
     Login,
     Register,
     Landing,
-    DrDashboard
+    DrDashboard,
+    Home
   } from './pages'
 
 
@@ -41,6 +42,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Register />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/home',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Home />
           </Suspense>
         )
       },  
