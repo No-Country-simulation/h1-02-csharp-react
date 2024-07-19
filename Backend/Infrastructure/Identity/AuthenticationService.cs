@@ -7,6 +7,7 @@ using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -22,6 +23,7 @@ public class AuthenticationService : IAuthenticationService
     public readonly JwtSettings _jwtSettings;
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly ISpecialityRepository _specialityRepository;
+    private readonly IHealthCareProviderSpecialityRepository _healthCareProviderSpecialityRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IMapper _mapper;
 
@@ -32,6 +34,7 @@ public class AuthenticationService : IAuthenticationService
         SignInManager<ApplicationUser> signInManager,
         IHealthCareProviderRepository healthCareProviderRepository,
         ISpecialityRepository specialityRepository,
+        IHealthCareProviderSpecialityRepository healthCareProviderSpecialityRepository,
         IPatientRepository pacientRepository,
         IMapper mapper)
     {
@@ -40,6 +43,7 @@ public class AuthenticationService : IAuthenticationService
         _signInManager = signInManager;
         _healthCareProviderRepository = healthCareProviderRepository;
         _specialityRepository = specialityRepository;
+        _healthCareProviderSpecialityRepository = healthCareProviderSpecialityRepository;
         _patientRepository = pacientRepository;
         _mapper = mapper;
     }
@@ -189,18 +193,28 @@ public class AuthenticationService : IAuthenticationService
 
     private async Task AddHealthCareProvider(ApplicationUser user, RegistrationRequest request)
     {
-        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
-
         var healthCareProvider = new HealthCareProvider
         {
             LocalRegistrationNumber = request.LocalRegistrationNumber,
             NationalRegistrationNumber = request.NationalRegistrationNumber,
-            Specialities = specialities.ToList(),
+            //Specialities = specialities.ToList(),
             ApplicationUserId = user.Id
         };
-
         await _healthCareProviderRepository.AddAsync(healthCareProvider);
         await _healthCareProviderRepository.SaveChangesAsync();
+
+        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+        foreach (var speciality in specialities)
+        {
+            var healthCareProviderSpeciality = new HealthCareProviderSpeciality
+            {
+                HealthCareProviderId = healthCareProvider.Id,
+                SpecialityId = speciality.Id
+            };
+            await _healthCareProviderSpecialityRepository.AddAsync(healthCareProviderSpeciality);
+            await _healthCareProviderSpecialityRepository.SaveChangesAsync();
+        }
+
     }
 
     private async Task AddPatient(ApplicationUser user, RegistrationRequest request)
