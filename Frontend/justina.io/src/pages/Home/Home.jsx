@@ -2,6 +2,7 @@
 //import { useNavigate } from 'react-router-dom'
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Header from "../../components/Header/Header";
+import DrDashboardContainer from "../DrDashboard/DrDashboardContainer";
 
 
 
@@ -14,7 +15,11 @@ const Home = () => {
     return ( 
         <div className="fondo-home flex">
             <Sidebar/>
+            <div>
             <Header/>
+            <DrDashboardContainer/>
+            </div>
+            
 
             {/**/}
             
