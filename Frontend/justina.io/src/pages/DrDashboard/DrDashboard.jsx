@@ -37,7 +37,7 @@ const DrDashboard = () => {
     }
 
     return (
-        <section className="flex justify-center bg-[url('../../background1.png')] bg-cover">
+        <section className="flex justify-center">
             <div className="py-16 px-12 w-1/3 flex flex-col items-center">
                 <ExpandableList 
                     title="Últimos pacientes vistos"
