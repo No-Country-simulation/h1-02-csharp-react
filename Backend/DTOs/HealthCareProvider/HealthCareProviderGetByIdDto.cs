@@ -8,7 +8,7 @@ public class HealthCareProviderGetByIdDto
     public string LastName { get; set; }
     public DateTime BirthDate { get; set; }
     public string Gender { get; set; } = string.Empty;
-    public IdentificationType IdentificationType { get; set; }
+    public string IdentificationTypeDescription { get; set; }
     public string IdentificationNumber { get; set; } = string.Empty;
 
     public string LocalRegistrationNumber { get; set; } = string.Empty;
