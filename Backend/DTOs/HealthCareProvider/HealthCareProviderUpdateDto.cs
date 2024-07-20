@@ -9,5 +9,4 @@ public class HealthCareProviderUpdateDto
     public string LocalRegistrationNumber { get; set; } = string.Empty;
     public string NationalRegistrationNumber { get; set; } = string.Empty;
     public ICollection<Guid> SpecialityIds { get; set; } = new List<Guid>();
-    //public ICollection<Speciality> Specialities { get; set; } = null!;
 }

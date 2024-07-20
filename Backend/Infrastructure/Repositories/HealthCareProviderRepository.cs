@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
 namespace Persistence.Repositories;
@@ -10,4 +11,14 @@ public class HealthCareProviderRepository : GenericRepository<HealthCareProvider
     public HealthCareProviderRepository(JustinaDbContext dbContext) : base(dbContext)
     {
     }
+
+    public async Task<HealthCareProvider?> GetByIdWithSpecialitiesAsync(Guid id)
+    {
+        return await _dbContext.HealthCareProviders
+                        .Include(hp => hp.ApplicationUser)
+                        .Include(hp => hp.HealthCareProviderSpecialities)
+                        .ThenInclude(hps => hps.Speciality)
+                        .FirstOrDefaultAsync(hp => hp.Id == id);
+    }
+
 }

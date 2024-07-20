@@ -10,20 +10,39 @@ namespace Application.Services;
 public class HealthCareProviderService : IHealthCareProviderService
 {
     public readonly UserManager<ApplicationUser> _userManager;
-    private readonly IGenericRepository<HealthCareProvider> _healthCareProviderRepository;
+    private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly IGenericRepository<HealthCareProviderSpeciality> _healthCareProviderSpecialityRepository;
     private readonly IMapper _mapper;
 
     public HealthCareProviderService(
         UserManager<ApplicationUser> userManager,
-        IGenericRepository<HealthCareProvider> healthCareProviderRepository, 
-        IGenericRepository<HealthCareProviderSpeciality> healthCareProviderSpecialityRepository, 
+        IHealthCareProviderRepository healthCareProviderRepository,
+        IGenericRepository<HealthCareProviderSpeciality> healthCareProviderSpecialityRepository,
         IMapper mapper)
     {
         _userManager = userManager;
         _healthCareProviderRepository = healthCareProviderRepository;
         _healthCareProviderSpecialityRepository = healthCareProviderSpecialityRepository;
         _mapper = mapper;
+    }
+
+    public async Task<HealthCareProviderGetByIdDto> GetHealthCareProviderByIdAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        var hcp = await _healthCareProviderRepository
+            .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
+        
+        if (hcp == null) return null;
+
+        var healthCareProvider = await _healthCareProviderRepository
+            .GetByIdWithSpecialitiesAsync(hcp.Id);
+
+        if (healthCareProvider == null) return null;
+
+
+        var dto = _mapper.Map<HealthCareProviderGetByIdDto>(healthCareProvider);
+        return dto;
     }
 
     public async Task<bool> UpdateHealthCareProviderAsync(string userId, HealthCareProviderUpdateDto updateDto)
@@ -36,11 +55,6 @@ public class HealthCareProviderService : IHealthCareProviderService
         var hcp = await _healthCareProviderRepository.GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
         if (hcp == null) return false;
 
-        //var specialities = await _specialityRepository.GetAllAsyncPredicate(s => updateDto.Specialities.Contains(s.Id);
-
-        //hcp.LocalRegistrationNumber = updateDto.LocalRegistrationNumber;
-        //hcp.NationalRegistrationNumber = updateDto.NationalRegistrationNumber;
-
         // delete existing relations
         var existingSpecialities = await _healthCareProviderSpecialityRepository
             .GetAllPredicateAsync(hps => hps.HealthCareProviderId == hcp.Id);
@@ -51,7 +65,7 @@ public class HealthCareProviderService : IHealthCareProviderService
             await _healthCareProviderSpecialityRepository.SaveChangesAsync();
         }
 
-        // Agregar las nuevas relaciones
+        // add new relations to specialities
         foreach (var specialityId in updateDto.SpecialityIds)
         {
             var healthCareProviderSpeciality = new HealthCareProviderSpeciality

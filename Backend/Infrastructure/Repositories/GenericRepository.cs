@@ -1,7 +1,8 @@
-﻿using Persistence.Data;
-using Application.Contracts.Persistence;
+﻿using Application.Contracts.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Data;
 using System.Linq.Expressions;
+
 
 namespace Persistence.Repositories;
 
@@ -38,7 +39,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public async Task UpdateAsync(T entity)
     {
         _dbContext.Set<T>().Update(entity);
-
     }
 
     // implement soft delete
@@ -47,7 +47,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbContext.Set<T>().Remove(entity);
     }
 
-    public async Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate)
+    public async Task<T?> GetByConditionAsync(Expression<Func<T, bool>> predicate)
     {
         return await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
     }
