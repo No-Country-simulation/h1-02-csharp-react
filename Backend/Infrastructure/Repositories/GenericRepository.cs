@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected readonly JustinaDbContext _dbContext;
 
@@ -13,7 +13,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public virtual async Task<T> GetByIdAsync(Guid id)
+    public virtual async Task<T?> GetByIdAsync(Guid id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
     }
@@ -29,9 +29,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
-    public async Task UpdateAsync(T entity)
+    public void Update(T entity)
     {
-        // implement
+        _dbContext.Set<T>().Update(entity);
     }
 
     // implement soft delete

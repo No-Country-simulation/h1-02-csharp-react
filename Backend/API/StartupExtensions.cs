@@ -1,11 +1,12 @@
 ﻿using Application;
 using Domain.Entities;
-using Persistence;
-using Persistence.Data;
-using Persistence.Identity;
+using Mappings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Persistence;
+using Persistence.Data;
+using Persistence.Identity;
 using RealTime;
 
 namespace API;
@@ -18,6 +19,7 @@ public static class StartupExtensions
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddRealTimeServices();
+        builder.Services.AddDomainProfiles();
 
         builder.Services.AddHttpContextAccessor();
 

@@ -14,8 +14,6 @@ public static class PersistenceServiceExtensions
         services.AddDbContext<JustinaDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
         services.AddScoped<IHealthCareProviderRepository, HealthCareProviderRepository>();
         services.AddScoped<ISpecialityRepository, SpecialityRepository>();
         services.AddScoped<IPatientRepository, PatientRepository>();
