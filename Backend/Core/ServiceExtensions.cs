@@ -10,6 +10,8 @@ public static class ServiceExtensions
     {
         // add services
         services.AddScoped<IPatientService, PatientService>();
+        services.AddScoped<IHealthCareProviderService, HealthCareProviderService>();
+
         return services;
     }
 }

@@ -8,6 +8,7 @@ using Persistence;
 using Persistence.Data;
 using Persistence.Identity;
 using RealTime;
+using Mappings;
 
 namespace API;
 

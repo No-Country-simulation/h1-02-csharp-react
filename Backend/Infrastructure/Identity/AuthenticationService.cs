@@ -1,11 +1,13 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Contracts.Services;
 using Application.Models.Authentication;
+using AutoMapper;
 using Domain.Entities;
 using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -22,6 +24,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly ISpecialityRepository _specialityRepository;
     private readonly IPatientRepository _patientRepository;
+    private readonly IMapper _mapper;
 
 
     public AuthenticationService(
@@ -30,7 +33,8 @@ public class AuthenticationService : IAuthenticationService
         SignInManager<ApplicationUser> signInManager,
         IHealthCareProviderRepository healthCareProviderRepository,
         ISpecialityRepository specialityRepository,
-        IPatientRepository pacientRepository)
+        IPatientRepository pacientRepository,
+        IMapper mapper)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings.Value;
@@ -38,6 +42,7 @@ public class AuthenticationService : IAuthenticationService
         _healthCareProviderRepository = healthCareProviderRepository;
         _specialityRepository = specialityRepository;
         _patientRepository = pacientRepository;
+        _mapper = mapper;
     }
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -60,10 +65,7 @@ public class AuthenticationService : IAuthenticationService
 
         AuthenticationResponse response = new AuthenticationResponse
         {
-            Id = user.Id,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-            Email = user.Email,
-            UserName = user.UserName
         };
 
         return response;
@@ -151,7 +153,8 @@ public class AuthenticationService : IAuthenticationService
         var claims = new[]
         {
             new Claim("uid", user.Id.ToString()),
-            //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
+            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email)
         }
@@ -187,16 +190,22 @@ public class AuthenticationService : IAuthenticationService
 
     private async Task AddHealthCareProvider(ApplicationUser user, RegistrationRequest request)
     {
-        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
-
         var healthCareProvider = new HealthCareProvider
         {
             LocalRegistrationNumber = request.LocalRegistrationNumber,
             NationalRegistrationNumber = request.NationalRegistrationNumber,
-            Specialities = specialities.ToList(),
+            //Specialities = specialities.ToList(),
             ApplicationUserId = user.Id
         };
 
+        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+        foreach (var speciality in specialities)
+        {
+            healthCareProvider.HealthCareProviderSpecialities.Add(new HealthCareProviderSpeciality
+            {
+                SpecialityId = speciality.Id
+            });
+        }
         await _healthCareProviderRepository.AddAsync(healthCareProvider);
         await _healthCareProviderRepository.SaveChangesAsync();
     }
@@ -211,6 +220,18 @@ public class AuthenticationService : IAuthenticationService
 
         await _patientRepository.AddAsync(patient);
         await _patientRepository.SaveChangesAsync();
+    }
+
+    public async Task<AuthenticatedUserReponse> FindByIdAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return null;
+        }
+        var userDto = _mapper.Map<AuthenticatedUserReponse>(user);
+
+        return userDto;
     }
 
 }
