@@ -4,6 +4,7 @@ namespace Application.Contracts.Services;
 
 public interface IHealthCareProviderService
 {
-    Task<bool> UpdateHealthCareProviderAsync(string userId, HealthCareProviderUpdateDto updateDto);
-    Task<HealthCareProviderGetByIdDto> GetHealthCareProviderByIdAsync(string userId);
+    Task<GetByIdHealthCareProviderDto> GetHealthCareProviderByIdAsync(string userId);
+    Task<bool> UpdateHealthCareProviderAsync(Guid userId, UpdateHealthCareProviderDto updateDto);
+    Task<bool> UpdatePhoneNumber(string userId, UpdatePhoneNumberDto updatePhoneNumberDto);
 }

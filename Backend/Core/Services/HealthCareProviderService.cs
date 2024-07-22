@@ -26,13 +26,13 @@ public class HealthCareProviderService : IHealthCareProviderService
         _mapper = mapper;
     }
 
-    public async Task<HealthCareProviderGetByIdDto> GetHealthCareProviderByIdAsync(string userId)
+    public async Task<GetByIdHealthCareProviderDto> GetHealthCareProviderByIdAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
         var hcp = await _healthCareProviderRepository
             .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
-        
+
         if (hcp == null) return null;
 
         var healthCareProvider = await _healthCareProviderRepository
@@ -41,29 +41,31 @@ public class HealthCareProviderService : IHealthCareProviderService
         if (healthCareProvider == null) return null;
 
 
-        var dto = _mapper.Map<HealthCareProviderGetByIdDto>(healthCareProvider);
+        var dto = _mapper.Map<GetByIdHealthCareProviderDto>(healthCareProvider);
         return dto;
     }
 
-    public async Task<bool> UpdateHealthCareProviderAsync(string userId, HealthCareProviderUpdateDto updateDto)
+    public async Task<bool> UpdateHealthCareProviderAsync(Guid userId, UpdateHealthCareProviderDto updateDto)
     {
-        var user = await _userManager.FindByIdAsync(userId);
-        user.FirstName = updateDto.FirstName;
-        user.LastName = updateDto.LastName;
-        user.Birthdate = updateDto.BirthDate;
+        var user = await _userManager.FindByIdAsync(userId.ToString());
 
-        var hcp = await _healthCareProviderRepository.GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
-        if (hcp == null) return false;
+        var userToUpdate = _mapper.Map(updateDto, user);
+
+        var hcp = await _healthCareProviderRepository
+                            .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
+        if (hcp == null)
+            return false;
 
         // delete existing relations
         var existingSpecialities = await _healthCareProviderSpecialityRepository
-            .GetAllPredicateAsync(hps => hps.HealthCareProviderId == hcp.Id);
+                                            .GetAllPredicateAsync(hps =>
+                                                hps.HealthCareProviderId == hcp.Id);
 
         foreach (var speciality in existingSpecialities)
         {
             await _healthCareProviderSpecialityRepository.DeleteAsync(speciality);
-            await _healthCareProviderSpecialityRepository.SaveChangesAsync();
         }
+        await _healthCareProviderSpecialityRepository.SaveChangesAsync();
 
         // add new relations to specialities
         foreach (var specialityId in updateDto.SpecialityIds)
@@ -74,13 +76,24 @@ public class HealthCareProviderService : IHealthCareProviderService
                 SpecialityId = specialityId
             };
             await _healthCareProviderSpecialityRepository.AddAsync(healthCareProviderSpeciality);
-            await _healthCareProviderSpecialityRepository.SaveChangesAsync();
         }
+        await _healthCareProviderSpecialityRepository.SaveChangesAsync();
 
-        var providerToUpdate = _mapper.Map<HealthCareProvider>(hcp);
+        var providerToUpdate = _mapper.Map(updateDto, hcp);
 
         await _healthCareProviderRepository.UpdateAsync(providerToUpdate);
         await _healthCareProviderRepository.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> UpdatePhoneNumber(string userId, UpdatePhoneNumberDto updatePhoneNumberDto)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) return false;
+
+        user.PhoneNumber = updatePhoneNumberDto.PhoneNumber;
+        var result = await _userManager.UpdateAsync(user);
+
         return true;
     }
 }

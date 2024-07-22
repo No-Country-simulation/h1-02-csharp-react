@@ -2,7 +2,7 @@
 
 namespace DTOs.HealthCareProvider;
 
-public class HealthCareProviderGetByIdDto
+public class GetByIdHealthCareProviderDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

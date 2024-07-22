@@ -9,7 +9,8 @@ namespace Mappings.Profiles
     {
         public HealthCareProviderProfile()
         {
-            CreateMap<HealthCareProvider, HealthCareProviderGetByIdDto>()
+            // GetById Role HealthCareProvider
+            CreateMap<HealthCareProvider, GetByIdHealthCareProviderDto>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.ApplicationUser.Birthdate))
@@ -19,7 +20,15 @@ namespace Mappings.Profiles
                 .ForMember(dest => dest.LocalRegistrationNumber, opt => opt.MapFrom(src => src.LocalRegistrationNumber))
                 .ForMember(dest => dest.NationalRegistrationNumber, opt => opt.MapFrom(src => src.NationalRegistrationNumber))
                 .ForMember(dest => dest.Specialities, opt => opt.MapFrom(src => src.HealthCareProviderSpecialities.Select(hps => hps.Speciality.Description).ToList()));
-            CreateMap<HealthCareProvider, HealthCareProviderUpdateDto>();
+            
+            // Update Role MedicalCenter
+            CreateMap<UpdateHealthCareProviderDto, ApplicationUser>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.Birthdate, opt => opt.MapFrom(src => src.BirthDate));
+
+            CreateMap<UpdateHealthCareProviderDto, HealthCareProvider>();
+
 
         }
     }

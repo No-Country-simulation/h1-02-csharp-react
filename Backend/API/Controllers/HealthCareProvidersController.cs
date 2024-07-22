@@ -2,6 +2,7 @@
 using DTOs.HealthCareProvider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -34,9 +35,9 @@ public class HealthCareProvidersController : ControllerBase
         return Ok(healthCareProviderDto);
     }
 
-    [HttpPut]
-    [Authorize(Roles = "HealthCareProvider")]
-    public async Task<IActionResult> UpdateHealthCareProvider(HealthCareProviderUpdateDto updateDto)
+    [HttpPut("{id}")]
+    [Authorize(Roles = "MedicalCenter")]
+    public async Task<IActionResult> UpdateHealthCareProvider(Guid id, [FromBody] UpdateHealthCareProviderDto updateDto)
     {
         var userId = User.FindFirstValue("uid");
 
@@ -44,10 +45,31 @@ public class HealthCareProvidersController : ControllerBase
         {
             return Unauthorized();
         }
-        //var id = new Guid(userId);
-        var result = await _healthCareProviderService.UpdateHealthCareProviderAsync(userId, updateDto);
+
+        var result = await _healthCareProviderService.UpdateHealthCareProviderAsync(id, updateDto);
         if (!result) return NotFound();
 
         return NoContent();
     }
+
+    [HttpPatch("update-phone-number")]
+    [Authorize(Roles = "HealthCareProvider")]
+    public async Task<IActionResult> UpdatePhoneNumber([FromBody] UpdatePhoneNumberDto updatePhoneNumberDto)
+    {
+        var userId = User.FindFirstValue("uid");
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var result = await _healthCareProviderService.UpdatePhoneNumber(userId, updatePhoneNumberDto);
+        if (!result)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
 }
+

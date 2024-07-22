@@ -200,21 +200,17 @@ public class AuthenticationService : IAuthenticationService
             //Specialities = specialities.ToList(),
             ApplicationUserId = user.Id
         };
-        await _healthCareProviderRepository.AddAsync(healthCareProvider);
-        await _healthCareProviderRepository.SaveChangesAsync();
 
         var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
         foreach (var speciality in specialities)
         {
-            var healthCareProviderSpeciality = new HealthCareProviderSpeciality
+            healthCareProvider.HealthCareProviderSpecialities.Add(new HealthCareProviderSpeciality
             {
-                HealthCareProviderId = healthCareProvider.Id,
                 SpecialityId = speciality.Id
-            };
-            await _healthCareProviderSpecialityRepository.AddAsync(healthCareProviderSpeciality);
-            await _healthCareProviderSpecialityRepository.SaveChangesAsync();
+            });
         }
-
+        await _healthCareProviderRepository.AddAsync(healthCareProvider);
+        await _healthCareProviderRepository.SaveChangesAsync();
     }
 
     private async Task AddPatient(ApplicationUser user, RegistrationRequest request)
@@ -240,6 +236,6 @@ public class AuthenticationService : IAuthenticationService
 
         return userDto;
     }
-       
+
 }
 

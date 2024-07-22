@@ -1,6 +1,6 @@
 ﻿namespace DTOs.HealthCareProvider;
 
-public class HealthCareProviderUpdateDto
+public class UpdateHealthCareProviderDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
