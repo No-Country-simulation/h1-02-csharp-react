@@ -11,18 +11,15 @@ public class HealthCareProviderService : IHealthCareProviderService
 {
     public readonly UserManager<ApplicationUser> _userManager;
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
-    private readonly IGenericRepository<HealthCareProviderSpeciality> _healthCareProviderSpecialityRepository;
     private readonly IMapper _mapper;
 
     public HealthCareProviderService(
         UserManager<ApplicationUser> userManager,
         IHealthCareProviderRepository healthCareProviderRepository,
-        IGenericRepository<HealthCareProviderSpeciality> healthCareProviderSpecialityRepository,
         IMapper mapper)
     {
         _userManager = userManager;
         _healthCareProviderRepository = healthCareProviderRepository;
-        _healthCareProviderSpecialityRepository = healthCareProviderSpecialityRepository;
         _mapper = mapper;
     }
 
@@ -51,35 +48,22 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         var userToUpdate = _mapper.Map(updateDto, user);
 
-        var hcp = await _healthCareProviderRepository
+        var healthCareProvider = await _healthCareProviderRepository
                             .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
-        if (hcp == null)
+        if (healthCareProvider == null)
             return false;
 
-        // delete existing relations
-        var existingSpecialities = await _healthCareProviderSpecialityRepository
-                                            .GetAllPredicateAsync(hps =>
-                                                hps.HealthCareProviderId == hcp.Id);
-
-        foreach (var speciality in existingSpecialities)
-        {
-            await _healthCareProviderSpecialityRepository.DeleteAsync(speciality);
-        }
-        await _healthCareProviderSpecialityRepository.SaveChangesAsync();
-
         // add new relations to specialities
-        foreach (var specialityId in updateDto.SpecialityIds)
-        {
-            var healthCareProviderSpeciality = new HealthCareProviderSpeciality
-            {
-                HealthCareProviderId = hcp.Id,
-                SpecialityId = specialityId
-            };
-            await _healthCareProviderSpecialityRepository.AddAsync(healthCareProviderSpeciality);
-        }
-        await _healthCareProviderSpecialityRepository.SaveChangesAsync();
 
-        var providerToUpdate = _mapper.Map(updateDto, hcp);
+        foreach (var speciality in updateDto.SpecialityIds)
+        {
+            healthCareProvider.HealthCareProviderSpecialities.Add(new HealthCareProviderSpeciality
+            {
+                SpecialityId = speciality
+            });
+        }
+
+        var providerToUpdate = _mapper.Map(updateDto, healthCareProvider);
 
         await _healthCareProviderRepository.UpdateAsync(providerToUpdate);
         await _healthCareProviderRepository.SaveChangesAsync();
