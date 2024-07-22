@@ -4,6 +4,6 @@ public class Speciality : BaseEntity<Guid>
 {
     public string Description { get; set; } = string.Empty;
 
-    public ICollection<HealthCareProvider> HealtCareProviders { get; set; }
+    public ICollection<HealthCareProviderSpeciality> HealthCareProviderSpecialities { get; set; } = new List<HealthCareProviderSpeciality>();
     public ICollection<Pathology> Pathologies { get; set; }
 }

@@ -7,6 +7,7 @@ using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -189,16 +190,22 @@ public class AuthenticationService : IAuthenticationService
 
     private async Task AddHealthCareProvider(ApplicationUser user, RegistrationRequest request)
     {
-        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
-
         var healthCareProvider = new HealthCareProvider
         {
             LocalRegistrationNumber = request.LocalRegistrationNumber,
             NationalRegistrationNumber = request.NationalRegistrationNumber,
-            Specialities = specialities.ToList(),
+            //Specialities = specialities.ToList(),
             ApplicationUserId = user.Id
         };
 
+        var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
+        foreach (var speciality in specialities)
+        {
+            healthCareProvider.HealthCareProviderSpecialities.Add(new HealthCareProviderSpeciality
+            {
+                SpecialityId = speciality.Id
+            });
+        }
         await _healthCareProviderRepository.AddAsync(healthCareProvider);
         await _healthCareProviderRepository.SaveChangesAsync();
     }
@@ -226,6 +233,6 @@ public class AuthenticationService : IAuthenticationService
 
         return userDto;
     }
-       
+
 }
 

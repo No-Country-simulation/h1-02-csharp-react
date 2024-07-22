@@ -14,6 +14,7 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
 
     public DbSet<HealthCareProvider> HealthCareProviders { get; set; }
     public DbSet<Speciality> Specialities { get; set; }
+    public DbSet<HealthCareProviderSpeciality> HealthCareProviderSpecialities { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Doner> Doners { get; set; }
     public DbSet<Drug> Drugs { get; set; }
@@ -23,9 +24,6 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<Prescription> Prescriptions { get; set; }
     public DbSet<Record> Records { get; set; }
     public DbSet<Treatment> Treatments { get; set; }
-
-
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
