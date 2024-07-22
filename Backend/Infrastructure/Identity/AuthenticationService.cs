@@ -23,7 +23,6 @@ public class AuthenticationService : IAuthenticationService
     public readonly JwtSettings _jwtSettings;
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly ISpecialityRepository _specialityRepository;
-    private readonly IHealthCareProviderSpecialityRepository _healthCareProviderSpecialityRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IMapper _mapper;
 
@@ -34,7 +33,6 @@ public class AuthenticationService : IAuthenticationService
         SignInManager<ApplicationUser> signInManager,
         IHealthCareProviderRepository healthCareProviderRepository,
         ISpecialityRepository specialityRepository,
-        IHealthCareProviderSpecialityRepository healthCareProviderSpecialityRepository,
         IPatientRepository pacientRepository,
         IMapper mapper)
     {
@@ -43,7 +41,6 @@ public class AuthenticationService : IAuthenticationService
         _signInManager = signInManager;
         _healthCareProviderRepository = healthCareProviderRepository;
         _specialityRepository = specialityRepository;
-        _healthCareProviderSpecialityRepository = healthCareProviderSpecialityRepository;
         _patientRepository = pacientRepository;
         _mapper = mapper;
     }
