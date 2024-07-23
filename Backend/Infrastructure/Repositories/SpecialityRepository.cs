@@ -24,4 +24,13 @@ public class SpecialityRepository : GenericRepository<Speciality>, ISpecialityRe
             .Where(x => specialityIds.Contains(x.Id))
             .ToListAsync();
     }
+
+    public async Task<Speciality?> GetByIdWithHealthCareProviderAsync(Guid id)
+    {
+        return await _dbContext.Specialities
+                        .Include(hp => hp.HealthCareProviderSpecialities)
+                        .ThenInclude(hps => hps.HealthCareProvider)
+                        .ThenInclude(hp => hp.ApplicationUser)
+                        .FirstOrDefaultAsync(hp => hp.Id == id);
+    }
 }
