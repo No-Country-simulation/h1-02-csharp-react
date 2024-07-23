@@ -65,7 +65,7 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         var providerToUpdate = _mapper.Map(updateDto, healthCareProvider);
 
-        await _healthCareProviderRepository.UpdateAsync(providerToUpdate);
+        _healthCareProviderRepository.Update(providerToUpdate);
         await _healthCareProviderRepository.SaveChangesAsync();
         return true;
     }
