@@ -1,5 +1,5 @@
 import ExpandableList from "../../components/ExpandableList/ExpandableList"
-import Avatar2 from '../../assets/medico.png'
+import Avatar2 from '../../assets/imgs/medico.png'
 import Statistics from "../../components/Statistics/Statistics"
 import ShortcutBtn from "../../components/ShortcutBtn/ShortcutBtn"
 import bandAidIcon from "../../assets/icons/bandAidIcon.svg"
@@ -18,7 +18,7 @@ const DrDashboard = () => {
       
     const renderPatientCollapsed = (patient) => (
         <div>
-          <img src={patient.photo} alt={patient.name} className="w-10 h-10 rounded-full" />
+          <img src={patient.photo} alt={patient.name} className="w-10 h-10 rounded-full hover:shadow-custom" />
         </div>
     )
       
@@ -37,8 +37,8 @@ const DrDashboard = () => {
     }
 
     return (
-        <section className="flex justify-center ">
-            <div className="py-16 px-3 w-1/3 flex flex-col items-center">
+        <section className="flex pt-2">
+            <div className="py-6 px-3 w-1/4 flex flex-col items-center">
                 <ExpandableList 
                     title="Últimos pacientes vistos"
                     items={patients}
@@ -58,7 +58,7 @@ const DrDashboard = () => {
             <div className="w-1/3">
                 <Statistics/>
             </div>
-            <div className="w-1/3 flex flex-col gap-4 items-center py-16 px-3">
+            <div className="w-1/4 flex flex-col gap-4 items-center py-6 px-3">
                 <ShortcutBtn                    
                     title="Registrar Recetas"
                     icon={prescriptionIcon}

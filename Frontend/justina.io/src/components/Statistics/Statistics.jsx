@@ -33,12 +33,12 @@ const Statistics = () => {
   const calculatePercentage = (part, total) => (total === 0 ? 0 : (part / total) * 100);
 
   return (
-    <section className="p-4 flex flex-col justify-center items-center">
-      <h2 className="text-xl font-semibold mb-4">Estadísticas</h2>
+    <section className="p-4 flex flex-col justify-center items-center text-neutrals800 text-subtitulo">
+      <h2 className="font-semibold mb-4">Estadísticas</h2>
       <div className="w-full mb-4 backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl p-4 flex flex-col">
         <div className="flex items-center">
           <div
-            className={`w-6 h-5 border-2 border-gray-300 inline-block cursor-pointer ${selected.adherence ? 'bg-[#4A56AC]' : ''}`}
+            className={`w-8 h-5 border-2 border-gray-300 inline-block cursor-pointer ${selected.adherence ? 'bg-[#4A56AC]' : ''}`}
             onClick={() => handleCheckboxChange('adherence')}
           />
           <label htmlFor="adherence-checkbox" className="ms-2 text-balance leading-tight">

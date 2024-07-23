@@ -9,7 +9,8 @@ export default {
       colors:{
         primary: '#D65683',
         secondary: '#4A56AC',
-        neutrals800: '#4E4949'
+        neutrals800: '#4E4949',
+        neutrals600: '#7a7474'
       },
       fontSize:{
         small: '14px',

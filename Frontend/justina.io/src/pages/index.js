@@ -4,6 +4,7 @@ const Login = lazy(() => import('./Login/LoginContainer'))
 const Register = lazy(() => import('./Register/RegisterContainer'))
 const DrDashboard = lazy(() => import('./DrDashboard/DrDashboardContainer'))
 const Home = lazy(() => import('./Home/Home'))
+const PatientDetails= lazy(() => import('./PatientDetails/PatientDetailsContainer'))
 
 export {
     Login,
@@ -11,5 +12,5 @@ export {
     Landing,
     DrDashboard,
     Home,
-   
+    PatientDetails   
 }

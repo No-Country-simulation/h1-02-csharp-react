@@ -1,15 +1,15 @@
-export default function FormInput ({ id, name, type, placeholder, value, onChange }) {
+export default function FormInput ({ id, name, type, placeholder, value, onChange, height }) {
    
     return (
-      <div className='mb-1 h-[90px] w-full'>
+      <div className='mb-1 w-full'>
         <label
-          className='block text-sm mb-2'
+          className='block mb-2 text-parrafo font-bold text-neutrals600'
           htmlFor={id}
         >
           {name}
         </label>
         <input
-          className='shadow appearance-none border rounded w-full border-gray-800 py-3 px-3 leading-tight text-[0.8rem] lg:text-[1rem]'
+          className={`backdrop-blur bg-[rgba(253,239,244,0.1)] inner-shadow-custom appearance-none rounded-3xl w-full p-3 leading-tight text-[0.8rem] lg:text-[1rem] outline-none ${height ? height : 'h-[52px]'}`} 
           id={id}
           type={type}
           placeholder={placeholder}
