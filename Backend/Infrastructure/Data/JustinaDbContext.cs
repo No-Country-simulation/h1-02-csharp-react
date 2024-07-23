@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.SoftDelete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Interceptors;
 using System.Reflection;
 
 namespace Persistence.Data;
@@ -29,6 +31,12 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        foreach (var type in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(ISoftDeletable).IsAssignableFrom(type.ClrType))
+                modelBuilder.SetSoftDeleteFilter(type.ClrType);
+        }
 
     }
 }

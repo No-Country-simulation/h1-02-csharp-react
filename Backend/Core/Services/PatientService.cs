@@ -85,5 +85,27 @@ namespace Application.Services
             }
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<bool>> DeletePatient(Guid patientId)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+
+            try
+            {
+                await _patientRepository.DeleteAsync(patientId);
+                await _patientRepository.SaveChangesAsync();
+
+                serviceResponse.Data = true;
+                serviceResponse.Message = "Patient deleted successfully.";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return serviceResponse;
+        }
     }
 }
