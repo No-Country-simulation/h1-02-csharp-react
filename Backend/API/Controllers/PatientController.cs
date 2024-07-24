@@ -53,5 +53,11 @@ namespace API.Controllers
             }
             return Ok(await _patientService.UpdatePatient(patientId, updateRequest));
         }
+
+        [HttpDelete("DeletePatient/{patientId}")]
+        public async Task<ActionResult> DeletePatient(Guid patientId)
+        {
+            return Ok(await _patientService.DeletePatient(patientId));
+        }
     }
 }

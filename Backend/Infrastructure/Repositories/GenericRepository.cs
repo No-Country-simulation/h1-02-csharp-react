@@ -41,10 +41,17 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         _dbContext.Set<T>().Update(entity);
     }
 
-    // implement soft delete
     public async Task DeleteAsync(T entity)
     {
         _dbContext.Set<T>().Remove(entity);
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var entity = await GetByIdAsync(id);
+
+        if (entity != null)
+            _dbContext.Set<T>().Remove(entity);
     }
 
     public async Task<T?> GetByConditionAsync(Expression<Func<T, bool>> predicate)
