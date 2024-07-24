@@ -2,7 +2,7 @@
 using Domain.Entities;
 using DTOs.Authentication;
 
-namespace Mappings.Profiles.Authentication;
+namespace Mappings.Profiles;
 
 public class AuthenticationProfile : Profile
 {

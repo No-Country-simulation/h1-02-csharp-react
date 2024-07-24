@@ -12,6 +12,13 @@ public class HealthCareProviderRepository : GenericRepository<HealthCareProvider
     {
     }
 
+    public async Task<List<HealthCareProvider?>> GetHealthCareProvidersWithUserAsync()
+    {
+        return await _dbContext.HealthCareProviders
+                        .Include(hp => hp.ApplicationUser)
+                        .ToListAsync();
+    }
+
     public async Task<HealthCareProvider?> GetByIdWithSpecialitiesAsync(Guid id)
     {
         return await _dbContext.HealthCareProviders
