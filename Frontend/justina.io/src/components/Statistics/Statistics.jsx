@@ -35,7 +35,7 @@ const Statistics = () => {
   return (
     <section className="p-4 flex flex-col justify-center items-center text-neutrals800 text-subtitulo">
       <h2 className="font-semibold mb-4">Estadísticas</h2>
-      <div className="w-full mb-4 backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl p-4 flex flex-col">
+      <div className="w-full mb-4 backdrop-blur bg-[rgba(253,239,244,0.2)] rounded-3xl p-4 flex flex-col">
         <div className="flex items-center">
           <div
             className={`w-8 h-5 border-2 border-gray-300 inline-block cursor-pointer ${selected.adherence ? 'bg-[#4A56AC]' : ''}`}
@@ -63,7 +63,7 @@ const Statistics = () => {
           />
         </div>
       </div>
-      <div className="w-full flex flex-col backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl p-4">
+      <div className="w-full flex flex-col backdrop-blur bg-[rgba(253,239,244,0.2)] rounded-3xl p-4">
         <label className="inline-flex items-center cursor-pointer justify-center py-2">
           <input type="checkbox" value="" className="sr-only peer"/>
           <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>           

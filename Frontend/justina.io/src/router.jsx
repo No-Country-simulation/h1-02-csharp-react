@@ -9,7 +9,11 @@ import {
     Landing,
     DrDashboard,
     Home,
-    PatientDetails
+    PatientDetails,
+    PrescriptionForm,
+    TreatmentForm,
+    PatologyForm,
+    MedicalRecord
   } from './pages'
 
 
@@ -70,7 +74,38 @@ export const router = createBrowserRouter([
           </Suspense>
         )
       },  
-
+      {
+        path: '/prescriptionform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PrescriptionForm />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/treatmentform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TreatmentForm />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/patologyform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PatologyForm />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/medicalrecord',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MedicalRecord />
+          </Suspense>
+        )
+      }, 
     ]
   }
 ])

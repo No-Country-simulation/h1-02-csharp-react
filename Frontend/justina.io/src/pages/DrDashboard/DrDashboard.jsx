@@ -37,8 +37,8 @@ const DrDashboard = () => {
     }
 
     return (
-        <section className="flex pt-2">
-            <div className="py-6 px-3 w-1/4 flex flex-col items-center">
+        <section className="flex pt-2 justify-center">
+            <div className="py-6 w-1/4 flex flex-col items-center">
                 <ExpandableList 
                     title="Últimos pacientes vistos"
                     items={patients}
@@ -55,10 +55,10 @@ const DrDashboard = () => {
                     bgColor='bg-[rgba(214,86,131,0.2)]'  
                 />        
             </div>
-            <div className="w-1/3">
+            <div className="w-2/5">
                 <Statistics/>
             </div>
-            <div className="w-1/4 flex flex-col gap-4 items-center py-6 px-3">
+            <div className="w-1/4 flex flex-col gap-4 items-center py-6">
                 <ShortcutBtn                    
                     title="Registrar Recetas"
                     icon={prescriptionIcon}

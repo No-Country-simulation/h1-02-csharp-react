@@ -46,18 +46,18 @@ const PatientDetails = () => {
 
     const patients = [
         {
-          id: 'patient1',
-          name: 'Paciente 1',
-          image: Doctor,
-          diagnosis: 'Diagnóstico 1',
-          age: '30',
+            id: 'patient1',
+            name: 'Paciente 1',
+            image: Doctor,
+            diagnosis: 'Diagnóstico 1',
+            age: '30',
         },
         {
-          id: 'patient2',
-          name: 'Paciente 2',
-          image: Doctor,
-          diagnosis: 'Diagnóstico 2',
-          age: '40',
+            id: 'patient2',
+            name: 'Paciente 2',
+            image: Doctor,
+            diagnosis: 'Diagnóstico 2',
+            age: '40',
         },
         {
             id: 'patient3',
@@ -66,7 +66,8 @@ const PatientDetails = () => {
             diagnosis: 'Diagnóstico 3',
             age: '35',
           },
-      ];
+    ]
+
     return (
         <>
             <section className="px-6 flex gap-6 w-full">
