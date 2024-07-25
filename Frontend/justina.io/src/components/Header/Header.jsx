@@ -64,11 +64,9 @@ const Header = () => {
                         <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-[rgba(214,86,131,0.2)]" to="/perfil-medico">
                             Perfil
                         </Link>
-                        <form method="POST" action="#" role="none">
-                            <button type="submit" className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-[rgba(214,86,131,0.2)] " role="menuitem" tabIndex="-1" onClick={handleLogout}>
-                                Salir
-                            </button>
-                        </form>
+                        <button className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-[rgba(214,86,131,0.2)] " role="menuitem" tabIndex="-1" onClick={handleLogout}>
+                            Salir
+                        </button>
                     </div>
                     </div>
                 )}

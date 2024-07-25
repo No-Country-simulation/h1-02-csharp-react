@@ -62,6 +62,7 @@ const DrDashboard = () => {
                 <ShortcutBtn                    
                     title="Registrar Recetas"
                     icon={prescriptionIcon}
+                    to="/prescriptionform"
                 />
                 <ShortcutBtn                    
                     title="Registrar Tratamientos"

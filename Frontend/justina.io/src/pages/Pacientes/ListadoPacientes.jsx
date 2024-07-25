@@ -4,6 +4,7 @@ import Layout from "../../layouts/Layout";
 import Button from "../../components/Button/Button"
 import { GiHeartPlus } from "react-icons/gi";
 import Modal from "../../components/Modal/Modal";
+import { Link } from "react-router-dom";
 
 const ListadoPacientes = () => {
 
@@ -98,6 +99,7 @@ const ListadoPacientes = () => {
                         <th>Patología</th>
                         <th>Tratamiento</th>
                         <th>Contacto</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody className="bg-[rgba(253,239,244,0.4)] shadow-custom">
@@ -108,6 +110,7 @@ const ListadoPacientes = () => {
                             <td>{data.patologia}</td>
                             <td>{data.tratamiento}</td>
                             <td>{data.contacto}</td>
+                            <td><Link to="/patientdetails">Ver Paciente</Link></td>
                         </tr>
                     ))}
                     

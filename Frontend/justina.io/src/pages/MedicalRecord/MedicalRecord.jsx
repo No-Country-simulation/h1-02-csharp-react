@@ -3,6 +3,7 @@ import ShortcutBtn from "../../components/ShortcutBtn/ShortcutBtn"
 
 import Doctor from '../../assets/imgs/doctor.png'
 import prescriptionIcon from "../../assets/icons/prescriptionIcon.svg"
+import Layout from "../../layouts/Layout"
 
 
 const MedicalRecord = () => {
@@ -30,6 +31,8 @@ const MedicalRecord = () => {
           },
     ]
     return (
+        <Layout>
+
         <section className="flex gap-6 pl-6 pb-6 w-full">
                 <div className="w-1/3 pt-16">                
                     <ProfileResume patients={patients}/>
@@ -56,6 +59,9 @@ const MedicalRecord = () => {
                     </div>
                 </div>
         </section>
+
+                    
+        </Layout>
   )
 }
 
