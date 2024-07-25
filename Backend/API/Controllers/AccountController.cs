@@ -49,6 +49,26 @@ public class AccountController : ControllerBase
         return Ok(await _authenticationService.RegisterAsync(request));
     }
 
+    [HttpPost("register-medical-center")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<RegistrationResponse>> RegisterMedicalCenterAsync(RegistrationMedicalCenterRequest request)
+    {
+        return Ok(await _authenticationService.RegisterMedicalCenterAsync(request));
+    }
+
+    [HttpPost("register-health-care-provider")]
+    [Authorize(Roles = "MedicalCenter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<RegistrationResponse>> RegisterHealthCareProviderAsync(RegistrationHealthCareProviderRequest request)
+    {
+        return Ok(await _authenticationService.RegisterHealthCareProviderAsync(request));
+    }
+
     [HttpGet("me")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<AuthenticatedUserReponse>> GetCurrentUser()
