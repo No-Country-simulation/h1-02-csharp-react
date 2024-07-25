@@ -9,11 +9,13 @@ public class ApplicationUser : IdentityUser<Guid>
     public string LastName { get; set; } = string.Empty;
     public DateTime Birthdate { get; set; }
     public string Gender { get; set; } = string.Empty;
+    // verify
     public AccountType AccountType { get; set; }
 
-    public Patient? Patient { get; set; }
-    public HealthCareProvider? HealthCareProvider { get; set; }
     public IdentificationType IdentificationType { get; set; }
     public string IdentificationNumber { get; set; } = string.Empty;
 
+    public Patient? Patient { get; set; }
+    public HealthCareProvider? HealthCareProvider { get; set; }
+    public MedicalCenter? MedicalCenter { get; set; }
 }
