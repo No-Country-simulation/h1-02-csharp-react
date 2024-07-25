@@ -9,11 +9,16 @@ import {
     Landing,
     DrDashboard,
     Home,
+<<<<<<< Updated upstream
     PatientDetails,
     PrescriptionForm,
     TreatmentForm,
     PatologyForm,
     MedicalRecord
+=======
+    ListadoPacientes,
+    DrProfile
+>>>>>>> Stashed changes
   } from './pages'
 
 
@@ -65,8 +70,17 @@ export const router = createBrowserRouter([
             <DrDashboard />
           </Suspense>
         )
+      },
+      {
+        path: '/listado-pacientes',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ListadoPacientes />
+          </Suspense>
+        )
       },  
       {
+<<<<<<< Updated upstream
         path: '/patientdetails',
         element: (
           <Suspense fallback={<Loader />}>
@@ -106,6 +120,15 @@ export const router = createBrowserRouter([
           </Suspense>
         )
       }, 
+=======
+        path: '/perfil-medico',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <DrProfile />
+          </Suspense>
+        )
+      },
+>>>>>>> Stashed changes
     ]
   }
 ])

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import FormInput from "../../components/FormInput/FormInput"
-import axios from 'axios'
+
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from "../../store/UserSlice"
 import { useDispatch } from 'react-redux'
@@ -55,10 +55,9 @@ const Login = () => {
                     onChange={(e)=>setPassword(e.target.value)}/>
                 <button 
                     type='submit' 
-                   
                     className="bg-primary text-parrafo py-1 px-4 rounded-lg text-white w-fit">
                         Ingresar
-                    </button>
+                </button>
             </form>
 
         </div>

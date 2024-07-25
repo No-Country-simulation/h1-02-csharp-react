@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import { IoMdNotifications } from "react-icons/io";
+import { IoMdNotifications, IoIosArrowDown, IoIosArrowUp  } from "react-icons/io";
+import { Link } from 'react-router-dom'
 
 
 function getUser(){
@@ -15,7 +16,7 @@ function getUser(){
 }
 
 
-const Header = ({nombre}) => {
+const Header = () => {
 
     const [ user, setUser ] = useState(getUser());
     
@@ -27,43 +28,59 @@ const Header = ({nombre}) => {
         navigate('/login')
     }
 
-    return ( 
-        <>
-     
-        <div className="contenido w-[1344px] h-[126px] justify-between items-start inline-flex">
+    const [ open, setOpen ] = useState(false);
 
-            <div className="w-[449.24px] pr-[36.24px] p-4 bg-neutral-50/opacity-10 rounded-2xl ">
-                <div className="w-12 self-stretch justify-center items-center inline-flex">
+    return ( 
+         
+        <div className="justify-between h-36 items-center flex">
+
+            <div className="pr-[36.24px] p-4 bg-neutral-50/opacity-10 rounded-2xl ">
+                {/*<div className="w-12 self-stretch justify-center items-center inline-flex">
                     <img className="w-8 h-8 rounded-full shadow-inner backdrop-blur-[25.33px]" src="https://via.placeholder.com/48x48" />
                 
-                </div>
+                </div>*/}
                 <p className="text-neutral-600 text-[40px] font-bold font-['Noto Sans'] leading-[48px]">Buen día doctor </p>
-                <p className="text-neutral-600 text-base font-normal font-['Noto Sans'] leading-tight">Revisa el progreso de los pacientes y los tratamientos</p>
-            
+                <p className="text-neutral-600 text-subtitulo font-normal font-['Noto Sans'] leading-tight">Revisa el progreso de los pacientes y los tratamientos</p>
             </div>
             
             <div className="mt-6 flex justify-center items-center">
-            <div className="w-11 h-11 p-2.5 bg-rose-50/opacity-10 rounded-[48px] shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2.5 inline-flex">
-                <div className="w-6 h-6 relative" />
-                    <IoMdNotifications className="w-full text-[40px]"/>
+                <div className="w-11 h-11 p-2.5 bg-rose-50/opacity-10 rounded-[48px] bg-[rgba(253,239,244,0.4)] shadow-custom  justify-start items-center gap-2.5 inline-flex">
+                        <IoMdNotifications className="w-full text-[40px]"/>
                 </div> 
 
-                <div className="w-[321px] h-14 px-4 py-2 bg-rose-50/opacity-10 rounded-[32px] shadow-inner backdrop-blur-[25.33px] justify-between items-center inline-flex">
-                    <div className="w-10 h-10 justify-center items-center flex">
-                        <img className="w-10 h-10 rounded-full shadow-inner backdrop-blur-[25.33px]" src="https://via.placeholder.com/40x40" />
+                <div className="h-11 px-4 py-2 bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom justify-between items-center relative inline-flex">
+                    <div className="justify-center items-center gap-2.5 flex text-neutral-600" onClick={() => setOpen((prev) => !prev)}>
+                        Dra. Ana Maria Reyes
+                        {!open ? (
+                            <IoIosArrowDown className=""/>
+                        ) : (
+                            <IoIosArrowUp />
+                        )}
+                         
                     </div>
-                    <div className="justify-center items-center gap-2.5 flex">
-                        <div className="text-neutral-600 text-base font-normal font-['Noto Sans'] leading-tight">
-                            Dra. Ana Maria Reyes
-                        </div>
+                    {open && (
+                    <div className="absolute right-0 top-10 mt-2 w-full  rounded-md shadow-lg bg-[rgba(253,239,244,0.4)] shadow-custom  focus:outline-none">
+                    <div className="py-1">
+                        <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-[rgba(214,86,131,0.2)]" to="/perfil-medico">
+                            Perfil
+                        </Link>
+                        <form method="POST" action="#" role="none">
+                            <button type="submit" className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-[rgba(214,86,131,0.2)] " role="menuitem" tabIndex="-1" onClick={handleLogout}>
+                                Salir
+                            </button>
+                        </form>
                     </div>
+                    </div>
+                )}
+
                 </div> 
-             {/*user.email}
-            <button className="bg-indigo-800 py-1 px-4 rounded-lg text-white w-fit" onClick={handleLogout}>Salir</button>*/}
+
+                
+
+             
+             {/*user.email}*/}
             </div>
         </div>
-
-        </>
      );
 }
  
