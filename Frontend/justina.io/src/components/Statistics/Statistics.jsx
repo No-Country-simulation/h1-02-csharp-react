@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import CircularProgressBar from './CircularProgressBar';
+import { useState } from 'react'
+import CircularProgressBar from './CircularProgressBar'
 
 const colors = {
   adherence: '#4A56AC',
@@ -7,7 +7,7 @@ const colors = {
   drugs: '#AF9F53',
   quantity: '#A3CBBD',
   treatments: '#D58B48',
-};
+}
 
 const data = {
   adherence: 35,
@@ -15,7 +15,7 @@ const data = {
   drugs: 35,
   quantity: 25,
   treatments: 40,
-};
+}
 
 const Statistics = () => {
   const [selected, setSelected] = useState({
@@ -24,13 +24,13 @@ const Statistics = () => {
     drugs: true,
     quantity: true,
     treatments: true,
-  });
+  })
 
   const handleCheckboxChange = (key) => {
-    setSelected((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+    setSelected((prev) => ({ ...prev, [key]: !prev[key] }))
+  }
 
-  const calculatePercentage = (part, total) => (total === 0 ? 0 : (part / total) * 100);
+  const calculatePercentage = (part, total) => (total === 0 ? 0 : (part / total) * 100)
 
   return (
     <section className="p-4 flex flex-col justify-center items-center text-neutrals800 text-subtitulo">
@@ -38,7 +38,7 @@ const Statistics = () => {
       <div className="w-full mb-4 backdrop-blur bg-[rgba(253,239,244,0.2)] rounded-3xl p-4 flex flex-col">
         <div className="flex items-center">
           <div
-            className={`w-8 h-5 border-2 border-gray-300 inline-block cursor-pointer ${selected.adherence ? 'bg-[#4A56AC]' : ''}`}
+            className={`w-5 h-5 border-2 border-gray-300 inline-block cursor-pointer ${selected.adherence ? 'bg-[#4A56AC]' : ''}`}
             onClick={() => handleCheckboxChange('adherence')}
           />
           <label htmlFor="adherence-checkbox" className="ms-2 text-balance leading-tight">
@@ -106,7 +106,7 @@ const Statistics = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Statistics;
+export default Statistics

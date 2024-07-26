@@ -31,7 +31,7 @@ const CircularProgressBar = ({ datasets }) => {
       ctx.strokeStyle = dataset.color
       ctx.lineWidth = lineWidth
       ctx.stroke()
-    });
+    })
   }, [datasets])
 
   return <canvas ref={canvasRef} width="200" height="200"></canvas>
