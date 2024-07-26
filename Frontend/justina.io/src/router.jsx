@@ -13,7 +13,9 @@ import {
     PrescriptionForm,
     TreatmentForm,
     PatologyForm,
-    MedicalRecord
+    MedicalRecord,
+    ListadoPacientes,
+    DrProfile
   } from './pages'
 
 
@@ -65,6 +67,14 @@ export const router = createBrowserRouter([
             <DrDashboard />
           </Suspense>
         )
+      },
+      {
+        path: '/listado-pacientes',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ListadoPacientes />
+          </Suspense>
+        )
       },  
       {
         path: '/patientdetails',
@@ -105,7 +115,14 @@ export const router = createBrowserRouter([
             <MedicalRecord />
           </Suspense>
         )
-      }, 
+      },{
+        path: '/perfil-medico',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <DrProfile />
+          </Suspense>
+        )
+      },
     ]
   }
 ])

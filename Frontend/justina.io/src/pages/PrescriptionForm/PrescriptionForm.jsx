@@ -6,6 +6,7 @@ import FormInput from "../../components/FormInput/FormInput"
 import Doctor from '../../assets/imgs/doctor.png'
 import hearthIcon from "../../assets/icons/hearthIcon.svg"
 import calendar from "../../assets/icons/calendar.svg"
+import Layout from "../../layouts/Layout"
 
 
 const PrescriptionForm = () => {
@@ -71,6 +72,9 @@ const PrescriptionForm = () => {
     }
 
     return (
+
+        <Layout>
+
         <section className="flex gap-6 pl-6 w-full">
             <div className="w-1/3 pt-16">                
                 <ProfileResume patients={patients}/>
@@ -99,6 +103,9 @@ const PrescriptionForm = () => {
                 </form>
             </div>
         </section>
+
+                    
+        </Layout>
     )
 }
 

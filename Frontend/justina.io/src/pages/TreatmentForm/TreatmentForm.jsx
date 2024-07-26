@@ -4,6 +4,7 @@ import FormInput from "../../components/FormInput/FormInput"
 
 import Doctor from '../../assets/imgs/doctor.png'
 import calendar from "../../assets/icons/calendar.svg"
+import Layout from "../../layouts/Layout"
 
 const TreatmentForm = () => {
     const patients = [
@@ -31,6 +32,7 @@ const TreatmentForm = () => {
     ]
 
     return (
+        <Layout>
         <section className="flex gap-6 pl-6 pb-6 w-full">
                 <div className="w-1/3 pt-16">                
                     <ProfileResume patients={patients}/>
@@ -53,6 +55,7 @@ const TreatmentForm = () => {
                     </form>
                 </div>
         </section>
+        </Layout>
     )
 }
 

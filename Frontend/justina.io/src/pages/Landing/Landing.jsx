@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 
+
 const Landing = () => {
     return (
         <section className="">
@@ -10,6 +11,7 @@ const Landing = () => {
                     <button type='submit' className="bg-indigo-800 py-1 px-4 rounded-lg text-white w-fit"><Link to='/login'>Iniciar Sesión</Link></button>
                 </div>            
             </div>
+
         </section>
     )
 }

@@ -6,6 +6,8 @@ import Doctor from '../../assets/imgs/doctor.png'
 import calendar from "../../assets/icons/calendar.svg"
 import hearthIcon from "../../assets/icons/hearthIcon.svg"
 
+import Layout from "../../layouts/Layout";
+
 const PatologyForm = () => {
     const patients = [
         {
@@ -31,6 +33,9 @@ const PatologyForm = () => {
           },
     ]
     return (
+        <Layout>
+
+
         <section className="flex gap-6 pl-6 pb-6 w-full">
                 <div className="w-1/3 pt-16">                
                     <ProfileResume patients={patients}/>
@@ -49,6 +54,9 @@ const PatologyForm = () => {
                     </form>
                 </div>
         </section>
+
+                    
+        </Layout>
     )
 }
 
