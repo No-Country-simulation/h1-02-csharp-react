@@ -8,8 +8,8 @@ public class HealthCareProviderMedicalCenterConfig : IEntityTypeConfiguration<He
 {
     public void Configure(EntityTypeBuilder<HealthCareProviderMedicalCenter> builder)
     {
-        builder
-            .HasKey(hcpmc => new { hcpmc.HealthCareProviderId, hcpmc.MedicalCenterId });
+        //builder
+        //    .HasKey(hcpmc => new { hcpmc.Id });
 
         builder
             .HasOne(hcp => hcp.HealthCareProvider)

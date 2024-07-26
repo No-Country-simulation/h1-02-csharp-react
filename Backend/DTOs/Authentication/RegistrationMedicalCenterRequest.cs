@@ -2,7 +2,7 @@
 
 namespace DTOs.Authentication;
 
-public class RegistrationMedicalCenterRequest : RegistrationUserRequest
+public class RegistrationMedicalCenterRequest : RegistrationUserCentersRequest
 {
     [Required]
     public string Name { get; set; } = string.Empty;

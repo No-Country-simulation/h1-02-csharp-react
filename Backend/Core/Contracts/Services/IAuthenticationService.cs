@@ -8,5 +8,5 @@ public interface IAuthenticationService
     Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
     Task<AuthenticatedUserReponse> FindByIdAsync(string userId);
     Task<RegistrationResponse> RegisterMedicalCenterAsync(RegistrationMedicalCenterRequest request);
-    Task<RegistrationResponse> RegisterHealthCareProviderAsync(RegistrationHealthCareProviderRequest request);
+    Task RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request);
 }

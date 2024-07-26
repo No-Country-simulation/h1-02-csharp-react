@@ -64,9 +64,18 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<RegistrationResponse>> RegisterHealthCareProviderAsync(RegistrationHealthCareProviderRequest request)
+    public async Task<ActionResult<RegistrationResponse>> RegisterHealthCareProviderAsync(List<RegistrationHealthCareProviderRequest> request)
     {
-        return Ok(await _authenticationService.RegisterHealthCareProviderAsync(request));
+        var userId = User.FindFirstValue("uid");
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+        var medicalCenterId = new Guid(userId);
+        await _authenticationService.RegisterHealthCareProviderAsync(medicalCenterId, request);
+        
+        return Ok();
     }
 
     [HttpGet("me")]

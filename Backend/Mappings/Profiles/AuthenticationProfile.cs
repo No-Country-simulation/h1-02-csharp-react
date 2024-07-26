@@ -10,8 +10,13 @@ public class AuthenticationProfile : Profile
     {
         CreateMap<ApplicationUser, AuthenticatedUserReponse>();
 
-        //CreateMap<ApplicationUser, AuthenticatedUserReponse>().ReverseMap()
-        //    .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-        //    .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
+        CreateMap<RegistrationUserCentersRequest, ApplicationUser>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.EmailConfirmed, opt => opt.MapFrom(src => true));
+
+        CreateMap<RegistrationUserRequest, ApplicationUser>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.EmailConfirmed, opt => opt.MapFrom(src => true));
+
     }
 }
