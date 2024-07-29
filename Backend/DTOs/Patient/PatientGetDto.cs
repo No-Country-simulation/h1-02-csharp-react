@@ -9,6 +9,8 @@
         public string PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string BloodType { get; set; }
+        public string BloodTypeDescription { get; set; }
+        public string IdentificationTypeDescription { get; set; }
+        public string IdentificationNumber { get; set; }
     }
 }

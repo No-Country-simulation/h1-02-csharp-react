@@ -57,6 +57,24 @@ namespace Application.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<Guid>> GetPatientIdByUserId(Guid userId)
+        {
+            var serviceResponse = new ServiceResponse<Guid>();
+
+            try
+            {
+                serviceResponse.Data = await _patientRepository.GetPatientIdByUserId(userId);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<bool>> UpdatePatient(Guid patientId, PatientUpdateDto updateRequest)
         {
             var serviceResponse = new ServiceResponse<bool>();

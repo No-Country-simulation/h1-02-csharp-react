@@ -23,6 +23,7 @@ public static class PersistenceServiceExtensions
         services.AddScoped<IHealthCareProviderRepository, HealthCareProviderRepository>();
         services.AddScoped<ISpecialityRepository, SpecialityRepository>();
         services.AddScoped<IPatientRepository, PatientRepository>();
+        services.AddScoped<IRecordRepository, RecordRepository>();
 
         return services;
     }

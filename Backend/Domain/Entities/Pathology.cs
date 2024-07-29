@@ -6,6 +6,6 @@
 
         public Guid SpecialityId { get; set; }
         public Speciality Speciality { get; set; }
-        public ICollection<MedicalRecord> MedicalRecords { get; set; }
+        public ICollection<Record> Records { get; set; }
     }
 }

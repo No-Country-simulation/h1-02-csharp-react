@@ -9,7 +9,7 @@ namespace Domain.Entities
         public ApplicationUser ApplicationUser { get; set; }
         public BloodType BloodType { get; set; }
         public Doner? Doner { get; set; }
-        public ICollection<MedicalRecord> MedicalRecords { get; set; }
+        public ICollection<Record> Records { get; set; }
         public ICollection<MedicalCenter> MedicalCenters { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOnUtc { get; set; }

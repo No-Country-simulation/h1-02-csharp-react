@@ -14,6 +14,7 @@ public static class ServiceExtensions
         services.AddScoped<IPatientService, PatientService>();
         services.AddScoped<IHealthCareProviderService, HealthCareProviderService>();
         services.AddScoped<ISpecialityService, SpecialityService>();
+        services.AddScoped<IRecordService, RecordService>();
 
 
         // FluentValidation configuration

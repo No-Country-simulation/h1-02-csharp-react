@@ -38,5 +38,13 @@ namespace Persistence.Repositories
                 .Include(p => p.ApplicationUser)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<Guid> GetPatientIdByUserId(Guid userId)
+        {
+            return await _dbContext.Patients
+                .Where(p => p.ApplicationUserId == userId)
+                .Select(p => p.Id)
+                .FirstOrDefaultAsync();
+        }
     }
 }
