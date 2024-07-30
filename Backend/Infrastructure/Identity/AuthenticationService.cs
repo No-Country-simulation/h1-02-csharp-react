@@ -7,7 +7,6 @@ using DTOs.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Persistence.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -24,6 +23,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly IHealthCareProviderRepository _healthCareProviderRepository;
     private readonly ISpecialityRepository _specialityRepository;
     private readonly IPatientRepository _patientRepository;
+    private readonly IMedicalCenterRepository _medicalCenterRepository;
     private readonly IMapper _mapper;
 
 
@@ -34,6 +34,7 @@ public class AuthenticationService : IAuthenticationService
         IHealthCareProviderRepository healthCareProviderRepository,
         ISpecialityRepository specialityRepository,
         IPatientRepository pacientRepository,
+        IMedicalCenterRepository medicalCenterRepository,
         IMapper mapper)
     {
         _userManager = userManager;
@@ -42,6 +43,7 @@ public class AuthenticationService : IAuthenticationService
         _healthCareProviderRepository = healthCareProviderRepository;
         _specialityRepository = specialityRepository;
         _patientRepository = pacientRepository;
+        _medicalCenterRepository = medicalCenterRepository;
         _mapper = mapper;
     }
 
@@ -109,7 +111,7 @@ public class AuthenticationService : IAuthenticationService
                 switch (request.AccountType)
                 {
                     case AccountType.HealthCareProvider:
-                        await AddHealthCareProvider(user, request);
+                        //await AddHealthCareProvider(user, request);
                         break;
                     case AccountType.Patient:
                         await AddPatient(user, request);
@@ -136,6 +138,123 @@ public class AuthenticationService : IAuthenticationService
             // Rethrow or handle the exception as needed
             throw;
         }
+    }
+
+    public async Task<RegistrationResponse> RegisterMedicalCenterAsync(RegistrationMedicalCenterRequest request)
+    {
+        var user = await CreateUserCenterAsync(request);
+
+        try
+        {
+            var roleResult = await _userManager.AddToRoleAsync(user, "MedicalCenter");
+
+            if (!roleResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+            }
+            await AddMedicalCenter(user, request);
+        }
+        catch (Exception ex)
+        {
+            // Handle exception related to addition
+            await _userManager.DeleteAsync(user);
+            throw new Exception($"Error adding {ex.Message}");
+        }
+
+        return new RegistrationResponse() { UserId = user.Id };
+    }
+
+    public async Task RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request)
+    {
+        var healthCareProviders = new List<HealthCareProvider>();
+        try
+        {
+            foreach (var healthCareProviderDto in request)
+            {
+                var user = await CreateUserAsync(healthCareProviderDto);
+
+                var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
+
+                if (!roleResult.Succeeded)
+                {
+                    await _userManager.DeleteAsync(user);
+                    throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                }
+
+                var healthCareProvider = await AddHealthCareProvider(medicalCenterId, user, healthCareProviderDto);
+
+                healthCareProviders.Add(healthCareProvider);
+            }
+
+            await _healthCareProviderRepository.AddRangeAsync(healthCareProviders);
+
+            await _healthCareProviderRepository.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // Handle exception related to addition
+            throw new Exception($"Error adding {ex.Message}");
+        }
+        //return new RegistrationResponse() { UserId = user.Id };
+    }
+
+    private async Task<ApplicationUser> CreateUserAsync(RegistrationUserRequest request)
+    {
+        var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+
+        if (existingEmail != null)
+        {
+            throw new Exception($"Email '{request.Email}' already exists");
+        }
+
+        var user = _mapper.Map<ApplicationUser>(request);
+
+        try
+        {
+            var result = await _userManager.CreateAsync(user, request.Password);
+            
+            if (!result.Succeeded)
+            {
+                throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            // Handle exception related to addition
+            await _userManager.DeleteAsync(user);
+            throw new Exception($"Error adding {ex.Message}");
+        }
+        return user;
+    }
+
+    private async Task<ApplicationUser> CreateUserCenterAsync(RegistrationUserCentersRequest request)
+    {
+        var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+
+        if (existingEmail != null)
+        {
+            throw new Exception($"Email '{request.Email}' already exists");
+        }
+        var user = _mapper.Map<ApplicationUser>(request);
+
+        try
+        {
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exception related to addition
+            await _userManager.DeleteAsync(user);
+            throw new Exception($"Error adding {ex.Message}");
+        }
+        return user;
     }
 
     private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
@@ -188,26 +307,32 @@ public class AuthenticationService : IAuthenticationService
         return true;
     }
 
-    private async Task AddHealthCareProvider(ApplicationUser user, RegistrationRequest request)
+    private async Task<HealthCareProvider> AddHealthCareProvider(Guid medicalCenterId, ApplicationUser user, RegistrationHealthCareProviderRequest request)
     {
         var healthCareProvider = new HealthCareProvider
         {
+            Id = user.Id,
             LocalRegistrationNumber = request.LocalRegistrationNumber,
             NationalRegistrationNumber = request.NationalRegistrationNumber,
-            //Specialities = specialities.ToList(),
-            ApplicationUserId = user.Id
         };
+
+        healthCareProvider.HealthCareProviderMedicalCenters.Add(
+            new HealthCareProviderMedicalCenter
+            {
+                Id = Guid.NewGuid(),
+                MedicalCenterId = medicalCenterId
+            });
 
         var specialities = await _specialityRepository.GetSpecialitiesByIds(request.SpecialitiesIds);
         foreach (var speciality in specialities)
         {
-            healthCareProvider.HealthCareProviderSpecialities.Add(new HealthCareProviderSpeciality
-            {
-                SpecialityId = speciality.Id
-            });
+            healthCareProvider.HealthCareProviderSpecialities.Add(
+                new HealthCareProviderSpeciality
+                {
+                    SpecialityId = speciality.Id
+                });
         }
-        await _healthCareProviderRepository.AddAsync(healthCareProvider);
-        await _healthCareProviderRepository.SaveChangesAsync();
+        return healthCareProvider;
     }
 
     private async Task AddPatient(ApplicationUser user, RegistrationRequest request)
@@ -220,6 +345,19 @@ public class AuthenticationService : IAuthenticationService
 
         await _patientRepository.AddAsync(patient);
         await _patientRepository.SaveChangesAsync();
+    }
+
+    private async Task AddMedicalCenter(ApplicationUser user, RegistrationMedicalCenterRequest request)
+    {
+        var medicalCenter = new MedicalCenter
+        {
+            Id = user.Id,
+            Name = request.Name,
+            CUIT = request.CUIT,
+        };
+
+        await _medicalCenterRepository.AddAsync(medicalCenter);
+        await _medicalCenterRepository.SaveChangesAsync();
     }
 
     public async Task<AuthenticatedUserReponse> FindByIdAsync(string userId)

@@ -54,20 +54,21 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         try
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            //var user = await _userManager.FindByIdAsync(userId);
 
-            var healthCareProvider = await _healthCareProviderRepository
-                .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
+            //var healthCareProvider = await _healthCareProviderRepository
+            //    .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
 
-            if (healthCareProvider == null)
-            {
-                serviceResponse.Data = null;
-                serviceResponse.Success = false;
-                return serviceResponse;
-            }
+            //if (healthCareProvider == null)
+            //{
+            //    serviceResponse.Data = null;
+            //    serviceResponse.Success = false;
+            //    return serviceResponse;
+            //}
+            var healthCareProviderId = new Guid(userId);
 
             var healthCareProviderSpecialities = await _healthCareProviderRepository
-                .GetByIdWithSpecialitiesAsync(healthCareProvider.Id);
+                .GetByIdWithSpecialitiesAsync(healthCareProviderId);
 
             if (healthCareProviderSpecialities == null)
             {
@@ -95,12 +96,14 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         try
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            //var user = await _userManager.FindByIdAsync(userId.ToString());
 
-            var userToUpdate = _mapper.Map(updateDto, user);
 
+            //var healthCareProvider = await _healthCareProviderRepository
+            //.GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
             var healthCareProvider = await _healthCareProviderRepository
-                                .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
+                                                .GetByIdWithSpecialitiesAsync(userId);
+
             if (healthCareProvider == null)
             {
                 serviceResponse.Data = false;
