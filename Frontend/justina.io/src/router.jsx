@@ -1,22 +1,21 @@
-import { Suspense } from 'react'
-import { createBrowserRouter } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import Loader from './components/Loader/Loader'
+import { Suspense } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Loader from "./components/Loader/Loader";
 
 import {
-    Login,
-    Register,
-    Landing,
-    PatientDetails,
-    TreatmentForm,
-    DrHome,
-    DrProfile
-  } from './pages'
-
+  Login,
+  Register,
+  Landing,
+  PatientDetails,
+  TreatmentForm,
+  DrHome,
+  DrProfile,
+} from "./pages";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: (
       <Suspense fallback={<Loader />}>
         <MainLayout />
@@ -24,64 +23,65 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/',
+        path: "/",
         element: (
           <Suspense fallback={<Loader />}>
             <Landing />
           </Suspense>
-        )
-      }, 
+        ),
+      },
       {
-        path: '/login',
+        path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
           </Suspense>
-        )
-      },   
+        ),
+      },
       {
-        path: '/register',
+        path: "/register",
         element: (
           <Suspense fallback={<Loader />}>
             <Register />
           </Suspense>
-        )
-      }, 
-     
+        ),
+      },
+
       {
-        path: '/drhome',
+        path: "/drhome",
         element: (
           <Suspense fallback={<Loader />}>
             <DrHome />
           </Suspense>
-        )
-      },  
+        ),
+      },
       {
-        path: '/patientdetails',
+        path: "/patientdetails",
         element: (
           <Suspense fallback={<Loader />}>
             <PatientDetails />
           </Suspense>
-        )
-      },   
+        ),
+      },
       {
-        path: '/treatmentform',
+        path: "/treatmentform",
         element: (
           <Suspense fallback={<Loader />}>
             <TreatmentForm />
           </Suspense>
-        )
-      }, {
-        path: '/drprofile',
+        ),
+      },
+      {
+        path: "/drprofile",
         element: (
           <Suspense fallback={<Loader />}>
             <DrProfile />
           </Suspense>
-        )
+        ),
       },
-    ]
-  }
-])
+    ],
+  },
+]);
 
 /*
 if you wants to add a new route please create a new component
