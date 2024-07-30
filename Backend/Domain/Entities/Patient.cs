@@ -11,6 +11,7 @@ namespace Domain.Entities
         public Doner? Doner { get; set; }
         public ICollection<Record> Records { get; set; }
         public ICollection<MedicalCenter> MedicalCenters { get; set; }
+        public ICollection<Note> Notes { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOnUtc { get; set; }
     }
