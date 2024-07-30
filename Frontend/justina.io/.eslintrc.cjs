@@ -18,6 +18,19 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'react-hooks/exhaustive-deps': 'off', 
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    "no-unused-vars": [
+			"error",
+			{
+				"vars": "local",
+				"varsIgnorePattern": "^_",
+				"args": "none",
+				"argsIgnorePattern": "[iI]gnored",
+				"caughtErrors": "all",
+				"destructuredArrayIgnorePattern": "^_",
+				"ignoreRestSiblings": true
+			}
+		],
+		"no-empty-pattern": ["error", { "allowObjectPatternsAsParameters": false }],
   },
 }
