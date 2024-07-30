@@ -34,10 +34,10 @@ public static class StartupExtensions
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder.WithOrigins("http://127.0.0.1:5500")
+                builder
+                   .WithOrigins("https://justinaio-app.netlify.app/*")
                    .AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .AllowCredentials();
+                   .AllowAnyHeader();
             });
         });
 
