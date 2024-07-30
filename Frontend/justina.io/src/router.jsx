@@ -7,14 +7,9 @@ import {
   Login,
   Register,
   Landing,
-  DrDashboard,
-  Home,
   PatientDetails,
-  PrescriptionForm,
   TreatmentForm,
-  PatologyForm,
-  MedicalRecord,
-  ListadoPacientes,
+  DrHome,
   DrProfile,
 } from "./pages";
 
@@ -51,27 +46,12 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+
       {
-        path: "/home",
+        path: "/drhome",
         element: (
           <Suspense fallback={<Loader />}>
-            <Home />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/drdashboard",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <DrDashboard />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/listado-pacientes",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ListadoPacientes />
+            <DrHome />
           </Suspense>
         ),
       },
@@ -84,14 +64,6 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/prescriptionform",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <PrescriptionForm />
-          </Suspense>
-        ),
-      },
-      {
         path: "/treatmentform",
         element: (
           <Suspense fallback={<Loader />}>
@@ -100,23 +72,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/patologyform",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <PatologyForm />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/medicalrecord",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <MedicalRecord />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/perfil-medico",
+        path: "/drprofile",
         element: (
           <Suspense fallback={<Loader />}>
             <DrProfile />
