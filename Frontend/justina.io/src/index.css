@@ -1,44 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("NotoSans-Regular"),
+    url("/fonts/NotoSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: medium;
+  font-weight: 500;
+  src: local("NotoSans-Medium"),
+    url("/fonts/NotoSans-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: bold;
+  font-weight: 600;
+  src: local("NotoSans-SemiBold"),
+    url("/fonts/NotoSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: bolder;
+  font-weight: 700;
+  src: local("NotoSans-Bold"),
+    url("/fonts/NotoSans-Bold.ttf") format("truetype");
+}
+
 @layer utilities {
   .shadow-custom {
-    box-shadow: 
-      0 4px 6px -1px rgba(0, 0, 0, 0.3),   
-      -4px -4px 6px -1px rgba(255, 255, 255, 0.5)
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      -4px -4px 6px -1px rgba(255, 255, 255, 0.5);
   }
   .inner-shadow-custom {
-    box-shadow: 
-      inset 0px 0px 6px -1px rgba(0, 0, 0, 0.5),
+    box-shadow: inset 0px 0px 6px -1px rgba(0, 0, 0, 0.5),
       inset -5px -5px 10px -1px rgba(255, 255, 255, 0.5);
   }
 
-  .shadow-suave{
+  .shadow-suave {
     /* From https://css.glass */
-background: rgba(255, 255, 255, 0.2);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(3.2px);
--webkit-backdrop-filter: blur(3.2px);
-border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.2px);
+    -webkit-backdrop-filter: blur(3.2px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
-
 }
 
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
 
-li{
-    list-style: none;
+li {
+  list-style: none;
 }
-body{
-    font-family: 'Noto Sans', sans-serif;
-    background-image: url('../src/assets/imgs/template.png');
-    background-position: center;
-    background-size: cover;
-    
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-image: url("../src/assets/imgs/template.png");
+  background-position: center;
+  background-size: cover;
+}
+
+html,
+:root {
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
 }
