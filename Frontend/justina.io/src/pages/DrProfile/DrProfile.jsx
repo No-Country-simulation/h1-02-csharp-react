@@ -1,11 +1,10 @@
 
-import Layout from "../../layouts/Layout";
 import Button from "../../components/Button/Button"
 import FormInputDisabled from "../../components/FormInputDisabled/FormInputDisabled";
 
 const DrProfile = () => {
     return ( 
-        <Layout>
+
 
             <div className="mt-4 p-4">
                 <p className="text-primary text-titulopag text-start font-semibold py-3">Perfil</p>
@@ -30,7 +29,7 @@ const DrProfile = () => {
 
                 <Button text="Guardar"/>
             </div>
-        </Layout>
+        
      );
 }
  

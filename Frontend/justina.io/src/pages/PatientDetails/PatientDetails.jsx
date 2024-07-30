@@ -17,7 +17,6 @@ import pillIcon from "../../assets/icons/pillIcon.svg"
 import prescriptionIcon from "../../assets/icons/prescriptionIcon.svg"
 import priorityIcon from "../../assets/icons/priorityicon.svg"
 
-import Layout from "../../layouts/Layout";
 
 const PatientDetails = () => {
     const doctors = [
@@ -70,7 +69,7 @@ const PatientDetails = () => {
     ]
 
     return (
-        <Layout>
+    <>
             <section className="px-6 flex gap-6 w-full">
                 <button className="flex flex-col items-center bg-[rgba(214,86,131,0.2)] backdrop-blur rounded-3xl py-1 px-10 mb-4 shadow-custom text-neutrals800 text-titulopag font-bold">Prioridad <img src={priorityIcon} className="bg-[rgba(253,239,244,.4)] py-1 px-2 rounded-full w-11 h-8"/><span className="text-subtitulo">Alta</span></button>
                 <div className="flex bg-[rgba(253,239,244,0.1)] backdrop-blur rounded-3xl shadow-custom px-8 py-3 justify-center gap-4 h-fit">
@@ -123,7 +122,7 @@ const PatientDetails = () => {
                     />
                 </div>
             </section>
-        </Layout>
+            </>
     )
 }
 
