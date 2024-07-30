@@ -1,6 +1,6 @@
 [build]
   base = "/Frontend/justina.io/"
-  command = "npm build"
+  command = "npm run build"
   publish = "dist"
 
 [[redirects]]
