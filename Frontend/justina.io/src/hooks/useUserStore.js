@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
+//Guarda el token y el usuario en localStorage con el nombre "userStore"
 const storeInit = (store, persistence) => devtools(persist(store, persistence));
 
 const useUserStore = create()(

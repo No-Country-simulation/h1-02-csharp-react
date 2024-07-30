@@ -13,6 +13,8 @@ import {
   DrProfile,
 } from "./pages";
 
+//TODO: Agregar seguridad a las rutas
+//TODO: Si no hay Landing / Home redirigi al Login directamente (Agregar link al registro en el login)
 export const router = createBrowserRouter([
   {
     path: "/",

@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput";
 import useAuth from "../../hooks/useAuth";
 
+// Valor por default del estado del registro
 const DEFAULT = {
   firstName: "",
   lastName: "",
@@ -118,6 +119,7 @@ const Register = () => {
           value={values.emailConfirmed}
           onChange={handleChange}
         />
+        {/* //TODO: Contrasea debe de ser input tipo contrasea */}
         <FormInput
           name="Constraseña"
           type="text"
