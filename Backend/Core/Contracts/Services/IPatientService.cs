@@ -9,5 +9,6 @@ namespace Application.Contracts.Services
         Task<ServiceResponse<List<PatientGetDto>>> GetAllPatients();
         Task<ServiceResponse<bool>> UpdatePatient(Guid patientId, PatientUpdateDto updateRequest);
         Task<ServiceResponse<bool>> DeletePatient(Guid patientId);
+        Task<ServiceResponse<Guid>> GetPatientIdByUserId(Guid userId);
     }
 }

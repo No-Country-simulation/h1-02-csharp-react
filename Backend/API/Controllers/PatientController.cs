@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Services;
 using DTOs.Patient;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Utilities.Enums;
 
 namespace API.Controllers
 {
@@ -14,12 +16,7 @@ namespace API.Controllers
             _patientService = patientService;
         }
 
-        private Guid GetCurrentPatientId()
-        {
-            var claim = HttpContext.User.Claims.Where(p => p.Type == "patientId").FirstOrDefault();
-            return new Guid(claim.Value);
-        }
-
+        [Authorize(Roles = nameof(AccountType.HealthCareProvider))]
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult> GetPatientById(Guid id)
         {
@@ -32,6 +29,8 @@ namespace API.Controllers
             return NotFound($"Patient with Id {id} was not found.");
         }
 
+        [Authorize(Roles = nameof(AccountType.HealthCareProvider))]
+        [Authorize(Roles = nameof(AccountType.MedicalCenter))]
         [HttpGet("GetAllPatients")]
         public async Task<ActionResult> GetAllPatients()
         {

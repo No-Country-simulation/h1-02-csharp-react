@@ -8,5 +8,6 @@ namespace Application.Contracts.Persistence
         public Task<PatientGetDto?> GetPatientById(Guid id);
         public Task<List<PatientGetDto>> GetAllPatients();
         public Task<Patient?> GetPatientWithRelationships(Guid id);
+        public Task<Guid> GetPatientIdByUserId(Guid userId);
     }
 }

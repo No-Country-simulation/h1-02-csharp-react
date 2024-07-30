@@ -68,4 +68,9 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
     {
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task InsertRange(IEnumerable<T> entities)
+    {
+        await _dbContext.Set<T>().AddRangeAsync(entities);
+    }
 }

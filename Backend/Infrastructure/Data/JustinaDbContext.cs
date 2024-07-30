@@ -17,12 +17,11 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<HealthCareProvider> HealthCareProviders { get; set; }
     public DbSet<Speciality> Specialities { get; set; }
     public DbSet<HealthCareProviderSpeciality> HealthCareProviderSpecialities { get; set; }
-    public DbSet<HealthCareProviderMedicalCenter> HealthCareProviderMedicalCenters { get; set; }
+    public DbSet<HealthCareProviderMedicalCenter> HealthCareProviderMedicalCenter { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Doner> Doners { get; set; }
     public DbSet<Drug> Drugs { get; set; }
     public DbSet<MedicalCenter> MedicalCenters { get; set; }
-    public DbSet<MedicalRecord> MedicalRecords { get; set; }
     public DbSet<Pathology> Pathologies { get; set; }
     public DbSet<Prescription> Prescriptions { get; set; }
     public DbSet<Record> Records { get; set; }
