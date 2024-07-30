@@ -18,8 +18,8 @@ public class HealthCareProvidersController : ControllerBase
         _healthCareProviderService = healthCareProviderService;
     }
 
-    [HttpGet()]
-    //[Authorize(Roles = "MedicalCenter, Name = "GetAllHealthCareProviders"")]
+    [HttpGet(Name = "GetAllHealthCareProviders")]
+    //[Authorize(Roles = "MedicalCenter, Patient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetAllHealthCareProviders()
@@ -63,13 +63,6 @@ public class HealthCareProvidersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateHealthCareProvider(Guid id, [FromBody] UpdateHealthCareProviderDto updateDto)
     {
-        var userId = User.FindFirstValue("uid");
-
-        if (userId == null)
-        {
-            return Unauthorized();
-        }
-
         var response = await _healthCareProviderService.UpdateHealthCareProviderAsync(id, updateDto);
         if (!response.Success)
         {

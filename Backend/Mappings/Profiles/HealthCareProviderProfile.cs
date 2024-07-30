@@ -11,12 +11,12 @@ public class HealthCareProviderProfile : Profile
     {
         // GetAll - Role MedicalCenter
         CreateMap<HealthCareProvider, GetHealthCareProvidersDto>()
-            .ForMember(dest => dest.ApplicationUserId, opt => opt.MapFrom(src => src.ApplicationUser.Id))
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email))
-            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ApplicationUser.PhoneNumber))
+            //.ForMember(dest => dest.ApplicationUserId, opt => opt.MapFrom(src => src.ApplicationUser.Id))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
-            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.ApplicationUser.Birthdate));
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.ApplicationUser.Birthdate))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ApplicationUser.PhoneNumber));
 
         // GetById - Role HealthCareProvider
         CreateMap<HealthCareProvider, GetByIdHealthCareProviderDto>()
