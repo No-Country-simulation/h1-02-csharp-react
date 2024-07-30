@@ -1,12 +1,12 @@
 import { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput"
-import Layout from "../../layouts/Layout";
+
 import Button from "../../components/Button/Button"
 import { GiHeartPlus } from "react-icons/gi";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
 
-const ListadoPacientes = () => {
+const DrHome = () => {
 
     const datostabla = [{
         nombre: 'Malcolm Lockyer',
@@ -77,7 +77,6 @@ const ListadoPacientes = () => {
     };
 
     return (  
-        <Layout>
 
         <div className="mt-4 p-4 ">
             <p className="text-primary text-titulopag text-start font-semibold">Pacientes</p>
@@ -139,15 +138,13 @@ const ListadoPacientes = () => {
                 </ul>
             </nav>
             
-        
-        </div>
-        { isOpen && (
+            { isOpen && (
             <Modal closeModal={closeModal}/>
         )}
-
-        </Layout>
+        </div>
+       
        
      );
 }
  
-export default ListadoPacientes;
+export default DrHome;
