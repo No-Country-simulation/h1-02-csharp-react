@@ -1,20 +1,25 @@
-import axios from "axios"
 import useUserStore from "./useUserStore";
 import { useNavigate } from 'react-router-dom'
+import api from "../api/axios"
 
 const useLogin = ()=> {
     const authStore = useUserStore();
-    const navigate = useNavigate()
-    const login = async (credential)=>{
-        const response = await axios.post('https://justina.somee.com/api/Account/authenticate', credential);
+    const navigate = useNavigate();
 
-        console.log({response});
-        authStore.setUser(null);
-        authStore.setToken("");
+    const setUserFullName =async ()=>{
+        const response = await api.get('/api/Account/me');
+        authStore.setUserFullname(`${response.firstName} ${response.lastName}`);
+    }
+
+    const login = async (credential)=>{
+        const response = await api.post('/api/account/authenticate', credential);
+        console.log({response})
+        authStore.setToken(response.token);
+        setUserFullName();
     }
 
     const  register = async (credentials)=>{
-        const response = await axios.post('https://justina.somee.com/api/Account/register-health-care-provider', credentials);
+        const response = await api.post('/api/account/register', credentials);
         console.log({response});
         navigate("/login");
     }

@@ -5,9 +5,9 @@ const storeInit = (store, persistence) => devtools(persist(store, persistence));
 
 const useUserStore = create()(
   storeInit((set) => ({
-    user: null,
+    userFullName: "",
     token: "",
-    setUser: (user) => set({ user }),
+    setUserFullname: (userFullName) => set({ userFullName }),
     setToken: (token) => set({ token }),
   }), {name: "userStore"})
 );
