@@ -5,7 +5,21 @@ export default {
     './src/**/*.{js,jsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        primary: '#D65683',
+        secondary: '#4A56AC',
+        neutrals800: '#4E4949',
+        neutrals600: '#7a7474'
+      },
+      fontSize:{
+        small: '14px',
+        parrafo: '16px',
+        subtitulo: '18px',
+        titulopag: '24px',
+        titulo: '40px'
+      }
+    },
   },
   plugins: [],
 }

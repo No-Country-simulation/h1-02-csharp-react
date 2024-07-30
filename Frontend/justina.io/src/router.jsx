@@ -1,10 +1,21 @@
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
-import Loader from './components/loader/Loader'
+import Loader from './components/Loader/Loader'
 
 import {
-    Login
+    Login,
+    Register,
+    Landing,
+    DrDashboard,
+    Home,
+    PatientDetails,
+    PrescriptionForm,
+    TreatmentForm,
+    PatologyForm,
+    MedicalRecord,
+    ListadoPacientes,
+    DrProfile
   } from './pages'
 
 
@@ -17,16 +28,101 @@ export const router = createBrowserRouter([
       </Suspense>
     ),
     children: [
-
       {
         path: '/',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Landing />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/login',
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
           </Suspense>
         )
       },   
-
+      {
+        path: '/register',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Register />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/home',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Home />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/drdashboard',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <DrDashboard />
+          </Suspense>
+        )
+      },
+      {
+        path: '/listado-pacientes',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ListadoPacientes />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/patientdetails',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PatientDetails />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/prescriptionform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PrescriptionForm />
+          </Suspense>
+        )
+      },  
+      {
+        path: '/treatmentform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TreatmentForm />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/patologyform',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PatologyForm />
+          </Suspense>
+        )
+      }, 
+      {
+        path: '/medicalrecord',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MedicalRecord />
+          </Suspense>
+        )
+      },{
+        path: '/perfil-medico',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <DrProfile />
+          </Suspense>
+        )
+      },
     ]
   }
 ])
