@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-import { HomeIcon, PatientsIcon } from "../icons";
-//import { MdCalendarMonth } from "react-icons/md";
-//import { RiHandHeartFill } from "react-icons/ri";
+import { HomeIcon } from "../icons";
 import SidebarNavigationItem from "./SidebarNavigationItem";
 import { useCallback } from "react";
 
@@ -23,14 +21,14 @@ const menu = [
   {
     icon: <HomeIcon />,
     text: "Inicio",
-    link: "/home",
+    link: "/profile",
   },
-  {
+  /*{
     icon: <PatientsIcon />,
     text: "Pacientes",
     link: "/drhome",
   },
-  /*{
+  {
     icon: <MdCalendarMonth />,
     text: "Agenda",
     link: "",

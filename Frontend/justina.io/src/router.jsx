@@ -9,12 +9,12 @@ import NotAuthenticated from "./NotAuthenticated";
 import {
   Login,
   Register,
-  Landing,
   PatientDetails,
   TreatmentForm,
-  DrHome,
   DrProfile,
+  Home,
 } from "./pages";
+import RootComponent from "./RootComponent";
 
 //Wrapper para el Suspense
 const createSuspenseRoute = (Component) => (
@@ -46,9 +46,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (
-          <NotAuthenticated>{createSuspenseRoute(Landing)}</NotAuthenticated>
-        ),
+        element: createSuspenseRoute(RootComponent),
       },
       {
         path: "/login",
@@ -62,10 +60,9 @@ export const router = createBrowserRouter([
           <NotAuthenticated>{createSuspenseRoute(Register)}</NotAuthenticated>
         ),
       },
-
       {
-        path: "/drhome",
-        element: createPrivateRoute(DrHome),
+        path: "/inicio",
+        element: createPrivateRoute(Home),
       },
       {
         path: "/patientdetails",
