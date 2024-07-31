@@ -19,7 +19,7 @@ export default function SidebarSettings() {
         onClick={() => alert("Not implemented")}
       >
         <SettingIcon />
-        <span className="text-primary font-medium">Perfil</span>
+        <span className="text-primary font-medium">Configuracion</span>
       </div>
 
       <div
