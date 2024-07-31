@@ -9,13 +9,13 @@ import { Link } from "react-router-dom";
 import { useUserStore } from "../../hooks/useUserStore";
 
 const Header = () => {
-  const { setToken } = useUserStore();
+  const { setToken, setUser } = useUserStore();
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
     setToken("");
+    setUser(null);
     navigate("/login");
   };
 

@@ -33,7 +33,7 @@ const menu = [
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { setToken } = useUserStore();
+  const { setToken, setUser } = useUserStore();
   const [enlaceActivo, setEnlaceActivo] = useState("Inicio");
 
   const manejarCambioEnlace = (nombreEnlace) => {
@@ -41,8 +41,8 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setToken(null);
+    setToken("");
+    setUser(null);
     navigate("/login");
   };
 

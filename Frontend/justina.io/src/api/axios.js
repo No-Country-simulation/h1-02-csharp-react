@@ -2,7 +2,7 @@ import axios from "axios";
 
 //Se Setea URL base
 const api = axios.create({
-  baseURL: "https://justina.somee.com",
+  baseURL: "https://www.justina.somee.com",
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,12 +11,12 @@ const api = axios.create({
 //Intercepta la request para agregar el token si existe
 api.interceptors.request.use(
   (config) => {
-    //Recupera store
-    let userStore = localStorage.getItem("userStore");
-    userStore = userStore ? JSON.stringify(userStore) : undefined;
+    //Recupera la store
+    let userStore = localStorage.getItem("userStore") ? JSON.parse(localStorage.getItem("userStore")) : undefined;
     //Si existe recupera el token
-    const token = userStore ? userStore.token : null;
+    const token = userStore ? userStore.state.token : null;
     if (token) {
+      //Si hay token se agrega al header
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
