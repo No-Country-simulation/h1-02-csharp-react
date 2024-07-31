@@ -8,8 +8,6 @@ const Sidebar = () => (
     <Logo />
     <SidebarNavigation />
     <SidebarSettings />
-
-    <br />
     <SidebarAccessibility />
   </div>
 );
