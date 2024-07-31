@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput"
 
+
 import Button from "../../components/Button/Button"
 import { GiHeartPlus } from "react-icons/gi";
 import Modal from "../../components/Modal/Modal";
@@ -77,7 +78,7 @@ const DrHome = () => {
     };
 
     return (  
-
+        
         <div className="mt-4 p-4 ">
             <p className="text-primary text-titulopag text-start font-semibold">Pacientes</p>
             <div className="flex justify-between h-16">
@@ -143,7 +144,7 @@ const DrHome = () => {
         )}
         </div>
        
-       
+        
      );
 }
  

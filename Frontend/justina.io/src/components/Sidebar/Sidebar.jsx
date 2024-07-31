@@ -2,38 +2,36 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/imgs/imagotype.webp";
 import { MdHome, MdPerson, MdCalendarMonth } from "react-icons/md";
-import { RiHandHeartFill } from "react-icons/ri";
-import { ImExit } from "react-icons/im";
-import { FaGear } from "react-icons/fa6";
-import justinachatbot from "../../assets/imgs/caraJustinabot.png";
-import { useUserStore } from "../../hooks/useUserStore";
 
-const menu = [
+import { ImExit } from "react-icons/im";
+
+import iconhome from "../../assets/icons/home.png";
+import iconprofile from "../../assets/icons/profile.png";
+import justinachatbot from "../../assets/imgs/caraJustinabot.png";
+//import { useUserStore } from "../../hooks/useUserStore";
+
+const menuDr = [
   {
-    icono: <MdHome />,
+    icono: iconhome,
     texto: "Inicio",
-    link: "/home",
+    link: "/drhome",
   },
   {
-    icono: <MdPerson />,
-    texto: "Pacientes",
-    link: "/listado-pacientes",
+    icono: iconprofile,
+    texto: "Perfil",
+    link: "/drprofile",
   },
   {
-    icono: <MdCalendarMonth />,
-    texto: "Agenda",
-    link: "",
-  },
-  {
-    icono: <RiHandHeartFill />,
-    texto: "Trasplante cruzado",
-    link: "",
-  },
+    icono:'',
+    texto:"Salir",
+    link:""
+
+  }
 ];
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { setToken, setUser } = useUserStore();
+  //const { setToken, setUser } = useUserStore();
   const [enlaceActivo, setEnlaceActivo] = useState("Inicio");
 
   const manejarCambioEnlace = (nombreEnlace) => {
@@ -41,9 +39,9 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    setToken("");
+    /*setToken("");
     setUser(null);
-    navigate("/login");
+    navigate("/login");*/
   };
 
   return (
@@ -53,7 +51,7 @@ const Sidebar = () => {
       </div>
 
       <div className="menu-div w-52 mt-3 p-4 text-left bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
-        {menu.map((item, index) => (
+        {menuDr.map((item, index) => (
           <div
             className={`px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)] ${
               enlaceActivo === item.texto ? "active" : ""
@@ -61,17 +59,17 @@ const Sidebar = () => {
             onClick={() => manejarCambioEnlace(item.texto)}
             key={index}
           >
-            {item.icono}
-            <Link to={item.link}>{item.texto}</Link>
+
+            <Link to={item.link}>
+              <img src={item.icono} alt="" />
+              {item.texto}
+            </Link>
           </div>
         ))}
       </div>
 
       <div className="w-[207px] p-4 bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
-        <div className="px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)]">
-          <FaGear />
-          <span>Atajos</span>
-        </div>
+        
 
         <div
           className="px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg  shadow-inner backdrop-blur-[25.33px] justify-start items-start gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)]"

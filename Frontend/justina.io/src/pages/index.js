@@ -9,7 +9,7 @@ const PatientDetails= lazy(() => import('./PatientDetails/PatientDetailsContaine
 const TreatmentForm= lazy(() => import('./TreatmentForm/TreatmentFormContainer'))
 
 const DrProfile = lazy(() => import('./DrProfile/DrProfileContainer'))
-const DrHome = lazy(() => import('./DrHome/DrHomeContainer'))
+const DrHome = lazy(() => import('./DrHome/DrHomeContainer.jsx'))
 
 export {
     Login,

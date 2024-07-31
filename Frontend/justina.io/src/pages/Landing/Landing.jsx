@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
+
 //TODO: No tiene sentido ahora mismo
 const Landing = () => {
   return (
+
     <section className="">
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-4">Justina.io</h1>
@@ -22,6 +24,7 @@ const Landing = () => {
         </div>
       </div>
     </section>
+    
   );
 };
 
