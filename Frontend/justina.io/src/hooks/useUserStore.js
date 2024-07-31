@@ -1,13 +1,21 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
+//Guarda el token y el usuario en localStorage con el nombre "userStore"
 const storeInit = (store, persistence) => devtools(persist(store, persistence));
-
+/* 
+user: {
+  id: string,
+  fullname: string,
+  role: string,
+  email: string,
+}
+*/
 const useUserStore = create()(
   storeInit((set) => ({
-    userFullName: "",
+    user: null,
     token: "",
-    setUserFullname: (userFullName) => set({ userFullName }),
+    setUser: (user) => set({ user }),
     setToken: (token) => set({ token }),
   }), {name: "userStore"})
 );

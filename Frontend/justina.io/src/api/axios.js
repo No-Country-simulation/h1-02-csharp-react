@@ -1,19 +1,23 @@
 import axios from "axios";
 
+//Se Setea URL base
 const api = axios.create({
-  baseURL: "https://justina.somee.com",
+  baseURL: "https://www.justina.somee.com",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
+//Intercepta la request para agregar el token si existe
 api.interceptors.request.use(
   (config) => {
-    let userStore = localStorage.getItem("token");
-    userStore = userStore ? JSON.stringify(userStore) : undefined;
-    if (userStore) {
-      const token = userStore.token || "";
-      config.headers["Authorization"] = token ? `Bearer ${token}` : "";
+    //Recupera la store
+    let userStore = localStorage.getItem("userStore") ? JSON.parse(localStorage.getItem("userStore")) : undefined;
+    //Si existe recupera el token
+    const token = userStore ? userStore.state.token : null;
+    if (token) {
+      //Si hay token se agrega al header
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -30,4 +34,5 @@ api.interceptors.response.use(response => {
   });
   
 
+  //Usar api en vez de axios
 export default api;
