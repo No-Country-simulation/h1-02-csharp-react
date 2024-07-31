@@ -30,9 +30,7 @@ const useAuth = ()=> {
     const  register = async (credentials)=>{
         //TODO: Gestionar caso de fallo
        try {
-        const response = await api.post('/api/account/register', credentials);
-        //TODO: Borrar luego de probar la respuesta
-        console.log({response});
+        await api.post('/api/account/register', credentials);
         navigate("/login");
        } catch(e){
         console.log("Error: ", e);
