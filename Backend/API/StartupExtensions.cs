@@ -8,7 +8,6 @@ using Persistence;
 using Persistence.Data;
 using Persistence.Identity;
 using RealTime;
-using Mappings;
 
 namespace API;
 
@@ -35,9 +34,10 @@ public static class StartupExtensions
             options.AddDefaultPolicy(builder =>
             {
                 builder
-                   .WithOrigins("https://justinaio-app.netlify.app/*")
+                   .AllowAnyOrigin()
                    .AllowAnyMethod()
                    .AllowAnyHeader();
+                   
             });
         });
 
@@ -56,6 +56,7 @@ public static class StartupExtensions
         }
 
         app.UseHttpsRedirection();
+        app.UseStaticFiles();
         app.UseRouting();
 
         //app.UseCors("Open");
