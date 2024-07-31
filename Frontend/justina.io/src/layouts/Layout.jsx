@@ -1,24 +1,19 @@
 import Sidebar from '../components/Sidebar/Sidebar'
 import Header from '../components/Header/Header'
+import { Outlet } from 'react-router-dom'
 
-const Layout = ({children}) => {
-    return ( 
-        
+import '../index.css'
 
-        <div className="fondo-home flex">
+const Layout = () => {
+    return (     
+        <section className="flex">
             <Sidebar/>
             <div className='w-full'>
                 <Header/>
-                {children}
+                <Outlet />
             </div>
-            
-
-            {/**/}
-            
-        </div>
-        
-        
-     );
+        </section>    
+     )
 }
  
-export default Layout;
+export default Layout

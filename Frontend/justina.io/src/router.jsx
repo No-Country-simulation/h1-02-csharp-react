@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
+import Layout from './layouts/Layout'
 import Loader from './components/Loader/Loader'
 
 import {
@@ -46,39 +47,33 @@ export const router = createBrowserRouter([
             <Register />
           </Suspense>
         )
-      }, 
-     
-      {
-        path: '/drhome',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <DrHome />
-          </Suspense>
-        )
-      },  
-      {
-        path: '/patientdetails',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <PatientDetails />
-          </Suspense>
-        )
-      },   
-      {
-        path: '/treatmentform',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <TreatmentForm />
-          </Suspense>
-        )
-      }, {
-        path: '/drprofile',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <DrProfile />
-          </Suspense>
-        )
       },
+      {
+        path: '/',
+        element: (
+          <Suspense fallback={<Loader />}>            
+            <Layout />            
+          </Suspense>
+        ),
+        children: [     
+          {
+            path: '/drhome',
+            element: <DrHome />
+          },  
+          {
+            path: '/patientdetails',
+            element:<PatientDetails />
+          },   
+          {
+            path: '/treatmentform',
+            element:<TreatmentForm />
+             
+          }, {
+            path: '/drprofile',
+            element: <DrProfile />
+          },
+        ],
+      }
     ]
   }
 ])
