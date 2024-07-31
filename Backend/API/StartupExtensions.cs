@@ -8,6 +8,7 @@ using Persistence;
 using Persistence.Data;
 using Persistence.Identity;
 using RealTime;
+using AWS;
 
 namespace API;
 
@@ -20,6 +21,7 @@ public static class StartupExtensions
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddRealTimeServices();
         builder.Services.AddDomainProfiles();
+        builder.Services.AddAwsServices();
 
         builder.Services.AddHttpContextAccessor();
 
