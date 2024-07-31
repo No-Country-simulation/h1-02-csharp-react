@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import Layout from "./layouts/Layout";
 import Loader from "./components/Loader/Loader";
 import PrivateRoute from "./PrivateRoutes";
+import NotAuthenticated from "./NotAuthenticated";
 
 import {
   Login,
@@ -14,6 +15,24 @@ import {
   DrHome,
   DrProfile,
 } from "./pages";
+
+//Wrapper para el Suspense
+const createSuspenseRoute = (Component) => (
+  <Suspense fallback={<Loader />}>
+    <Component />
+  </Suspense>
+);
+
+//Crea un ruta privada con un componente con lazy
+const createPrivateRoute = (Component) => (
+  <PrivateRoute>
+    {createSuspenseRoute(() => (
+      <Layout>
+        <Component />
+      </Layout>
+    ))}
+  </PrivateRoute>
+);
 
 //TODO: Si no hay Landing / Home redirigi al Login directamente (Agregar link al registro en el login)
 export const router = createBrowserRouter([
@@ -28,92 +47,38 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Landing />
-          </Suspense>
+          <NotAuthenticated>{createSuspenseRoute(Landing)}</NotAuthenticated>
         ),
       },
       {
         path: "/login",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Login />
-          </Suspense>
+          <NotAuthenticated>{createSuspenseRoute(Login)}</NotAuthenticated>
         ),
       },
       {
         path: "/register",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Register />
-          </Suspense>
+          <NotAuthenticated>{createSuspenseRoute(Register)}</NotAuthenticated>
         ),
       },
 
       {
         path: "/drhome",
-        element: (
-          <PrivateRoute>
-            <Suspense fallback={<Loader />}>
-              <Layout>
-                <DrHome />
-              </Layout>
-            </Suspense>
-          </PrivateRoute>
-        ),
+        element: createPrivateRoute(DrHome),
       },
       {
         path: "/patientdetails",
-        element: (
-          <PrivateRoute>
-            <Suspense fallback={<Loader />}>
-              <Layout>
-                <PatientDetails />
-              </Layout>
-            </Suspense>
-          </PrivateRoute>
-        ),
+        element: createPrivateRoute(PatientDetails),
       },
       {
         path: "/treatmentform",
-        element: (
-          <PrivateRoute>
-            <Suspense fallback={<Loader />}>
-              <Layout>
-                <TreatmentForm />
-              </Layout>
-            </Suspense>
-          </PrivateRoute>
-        ),
+        element: createPrivateRoute(TreatmentForm),
       },
       {
         path: "/drprofile",
-        element: (
-          <PrivateRoute>
-            <Suspense fallback={<Loader />}>
-              <Layout>
-                <DrProfile />
-              </Layout>
-            </Suspense>
-          </PrivateRoute>
-        ),
+        element: createPrivateRoute(DrProfile),
       },
     ],
   },
 ]);
-
-/*
-if you wants to add a new route please create a new component
-on the pages file ./pages
-
-then
-
-add a new object with the path and element properties
-
-    {
-        path: '',
-        element: <>
-      },
-
-      inside the children propertie.
-*/
