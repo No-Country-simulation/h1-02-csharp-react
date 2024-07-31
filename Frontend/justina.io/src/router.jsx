@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import Layout from "./layouts/Layout";
 import Loader from "./components/Loader/Loader";
+import PrivateRoute from "./PrivateRoutes";
 
 import {
   Login,
@@ -13,7 +15,6 @@ import {
   DrProfile,
 } from "./pages";
 
-//TODO: Agregar seguridad a las rutas
 //TODO: Si no hay Landing / Home redirigi al Login directamente (Agregar link al registro en el login)
 export const router = createBrowserRouter([
   {
@@ -52,33 +53,49 @@ export const router = createBrowserRouter([
       {
         path: "/drhome",
         element: (
-          <Suspense fallback={<Loader />}>
-            <DrHome />
-          </Suspense>
+          <PrivateRoute>
+            <Suspense fallback={<Loader />}>
+              <Layout>
+                <DrHome />
+              </Layout>
+            </Suspense>
+          </PrivateRoute>
         ),
       },
       {
         path: "/patientdetails",
         element: (
-          <Suspense fallback={<Loader />}>
-            <PatientDetails />
-          </Suspense>
+          <PrivateRoute>
+            <Suspense fallback={<Loader />}>
+              <Layout>
+                <PatientDetails />
+              </Layout>
+            </Suspense>
+          </PrivateRoute>
         ),
       },
       {
         path: "/treatmentform",
         element: (
-          <Suspense fallback={<Loader />}>
-            <TreatmentForm />
-          </Suspense>
+          <PrivateRoute>
+            <Suspense fallback={<Loader />}>
+              <Layout>
+                <TreatmentForm />
+              </Layout>
+            </Suspense>
+          </PrivateRoute>
         ),
       },
       {
         path: "/drprofile",
         element: (
-          <Suspense fallback={<Loader />}>
-            <DrProfile />
-          </Suspense>
+          <PrivateRoute>
+            <Suspense fallback={<Loader />}>
+              <Layout>
+                <DrProfile />
+              </Layout>
+            </Suspense>
+          </PrivateRoute>
         ),
       },
     ],

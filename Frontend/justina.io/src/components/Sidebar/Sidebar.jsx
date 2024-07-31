@@ -6,7 +6,7 @@ import { RiHandHeartFill } from "react-icons/ri";
 import { ImExit } from "react-icons/im";
 import { FaGear } from "react-icons/fa6";
 import justinachatbot from "../../assets/imgs/caraJustinabot.png";
-import { useUserStore } from "../../hooks/useUserStore";
+import useUserStore from "../../hooks/useUserStore";
 
 const menu = [
   {

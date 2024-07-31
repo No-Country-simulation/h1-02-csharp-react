@@ -6,7 +6,7 @@ import {
   IoIosArrowUp,
 } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useUserStore } from "../../hooks/useUserStore";
+import useUserStore from "../../hooks/useUserStore";
 
 const Header = () => {
   const { setToken, setUser } = useUserStore();
