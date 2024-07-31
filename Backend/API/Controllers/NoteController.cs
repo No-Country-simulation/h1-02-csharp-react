@@ -1,11 +1,14 @@
 ﻿using Application.Contracts.Services;
 using DTOs;
 using DTOs.Note;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Utilities.Enums;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = nameof(AccountType.Patient))]
     [Route("api/[controller]")]
     [ApiController]
     public class NoteController : ControllerBase
@@ -18,7 +21,6 @@ namespace API.Controllers
             _noteService = noteService;
             _petientService = patientService;
         }
-
 
         private async Task<Guid> GetCurrentPatient()
         {
@@ -46,12 +48,34 @@ namespace API.Controllers
             return Ok(await _noteService.GetAllNotes(patientId));
         }
 
-        [HttpPut("EditNote")]
-        public async Task<ActionResult<ServiceResponse<bool>>> EditNote(Guid noteId, NoteAddDto updatedNote)
+        [HttpGet("GetNoteById/{noteId}")]
+        public async Task<ActionResult> GetNoteById(Guid noteId)
         {
             var patientId = await GetCurrentPatient();
 
-            return Ok(await _noteService.EditNote(patientId, noteId, updatedNote));
+            var result = await _noteService.GetNoteById(noteId, patientId);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound($"Note with Id {noteId} was not found.");
+        }
+
+        [HttpPut("EditNote/{noteId}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> EditNote(Guid noteId, NoteUpdateDto updatedNote)
+        {
+            var patientId = await GetCurrentPatient();
+
+            return Ok(await _noteService.EditNote(noteId, patientId, updatedNote));
+        }
+
+        [HttpDelete("DeleteNote/{noteId}")]
+        public async Task<ActionResult<bool>> DeleteNote(Guid noteId)
+        {
+            var patientId = await GetCurrentPatient();
+
+            return Ok(await _noteService.DeleteNote(noteId, patientId));
         }
     }
 }

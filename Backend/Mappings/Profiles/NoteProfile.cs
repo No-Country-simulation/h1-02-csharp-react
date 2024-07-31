@@ -8,7 +8,8 @@ namespace Mappings.Profiles
     {
         public NoteProfile()
         {
-            CreateMap<NoteAddDto, Note>().ReverseMap();
+            CreateMap<NoteAddDto, Note>();
+            CreateMap<NoteUpdateDto, Note>().ReverseMap();
             CreateMap<Note, NoteGetDto>();
         }
     }

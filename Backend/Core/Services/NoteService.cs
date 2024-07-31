@@ -63,14 +63,30 @@ namespace Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> EditNote(Guid patientId, Guid noteId, NoteAddDto updatedNote)
+        public async Task<ServiceResponse<NoteGetDto>> GetNoteById(Guid noteId, Guid patientId)
+        {
+            var serviceResponse = new ServiceResponse<NoteGetDto>();
+            try
+            {
+                serviceResponse.Data = await _noteRepository.GetNoteById(noteId, patientId);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, $"{ex.Message}");
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<bool>> EditNote(Guid noteId, Guid patientId, NoteUpdateDto updatedNote)
         {
             var serviceResponse = new ServiceResponse<bool>();
 
             try
             {
                 var dbNote = await _noteRepository.GetByIdAsync(noteId);
-                if (dbNote == null || dbNote.Patient.Id != patientId)
+                if (dbNote == null || dbNote.PatientId != patientId)
                 {
                     throw new Exception($"Note with Id '{noteId}' was not found.");
                 }
@@ -81,7 +97,29 @@ namespace Application.Services
                 serviceResponse.Data = true;
                 serviceResponse.Message = "Note edited successfully.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex.Message);
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<bool>> DeleteNote(Guid noteId, Guid patientId)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+
+            try
+            {
+                if (await _noteRepository.DeleteNote(noteId, patientId))
+                    await _noteRepository.SaveChangesAsync();
+
+                serviceResponse.Data = true;
+                serviceResponse.Message = "Note deleted successfully";
+            }
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
