@@ -5,5 +5,5 @@ export default function NotAuthenticated({ children }) {
   const { token, user } = useUserStore();
   const isNotAuthenticated = !token || user == null;
 
-  return isNotAuthenticated ? children : <Navigate to="/login" />;
+  return isNotAuthenticated ? children : <Navigate to="/patientdetails" />;
 }

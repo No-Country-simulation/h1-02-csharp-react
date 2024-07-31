@@ -1,16 +1,26 @@
 import { Link } from "react-router-dom";
 
-const SidebarNavigationItem = ({ isActive, text, link, icon, setActive }) => {
+const SidebarNavigationItem = ({
+  isActive,
+  text,
+  link,
+  icon,
+  setActive,
+  top,
+  left,
+}) => {
   return (
-    <div
-      className={`px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)] ${
+    <Link
+      to={link}
+      className={`absolute flex justify-start items-center gap-x-4 p-1 min-w-36 max-w-36 transition-all opacity-85 hover:opacity-100  ${
         isActive ? "active" : ""
       }`}
+      style={{ top, left }}
       onClick={() => setActive(text)}
     >
-      {icon}
-      <Link to={link}>{text}</Link>
-    </div>
+      <div className={`p-2 shadow-glass-effect rounded-[32px]`}>{icon}</div>
+      <span className="text-primary font-semibold">{text}</span>
+    </Link>
   );
 };
 
