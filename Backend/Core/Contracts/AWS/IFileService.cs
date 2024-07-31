@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Contracts.AWS;
 
 public interface IFileService
 {
-    Task<string> UploadFileAsync(IFormFile file);
+    Task<ServiceResponse<string>> UploadFileAsync(IFormFile file);
 }
