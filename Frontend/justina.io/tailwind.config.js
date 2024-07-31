@@ -9,13 +9,17 @@ export default {
       colors:{
         primary: '#D65683',
         secondary: '#4A56AC',
-        neutrals800: '#4E4949',
-        neutrals600: '#7a7474'
+        neutrals800: 'var(--neutrals-800)',
+        neutrals600: 'var(--neutrals-600)',
+        neutrals900: 'var(--neutrals-900)'
       },
       backgroundColor: {
-        "rose-o10": "rgba(253, 239, 244, 0.1)",
-        "rose-o20": "rgba(253, 239, 244, 0.2)",
-        "rose-o40": "rgba(253, 239, 244, 0.4)",
+        rose: {
+          o10: "var(--rose-o10)",
+          o20: "var(--rose-o20)",
+          o40: "var(--rose-o10)",
+        }
+
       },
       fontSize:{
         small: '14px',

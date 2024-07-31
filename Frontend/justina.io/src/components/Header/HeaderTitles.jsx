@@ -20,7 +20,7 @@ export default function HeaderTitles() {
         Buen día {user.fullname}
       </p>
       <p className="text-neutral-600 text-subtitulo font-normal font-['Noto Sans'] leading-tight">
-        {isPatient === "Patient"
+        {isPatient
           ? "Aqui puedes registrar todos tus tratamientos"
           : "Revisa el progreso de los pacientes y los tratamientos"}
       </p>
