@@ -21,7 +21,7 @@ const menu = [
   {
     icon: <HomeIcon />,
     text: "Inicio",
-    link: "/profile",
+    link: "/",
   },
   /*{
     icon: <PatientsIcon />,
