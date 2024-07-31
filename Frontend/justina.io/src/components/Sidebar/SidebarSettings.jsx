@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../../hooks/useUserStore";
-import { ImExit } from "react-icons/im";
-import { FaGear } from "react-icons/fa6";
+import { LogoutIcon, SettingIcon } from "../icons";
 
 export default function SidebarSettings() {
   const navigate = useNavigate();
@@ -14,21 +13,21 @@ export default function SidebarSettings() {
   };
 
   return (
-    <div className="w-[207px] p-4 bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
+    <div className="w-[207px] mt-7 p-4 rounded-[32px] shadow-glass-effect flex-col justify-start items-center gap-[1.3rem] inline-flex ">
       <div
-        className="px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)]"
+        className="px-3 py-2 w-full shadow-custom backdrop-blur-[12.6667px] bg-[rgba(253,239,244,0.1)] rounded-[32px] justify-start items-center gap-x-2 inline-flex select-none cursor-pointer"
         onClick={() => alert("Not implemented")}
       >
-        <FaGear />
-        <span>Atajos</span>
+        <SettingIcon />
+        <span className="text-primary font-medium">Configuracion</span>
       </div>
 
       <div
-        className="px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg  shadow-inner backdrop-blur-[25.33px] justify-start items-start gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)]"
+        className="px-3 py-2 w-full shadow-custom backdrop-blur-[12.6667px] bg-[rgba(253,239,244,0.1)] rounded-[32px] justify-start items-center gap-x-2 inline-flex select-none cursor-pointer"
         onClick={handleLogout}
       >
-        <ImExit />
-        <span>Salir</span>
+        <LogoutIcon />
+        <span className="text-primary font-medium">Salir</span>
       </div>
     </div>
   );
