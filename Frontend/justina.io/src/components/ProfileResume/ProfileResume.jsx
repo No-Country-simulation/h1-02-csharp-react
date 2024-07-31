@@ -1,24 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import FormInput from "../FormInput/FormInput"
 import TextAreaInput from '../TextAreaInput/TextAreaInput'
 import malePatientPhoto from '../../assets/imgs/malePatientPhoto.png'
 
 const ProfileResume = ({ bgColor }) => {
-  const [selectedPatient, setSelectedPatient] = useState({id: 'patient1',
+  const [selectedPatient, setSelectedPatient] = useState(
+    {id: 'patient1',
     name: 'Paciente 1',
     image: malePatientPhoto,
     diagnosis: 'Diagnóstico 1',
-    age: '30'})
-  
-  useEffect(() => {
-    setSelectedPatient(
-      {id: 'patient1',
-      name: 'Paciente 1',
-      image: malePatientPhoto,
-      diagnosis: 'Diagnóstico 1',
-      age: '30'})
-  }, [])
-
+    age: '30'}
+  )  
+ 
   return (
     <div className={`backdrop-blur ${bgColor ? bgColor : 'bg-[rgba(253,239,244,0.1)]'} rounded-3xl py-6 px-4 w-full mb-4 shadow-custom text-neutrals600 flex flex-col gap-4`}>
       <FormInput name='Paciente *' type='text' placeholder='Nombre no encontrado' id='name' value={selectedPatient.name}/>

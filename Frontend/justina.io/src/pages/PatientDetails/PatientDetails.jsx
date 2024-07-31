@@ -8,53 +8,54 @@ import medicalStudiesIcon from "../../assets/icons/medicalStudiesIcon.svg"
 
 import { useState } from "react"
 
-const PatientDetails = () => {       
-    const Records = [
-        {
-            title:'Seguimiento Esguince Tobillo',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de tobillo grado 2',
-            date:'27/07/2024',
-            medicalCenter:'Clínica Olivos',
-            doctor:'Juan Perez'
-        },{
-            title:'Seguimiento Esguince Rodilla',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de rodilla grado 1',
-            date:'25/07/2024',
-            medicalCenter:'Sanatorio Trinidad',
-            doctor:'Esteban García'
-        },{
-            title:'Seguimiento Esguince Tobillo',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de tobillo grado 2',
-            date:'27/07/2024',
-            medicalCenter:'Clínica Olivos',
-            doctor:'Juan Perez'
-        },{
-            title:'Seguimiento Esguince Tobillo',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de tobillo grado 2',
-            date:'27/07/2024',
-            medicalCenter:'Clínica Olivos',
-            doctor:'Juan Perez'
-        },{
-            title:'Seguimiento Esguince Tobillo',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de tobillo grado 2',
-            date:'27/07/2024',
-            medicalCenter:'Clínica Olivos',
-            doctor:'Juan Perez'
-        },{
-            title:'Seguimiento Esguince Tobillo',
-            description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-            patology:'Esguince de tobillo grado 2',
-            date:'27/07/2024',
-            medicalCenter:'Clínica Olivos',
-            doctor:'Juan Perez'
-        }
-    ]
-    const [selectedRecord, setSelectedRecord] = useState(null);
+const Records = [
+    {
+        title:'Seguimiento Esguince Tobillo',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de tobillo grado 2',
+        date:'27/07/2024',
+        medicalCenter:'Clínica Olivos',
+        doctor:'Juan Perez'
+    },{
+        title:'Seguimiento Esguince Rodilla',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de rodilla grado 1',
+        date:'25/07/2024',
+        medicalCenter:'Sanatorio Trinidad',
+        doctor:'Esteban García'
+    },{
+        title:'Seguimiento Esguince Tobillo',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de tobillo grado 2',
+        date:'27/07/2024',
+        medicalCenter:'Clínica Olivos',
+        doctor:'Juan Perez'
+    },{
+        title:'Seguimiento Esguince Tobillo',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de tobillo grado 2',
+        date:'27/07/2024',
+        medicalCenter:'Clínica Olivos',
+        doctor:'Juan Perez'
+    },{
+        title:'Seguimiento Esguince Tobillo',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de tobillo grado 2',
+        date:'27/07/2024',
+        medicalCenter:'Clínica Olivos',
+        doctor:'Juan Perez'
+    },{
+        title:'Seguimiento Esguince Tobillo',
+        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
+        patology:'Esguince de tobillo grado 2',
+        date:'27/07/2024',
+        medicalCenter:'Clínica Olivos',
+        doctor:'Juan Perez'
+    }
+]
+const PatientDetails = () => {
+    const [selectedRecord, setSelectedRecord] = useState(null)
+    
     return (
         <>            
             <section className="flex gap-4 p-3 pl-6 w-full">
