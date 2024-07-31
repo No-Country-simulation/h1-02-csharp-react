@@ -1,7 +1,7 @@
 import FormInput from "../FormInput/FormInput"
 import TextAreaInput from "../TextAreaInput/TextAreaInput"
 
-import calendar from "../../assets/icons/Calendar.svg"
+import calendar from "../../assets/icons/calendar.svg"
 import profile from "../../assets/icons/profileIcon.svg"
 
 const RecordDetail = ({ item }) => {
