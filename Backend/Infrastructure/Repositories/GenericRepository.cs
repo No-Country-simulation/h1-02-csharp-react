@@ -17,7 +17,7 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
 
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
-        return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Equals(id));
+        return await _dbContext.Set<T>().FindAsync(id);
     }
 
     public async Task<IReadOnlyList<T>> GetAllAsync()
