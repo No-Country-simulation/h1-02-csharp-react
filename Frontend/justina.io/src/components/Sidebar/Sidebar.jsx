@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/imgs/imagotype.webp";
-import { MdHome, MdPerson, MdCalendarMonth } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
 import { RiHandHeartFill } from "react-icons/ri";
 import { ImExit } from "react-icons/im";
 import { FaGear } from "react-icons/fa6";
 import justinachatbot from "../../assets/imgs/caraJustinabot.png";
 import useUserStore from "../../hooks/useUserStore";
+import { HomeIcon, PatientsIcon } from "../icons";
 
 const menu = [
   {
-    icono: <MdHome />,
+    icono: <HomeIcon />,
     texto: "Inicio",
     link: "/home",
   },
   {
-    icono: <MdPerson />,
+    icono: <PatientsIcon />,
     texto: "Pacientes",
-    link: "/listado-pacientes",
+    link: "/drhome",
   },
   {
     icono: <MdCalendarMonth />,
