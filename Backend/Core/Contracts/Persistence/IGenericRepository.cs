@@ -15,4 +15,6 @@ public interface IGenericRepository<T> where T : class
     Task<bool> DeleteAsync(Guid id);
     Task SaveChangesAsync();
     Task InsertRange(IEnumerable<T> entities);
+    //Task<List<TResult>> GetAllProjectedAsync<TResult>();
+    //Task<List<TResult>> GetAllProjectedAsync<TResult>(Expression<Func<T, bool>> predicate);
 }

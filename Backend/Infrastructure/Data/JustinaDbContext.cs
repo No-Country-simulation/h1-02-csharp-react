@@ -27,6 +27,7 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<Record> Records { get; set; }
     public DbSet<Treatment> Treatments { get; set; }
     public DbSet<Note> Notes { get; set; }
+    public DbSet<MedicalTest> MedicalTests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
