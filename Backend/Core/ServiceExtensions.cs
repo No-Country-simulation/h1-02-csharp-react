@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Services;
 using Application.Services;
+using Application.Validators.Authentication;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -20,6 +22,8 @@ public static class ServiceExtensions
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AuthenticationRequestValidator>());
 
         return services;
     }

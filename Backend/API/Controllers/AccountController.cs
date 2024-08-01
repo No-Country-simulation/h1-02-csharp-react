@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Services;
+using Application.Exceptions;
 using DTOs.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -27,11 +28,17 @@ public class AccountController : ControllerBase
         try
         {
             var response = await _authenticationService.AuthenticateAsync(request);
-            if (response == null)
-            {
-                return Unauthorized(new { Message = "Authentication failed" });
-            }
             return Ok(response);
+        }
+        catch (UserNotFoundException ex)
+        {
+            //_logger.LogError(ex, "User not found");
+            return NotFound(new { Message = ex.Message });
+        }
+        catch (InvalidCredentialsException ex)
+        {
+            //_logger.LogError(ex, "Invalid credentials");
+            return Unauthorized(new { Message = ex.Message });
         }
         catch (Exception ex)
         {
