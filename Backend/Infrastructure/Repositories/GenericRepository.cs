@@ -44,17 +44,28 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         _dbContext.Set<T>().Update(entity);
     }
 
-    public async Task DeleteAsync(T entity)
+    public bool DeleteAsync(T entity)
     {
+        if (entity == null)
+        {
+            return false;
+        }
         _dbContext.Set<T>().Remove(entity);
+
+        return true;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
         var entity = await GetByIdAsync(id);
 
-        if (entity != null)
-            _dbContext.Set<T>().Remove(entity);
+        if (entity == null)
+        {
+            return false;
+        }
+        _dbContext.Set<T>().Remove(entity);
+
+        return true;
     }
 
     public async Task<T?> GetByConditionAsync(Expression<Func<T, bool>> predicate)

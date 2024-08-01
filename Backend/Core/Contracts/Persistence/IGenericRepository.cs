@@ -11,8 +11,8 @@ public interface IGenericRepository<T> where T : class
     Task AddRangeAsync(IEnumerable<T> entities);
     Task<T> AddAsync(T entity);
     void Update(T entity);
-    Task DeleteAsync(T entity);
-    Task DeleteAsync(Guid id);
+    bool DeleteAsync(T entity);
+    Task<bool> DeleteAsync(Guid id);
     Task SaveChangesAsync();
     Task InsertRange(IEnumerable<T> entities);
     //Task<List<TResult>> GetAllProjectedAsync<TResult>();
