@@ -1,94 +1,15 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import logo from "../../assets/imgs/imagotype.webp";
-import { MdHome, MdPerson, MdCalendarMonth } from "react-icons/md";
+import SidebarNavigation from "./SidebarNavigation";
+import SidebarSettings from "./SidebarSettings";
+import SidebarAccessibility from "./SidebarAccessibility";
+import Logo from "../Logo/Logo";
 
-import { ImExit } from "react-icons/im";
-
-import iconhome from "../../assets/icons/home.png";
-import iconprofile from "../../assets/icons/profile.png";
-import justinachatbot from "../../assets/imgs/caraJustinabot.png";
-//import { useUserStore } from "../../hooks/useUserStore";
-
-const menuDr = [
-  {
-    icono: iconhome,
-    texto: "Inicio",
-    link: "/drhome",
-  },
-  {
-    icono: iconprofile,
-    texto: "Perfil",
-    link: "/drprofile",
-  },
-  {
-    icono:'',
-    texto:"Salir",
-    link:""
-
-  }
-];
-
-const Sidebar = () => {
-  const navigate = useNavigate();
-  //const { setToken, setUser } = useUserStore();
-  const [enlaceActivo, setEnlaceActivo] = useState("Inicio");
-
-  const manejarCambioEnlace = (nombreEnlace) => {
-    setEnlaceActivo(nombreEnlace);
-  };
-
-  const handleLogout = () => {
-    /*setToken("");
-    setUser(null);
-    navigate("/login");*/
-  };
-
-  return (
-    <div className="h-screen w-64 text-center flex flex-col items-center p-4 bg-rose-50/opacity-10  shadow-inner backdrop-blur-[25.33px justify-start gap-[13px] inline-flex">
-      <div className="logo-div w-52 p-4 flex items-center justify-center rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom ">
-        <img src={logo} alt="logo-corazon-justina" />
-      </div>
-
-      <div className="menu-div w-52 mt-3 p-4 text-left bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
-        {menuDr.map((item, index) => (
-          <div
-            className={`px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg shadow-inner backdrop-blur-[25.33px] justify-start items-center gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)] ${
-              enlaceActivo === item.texto ? "active" : ""
-            }`}
-            onClick={() => manejarCambioEnlace(item.texto)}
-            key={index}
-          >
-
-            <Link to={item.link}>
-              <img src={item.icono} alt="" />
-              {item.texto}
-            </Link>
-          </div>
-        ))}
-      </div>
-
-      <div className="w-[207px] p-4 bg-rose-50/opacity-10 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
-        
-
-        <div
-          className="px-2 py-1 w-full bg-rose-50/opacity-20 rounded-lg  shadow-inner backdrop-blur-[25.33px] justify-start items-start gap-2 inline-flex hover:bg-[rgba(214,86,131,0.2)]"
-          onClick={handleLogout}
-        >
-          <ImExit />
-          <span>Salir</span>
-        </div>
-      </div>
-
-      <br />
-      <div className="w-[207px] p-4 mb-3 bg-rose-50/opacity-10 rounded-[32px]  bg-[rgba(253,239,244,0.4)] shadow-custom flex-col justify-start items-center gap-[13px] inline-flex">
-        <div className="w-[104px] text-base font-normal font-['Noto Sans'] leading-tight flex items-center">
-          <span>¿Necesitas ayuda?</span>
-        </div>
-        <img className="w-12" src={justinachatbot} alt="" />
-      </div>
-    </div>
-  );
-};
+const Sidebar = () => (
+  <div className="h-full w-64 text-center flex flex-col items-center p-4 bg-rose-o10 shadow-inner backdrop-blur-[25.33px justify-start gap-[13px] inline-flex">
+    <Logo />
+    <SidebarNavigation />
+    <SidebarSettings />
+    <SidebarAccessibility />
+  </div>
+);
 
 export default Sidebar;

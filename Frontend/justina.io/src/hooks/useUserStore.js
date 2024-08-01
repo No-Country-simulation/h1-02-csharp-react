@@ -7,7 +7,7 @@ const storeInit = (store, persistence) => devtools(persist(store, persistence));
 user: {
   id: string,
   fullname: string,
-  role: string,
+  roles: string,
   email: string,
 }
 */
