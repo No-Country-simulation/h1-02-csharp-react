@@ -24,6 +24,7 @@ const Login = () => {
   };
 
   return (
+    
     <div className="w-2/3 h-screen p-8 justify-center items-center">
       <h2 className="text-neutrals800 text-titulo font font-bold mb-4">
         Login
@@ -55,6 +56,8 @@ const Login = () => {
         </button>
       </form>
     </div>
+
+    
   );
 };
 
