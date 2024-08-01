@@ -123,7 +123,7 @@ const DrHome = () => {
                         <a className="pointer-events-none relative block rounded-full bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400">Atrás</a>
                     </li>
                     <li aria-current="page" >
-                        <a className="relative block rounded-[48px] bg-[rgba(253,239,244,0.4)] shadow-custom px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100  text-primary dark:hover:bg-neutral-700 dark:hover:text-white"
+                        <a className="relative block rounded-[48px] bg-[rgba(253,239,244,0.4)] shadow-custom px-3 py-1.5 text-sm transition-all duration-300 hover:bg-neutral-100  text-primary dark:hover:bg-neutral-700 dark:hover:text-white"
                             href="#!">1</a>
                     </li>
                     <li >
