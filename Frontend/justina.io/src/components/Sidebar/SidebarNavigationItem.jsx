@@ -18,7 +18,7 @@ const SidebarNavigationItem = ({
       style={{ top, left }}
       onClick={() => setActive(text)}
     >
-      <div className={`p-2 shadow-glass-effect bg-rose-o40 rounded-[32px]`}>
+      <div className={`p-3 shadow-glass-effect bg-rose-o40 rounded-[48px]`}>
         {icon}
       </div>
       <span className="text-primary font-semibold">{text}</span>
