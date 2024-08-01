@@ -5,10 +5,12 @@ export default function FormInput({
   placeholder,
   value,
   onChange,
-  height,
+  height = "h-[52px]",
   icon,
   labelStyle,
   autoComplete,
+  readOnly = false,
+  inputStyle = "",
 }) {
   return (
     <div className="mb-1 w-full">
@@ -26,9 +28,9 @@ export default function FormInput({
           />
         )}
         <input
-          className={`backdrop-blur bg-[rgba(253,239,244,0.1)] inner-shadow-custom appearance-none rounded-3xl text-neutrals600 w-full p-3 leading-tight text-[0.8rem] lg:text-[1rem] outline-none ${
-            height ? height : "h-[52px]"
-          } ${icon ? "pl-10" : ""}`}
+          className={`backdrop-blur bg-[rgba(253,239,244,0.1)] inner-shadow-custom appearance-none rounded-3xl text-neutrals600 w-full p-3 leading-tight text-[0.8rem] lg:text-[1rem] outline-none ${inputStyle} ${height} ${
+            icon ? "pl-10" : ""
+          }`}
           id={id}
           type={type}
           placeholder={placeholder}
@@ -36,6 +38,8 @@ export default function FormInput({
           value={value || ""}
           onChange={onChange}
           autoComplete={autoComplete || ""}
+          disabled={readOnly}
+          readOnly={readOnly}
         />
       </div>
     </div>

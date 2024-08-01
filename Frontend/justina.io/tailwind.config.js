@@ -18,6 +18,7 @@ export default {
           o10: "var(--color-rose-o10)",
           o20: "var(--color-rose-o20)",
           o40: "var(--color-rose-o40)",
+          o60: "var(--color-rose-o60)",
         }
 
       },
