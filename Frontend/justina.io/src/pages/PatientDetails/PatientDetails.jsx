@@ -8,6 +8,7 @@ import medicalStudiesIcon from "../../assets/icons/medicalStudiesIcon.svg"
 
 import { useState } from "react"
 import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
+import DataBar from "../../components/DataBar/DataBar"
 
 const Records = [
     {
@@ -63,32 +64,35 @@ const PatientDetails = () => {
     
     return (
         <>            
-            <section className="flex gap-4 py-3 px-6 w-full">
-                <div className="w-1/4">                
-                    <ProfileResume />
-                </div>
-                <div className="flex flex-col w-3/4 gap-4">
-                    <div className="flex gap-4">
-                        <div className="flex flex-col items-start gap-4 w-2/3 max-h-20">                           
-                            <RecordsList 
-                                title="Últimas Consultas Médicas"
-                                items={Records}
-                                itemClicked={setSelectedRecord}
-                            />
-                        </div>   
-                        <div className="w-1/3 flex flex-col gap-4">                        
-                                <MedicalResults                    
-                                    title="Resultados Médicos"
-                                    icon={medicalStudiesIcon}
-                                    image={medicalStudies}
-                                    onClick={openModal}
-                                />                 
-                        </div>
+            <section className="flex flex-col gap-4 py-3 px-6 w-full">
+                <DataBar/>
+                <div className="flex gap-4">
+                    <div className="w-1/4">                
+                        <ProfileResume />
                     </div>
-                    <div>
-                        <RecordDetail
-                            item={selectedRecord}
-                        />
+                    <div className="flex flex-col w-3/4 gap-4">
+                        <div className="flex gap-4">
+                            <div className="flex flex-col items-start gap-4 w-2/3 max-h-20">                           
+                                <RecordsList 
+                                    title="Últimas Consultas Médicas"
+                                    items={Records}
+                                    itemClicked={setSelectedRecord}
+                                />
+                            </div>   
+                            <div className="w-1/3 flex flex-col gap-4">                        
+                                    <MedicalResults                    
+                                        title="Resultados Médicos"
+                                        icon={medicalStudiesIcon}
+                                        image={medicalStudies}
+                                        onClick={openModal}
+                                    />                 
+                            </div>
+                        </div>
+                        <div>
+                            <RecordDetail
+                                item={selectedRecord}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
