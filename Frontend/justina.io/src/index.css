@@ -1,3 +1,134 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("NotoSans-Regular"),
+    url("/fonts/NotoSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: medium;
+  font-weight: 500;
+  src: local("NotoSans-Medium"),
+    url("/fonts/NotoSans-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: bold;
+  font-weight: 600;
+  src: local("NotoSans-SemiBold"),
+    url("/fonts/NotoSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: bolder;
+  font-weight: 700;
+  src: local("NotoSans-Bold"),
+    url("/fonts/NotoSans-Bold.ttf") format("truetype");
+}
+
+:root {
+  --color-neutrals-900: #383434;
+  --color-neutrals-800: #4e4949;
+  --color-neutrals-600: #7a7474;
+  --color-rose-o10: rgba(253, 239, 244, 0.1);
+  --color-rose-o20: rgba(253, 239, 244, 0.2);
+  --color-rose-o40: rgba(253, 239, 244, 0.4);
+  --color-primary: #d65683;
+  --color-secondary: #4a56ac;
+}
+
+@layer utilities {
+  .shadow-custom {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      -4px -4px 6px -1px rgba(255, 255, 255, 0.5);
+  }
+  .inner-shadow-custom {
+    box-shadow: inset 0px 0px 6px -1px rgba(0, 0, 0, 0.5),
+      inset -5px -5px 10px -1px rgba(255, 255, 255, 0.5);
+  }
+
+  .shadow-suave {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.2px);
+    -webkit-backdrop-filter: blur(3.2px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .shadow-glass-effect {
+    box-shadow: -2px -2px 4px #ffffff, 0px 4px 4px rgba(0, 0, 0, 0.25),
+      inset 12.6667px -12.6667px 12.6667px rgba(165, 165, 165, 0.1),
+      inset -12.6667px 12.6667px 12.6667px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12.6667px);
+    outline: none;
+    order: 0;
+  }
+
+  .text-shadow {
+    text-shadow: 1px 3px 4px #27272761;
+  }
+  .heading-2 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 120%;
+    color: var(--color-neutrals-900);
+  }
+  .heading-1 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 120%;
+    color: var(--color-neutrals-900);
+  }
+  .scrollbar-style::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-track {
+    background: #f2f6f8;
+    border-radius: 10px;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-thumb {
+    background-color: #dde2e5;
+    border-radius: 20px;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-thumb:hover {
+    background: #cdd3d6;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-image: url("../src/assets/imgs/template.png");
+  background-position: center;
+  background-size: cover;
+}
+
+html,
+:root {
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+}
