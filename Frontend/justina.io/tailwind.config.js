@@ -7,17 +7,17 @@ export default {
   theme: {
     extend: {
       colors:{
-        primary: '#D65683',
-        secondary: '#4A56AC',
-        neutrals800: 'var(--neutrals-800)',
-        neutrals600: 'var(--neutrals-600)',
-        neutrals900: 'var(--neutrals-900)'
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        neutrals800: 'var(--color-neutrals-800)',
+        neutrals600: 'var(--color-neutrals-600)',
+        neutrals900: 'var(--color-neutrals-900)'
       },
       backgroundColor: {
         rose: {
-          o10: "var(--rose-o10)",
-          o20: "var(--rose-o20)",
-          o40: "var(--rose-o10)",
+          o10: "var(--color-rose-o10)",
+          o20: "var(--color-rose-o20)",
+          o40: "var(--color-rose-o40)",
         }
 
       },

@@ -34,12 +34,14 @@
 }
 
 :root {
-  --neutrals-900: #383434;
-  --neutrals-800: #4e4949;
-  --neutrals-600: #7a7474;
-  --rose-o10: rgba(253, 239, 244, 0.1);
-  --rose-o20: rgba(253, 239, 244, 0.2);
-  --rose-o40: rgba(253, 239, 244, 0.4);
+  --color-neutrals-900: #383434;
+  --color-neutrals-800: #4e4949;
+  --color-neutrals-600: #7a7474;
+  --color-rose-o10: rgba(253, 239, 244, 0.1);
+  --color-rose-o20: rgba(253, 239, 244, 0.2);
+  --color-rose-o40: rgba(253, 239, 244, 0.4);
+  --color-primary: #d65683;
+  --color-secondary: #4a56ac;
 }
 
 @layer utilities {
@@ -77,13 +79,13 @@
     font-size: 2rem;
     font-weight: 700;
     line-height: 120%;
-    color: var(--neutrals-900);
+    color: var(--color-neutrals-900);
   }
   .heading-1 {
     font-size: 1.125rem;
     font-weight: 700;
     line-height: 120%;
-    color: var(--neutrals-900);
+    color: var(--color-neutrals-900);
   }
   .scrollbar-style::-webkit-scrollbar {
     width: 8px;
