@@ -70,7 +70,7 @@ const MedicalResultsModal = ({ isOpen, onClose }) => {
                         <div>
                             <button onClick={handleBackClick} className="text-neutrls600 font-semibold mb-4">Volver</button>
                             <h2 className="text-xl text-center font-semibold mb-4">Resultados Detallados</h2>
-                            <ul>
+                            <ul className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl p-2">
                                 {links.map(link => (
                                     <li key={link.id} className="mb-2">
                                         <a href={link.url} className="text-blue-500 underline">{link.name}</a>

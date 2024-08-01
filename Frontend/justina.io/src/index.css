@@ -96,8 +96,8 @@
     width: 8px;
   }
 
-  .scrollbar-style::-webkit-scrollbar-track {
-    background: #f2f6f8;
+  .scrollbar-style::-webkit-scrollbar-track {    
+    background: #cdd3d6;
     border-radius: 10px;
   }
 
@@ -107,7 +107,7 @@
   }
 
   .scrollbar-style::-webkit-scrollbar-thumb:hover {
-    background: #cdd3d6;
+    background: #f2f6f8;
   }
 }
 
