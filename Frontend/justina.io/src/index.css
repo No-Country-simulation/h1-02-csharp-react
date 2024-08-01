@@ -40,6 +40,7 @@
   --color-rose-o10: rgba(253, 239, 244, 0.1);
   --color-rose-o20: rgba(253, 239, 244, 0.2);
   --color-rose-o40: rgba(253, 239, 244, 0.4);
+  --color-rose-o60: rgba(253, 239, 244, 0.6);
   --color-primary: #d65683;
   --color-secondary: #4a56ac;
 }
@@ -53,9 +54,13 @@
     box-shadow: inset 0px 0px 6px -1px rgba(0, 0, 0, 0.5),
       inset -5px -5px 10px -1px rgba(255, 255, 255, 0.5);
   }
+  .inner-smooth-shadow {
+    /* background: rgba(250, 250, 250, 0.1);*/
+    box-shadow: inset -2px -2px 4px rgba(255, 255, 255, 0.25),
+      inset 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
   .shadow-suave {
-    /* From https://css.glass */
     background: rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
