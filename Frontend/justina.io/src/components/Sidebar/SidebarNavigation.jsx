@@ -3,6 +3,8 @@ import { useState } from "react";
 import { HomeIcon, PatientsIcon } from "../icons";
 import SidebarNavigationItem from "./SidebarNavigationItem";
 import { useCallback } from "react";
+import useUserStore from "../../hooks/useUserStore";
+import { useMemo } from "react";
 
 const ITEM_SIZE = 55;
 const ITEM_GAP = 20;
@@ -17,7 +19,7 @@ const calculateItemPosition = (index) => {
   return SIDEBAR_MARGIN + index * (ITEM_SIZE + ITEM_GAP);
 };
 
-const menu = [
+const menuPatientAndDr = [
   {
     icon: <HomeIcon />,
     text: "Inicio",
@@ -28,25 +30,39 @@ const menu = [
     text: "Perfil",
     link: "/drprofile",
   },
-  /*{
-    icon: <MdCalendarMonth />,
-    text: "Agenda",
-    link: "",
+];
+const menuMedicalCenter = [
+  {
+    icon: <HomeIcon />,
+    text: "Inicio",
+    link: "/",
   },
   {
-    icon: <RiHandHeartFill />,
-    text: "Trasplante cruzado",
-    link: "",
-  },*/
+    icon: <PatientsIcon />,
+    text: "Medicos",
+    link: "/",
+  },
+  {
+    icon: <PatientsIcon />,
+    text: "Records",
+    link: "/",
+  },
 ];
-const minHeight = SIDEBAR_SIZE(menu.length);
 
 const SidebarNavigation = () => {
+  const { user } = useUserStore();
   const [activeLink, setActiveLink] = useState("Inicio");
-
+  const menu = useMemo(
+    () =>
+      user?.roles === "Patient" || user?.roles === "HealthCareProvider"
+        ? menuPatientAndDr
+        : menuMedicalCenter,
+    [user?.roles]
+  );
   const handleActiveLink = useCallback((updatedLink) => {
     setActiveLink(updatedLink);
   }, []);
+  const minHeight = SIDEBAR_SIZE(menu.length);
 
   return (
     <div

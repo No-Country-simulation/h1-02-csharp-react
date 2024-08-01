@@ -10,7 +10,8 @@ const TreatmentForm= lazy(() => import('./TreatmentForm/TreatmentFormContainer')
 const DrProfile = lazy(() => import('./DrProfile/DrProfileContainer'))
 const DrHome = lazy(() => import('./DrHome/DrHomeContainer'))
 const Home = lazy(()=> import('./home/Home'))
-const PatientHome = lazy(()=> import('./PatientHome/PatientHomeContainer'))
+const PatientHome = lazy(()=> import('./PatientHome/PatientHomeContainer'));
+const MedicalCenterHome = lazy(()=> import('./MedicalCenterHome/MedicalCenterHome'));
 
 export {
     Login,
@@ -21,5 +22,6 @@ export {
     DrHome,
     DrProfile,
     Home,
-    PatientHome
+    PatientHome,
+    MedicalCenterHome
 }
