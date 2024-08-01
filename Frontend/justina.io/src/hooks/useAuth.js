@@ -18,12 +18,11 @@ const useAuth = ()=> {
         try {
             const response = await api.post('/api/account/authenticate', credential);
             const payload = decodePayload(response.token);
-            console.log({payload})
             authStore.setToken(response.token);
             authStore.setUser(getValidUser(payload));
             navigate("/patientdetails");
         } catch(e){
-            console.log("Error: ",e);
+            console.error("Error: ",e);
         }
     }
 
@@ -33,7 +32,7 @@ const useAuth = ()=> {
         await api.post('/api/account/register', credentials);
         navigate("/login");
        } catch(e){
-        console.log("Error: ", e);
+        console.error("Error: ", e);
        }
     }
 
