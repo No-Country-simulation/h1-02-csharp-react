@@ -33,6 +33,15 @@
     url("/fonts/NotoSans-Bold.ttf") format("truetype");
 }
 
+:root {
+  --neutrals-900: #383434;
+  --neutrals-800: #4e4949;
+  --neutrals-600: #7a7474;
+  --rose-o10: rgba(253, 239, 244, 0.1);
+  --rose-o20: rgba(253, 239, 244, 0.2);
+  --rose-o40: rgba(253, 239, 244, 0.4);
+}
+
 @layer utilities {
   .shadow-custom {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
@@ -68,13 +77,13 @@
     font-size: 2rem;
     font-weight: 700;
     line-height: 120%;
-    color: var(--neutral-900);
+    color: var(--neutrals-900);
   }
   .heading-1 {
     font-size: 1.125rem;
     font-weight: 700;
     line-height: 120%;
-    color: var(--neutral-900);
+    color: var(--neutrals-900);
   }
   .scrollbar-style::-webkit-scrollbar {
     width: 8px;
@@ -108,13 +117,6 @@ body {
   background-image: url("../src/assets/imgs/template.png");
   background-position: center;
   background-size: cover;
-
-  --neutrals-900: #383434;
-  --neutrals-800: #4e4949;
-  --neutrals-600: #7a7474;
-  --rose-o10: rgba(253, 239, 244, 0.1);
-  --rose-o20: rgba(253, 239, 244, 0.2);
-  --rose-o40: rgba(253, 239, 244, 0.4);
 }
 
 html,

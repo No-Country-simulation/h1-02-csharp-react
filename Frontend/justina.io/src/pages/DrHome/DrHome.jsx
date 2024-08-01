@@ -1,4 +1,5 @@
 import FormInput from "../../components/FormInput/FormInput";
+import { SearchIcon } from "../../components/icons";
 
 const DrHome = () => {
   return (
@@ -8,12 +9,20 @@ const DrHome = () => {
           <h2 className="heading-2">Encuentra a tu paciente</h2>
           <h3 className="heading-1">Ingrese su CUIL o DNI</h3>
         </div>
-        <FormInput
-          id="searcher"
-          type="text"
-          placeholder="Ejem. 20453409113..."
-          autoComplete="off"
-        />
+        <div className="w-full h-full relative contain-inline-size">
+          <FormInput
+            id="searcher"
+            type="text"
+            placeholder="Ejem. 20453409113..."
+            autoComplete="off"
+          />
+          <button
+            className="absolute right-0 top-[50%] rounded-full p-1 -translate-y-1/2 bg-rose-o10 shadow-glass-effect flex justify-center items-center w-12 h-[75%]"
+            onClick={() => alert("Not implemented")}
+          >
+            <SearchIcon />
+          </button>
+        </div>
       </div>
       <div>
         <div></div>
