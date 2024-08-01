@@ -7,6 +7,7 @@ import medicalStudies from '../../assets/imgs/medicalStudies.png'
 import medicalStudiesIcon from "../../assets/icons/medicalStudiesIcon.svg"
 
 import { useState } from "react"
+import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
 
 const Records = [
     {
@@ -55,10 +56,14 @@ const Records = [
 ]
 const PatientDetails = () => {
     const [selectedRecord, setSelectedRecord] = useState(null)
+    const [isModalOpen, setModalOpen] = useState(false)
+
+    const openModal = () => setModalOpen(true)
+    const closeModal = () => setModalOpen(false)
     
     return (
         <>            
-            <section className="flex gap-4 p-3 pl-6 w-full">
+            <section className="flex gap-4 py-3 px-6 w-full">
                 <div className="w-1/4">                
                     <ProfileResume />
                 </div>
@@ -76,6 +81,7 @@ const PatientDetails = () => {
                                     title="Resultados Médicos"
                                     icon={medicalStudiesIcon}
                                     image={medicalStudies}
+                                    onClick={openModal}
                                 />                 
                         </div>
                     </div>
@@ -86,8 +92,9 @@ const PatientDetails = () => {
                     </div>
                 </div>
             </section>
+            <MedicalResultsModal isOpen={isModalOpen} onClose={closeModal}/> 
         </>
     )
 }
 
-export default PatientDetails;
+export default PatientDetails
