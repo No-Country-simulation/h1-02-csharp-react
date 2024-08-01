@@ -8,8 +8,6 @@ const DEFAULT = {
   lastName: "",
   phoneNumber: "",
 
-  localRegistrationNumber: "",
-  nationalRegistrationNumber: "",
   identificationNumber: "",
 
   email: "",
@@ -38,10 +36,9 @@ const Register = () => {
     try {
       const req = {
         ...values,
-        accountType: 0,
+        accountType: 2,
         bloodType: 0,
         identificationType: 0,
-        specialitiesIds: ["3fa85f64-5717-4562-b3fc-2c963f66afa6"],
       };
       register(req).then(() => {
         setValues(DEFAULT);
@@ -58,6 +55,7 @@ const Register = () => {
         <FormInput
           name="Nombre"
           type="text"
+          autoComplete="given-name"
           placeholder="Ingrese su nombre"
           id="firstName"
           value={values.firstName}
@@ -66,6 +64,7 @@ const Register = () => {
         <FormInput
           name="Apellido"
           type="text"
+          autoComplete="family-name"
           placeholder="Ingrese su apellido"
           id="lastName"
           value={values.lastName}
@@ -74,38 +73,24 @@ const Register = () => {
         <FormInput
           name="Teléfono"
           type="tel"
+          autoComplete="tel-national"
           placeholder="Ingrese su número telefónico"
           id="phoneNumber"
           value={values.phoneNumber}
           onChange={handleChange}
         />
         <FormInput
-          name="Matrícula Provincial"
+          name="CUIL"
           type="text"
-          placeholder="Ingrese su número de matrícula"
-          id="localRegistrationNumber"
-          value={values.localRegistrationNumber}
-          onChange={handleChange}
-        />
-        <FormInput
-          name="Matrícula Nacional"
-          type="text"
-          placeholder="Ingrese su número de matrícula"
-          id="nationalRegistrationNumber"
-          value={values.nationalRegistrationNumber}
-          onChange={handleChange}
-        />
-        <FormInput
-          name="DNI"
-          type="text"
-          placeholder="Ingrese su DNI"
+          placeholder="Ingrese su CUIL"
           id="identificationNumber"
           value={values.identificationNumber}
           onChange={handleChange}
         />
         <FormInput
           name="Email"
-          type="text"
+          type="email"
+          autoComplete="email"
           placeholder="Ingrese su email"
           id="email"
           value={values.email}
@@ -113,7 +98,8 @@ const Register = () => {
         />
         <FormInput
           name="Confirmar Email"
-          type="text"
+          type="email"
+          autoComplete="email"
           placeholder="Ingrese su email"
           id="emailConfirmed"
           value={values.emailConfirmed}
@@ -122,7 +108,7 @@ const Register = () => {
         {/* //TODO: Contrasea debe de ser input tipo contrasea */}
         <FormInput
           name="Constraseña"
-          type="text"
+          type="password"
           placeholder="Ingrese su contraseña"
           id="password"
           value={values.password}

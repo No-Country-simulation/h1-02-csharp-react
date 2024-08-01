@@ -41,6 +41,7 @@ const Login = () => {
         <FormInput
           name="Password"
           type="password"
+          autoComplete="current-password"
           placeholder="Ingrese su contraseña"
           id="password"
           value={password}
