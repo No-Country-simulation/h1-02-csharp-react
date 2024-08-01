@@ -28,7 +28,7 @@ public class S3FileService : IFileService
 
     }
 
-    public async Task<ServiceResponse<string>> UploadFileAsync(IFormFile file)
+    public async Task<ServiceResponse<string>> UploadFileMedicalRecordAsync(IFormFile file, string fileFolder)
     {
         var serviceResponse = new ServiceResponse<string>();
 
@@ -36,12 +36,30 @@ public class S3FileService : IFileService
         {
             var fileTransferUtility = new TransferUtility(_s3Client);
 
+            var folderKey = $"medical-tests/";
+
             using (var stream = file.OpenReadStream())
             {
+                // Create folder in S3
+                if (!string.IsNullOrEmpty(fileFolder))
+                {
+                    folderKey = $"medical-tests/{fileFolder}/";
+                    var emptyFolderRequest = new TransferUtilityUploadRequest
+                    {
+                        InputStream = new MemoryStream(new byte[0]), // empty file
+                        Key = folderKey,
+                        BucketName = _bucketName,
+                        ContentType = "application/x-directory"
+                    };
+
+                    await fileTransferUtility.UploadAsync(emptyFolderRequest);
+                }
+
+                // upload file to the folder
                 var uploadRequest = new TransferUtilityUploadRequest
                 {
                     InputStream = stream,
-                    Key = file.FileName,
+                    Key = $"{folderKey}{file.FileName}",
                     BucketName = _bucketName,
                     ContentType = file.ContentType
                 };
@@ -49,7 +67,7 @@ public class S3FileService : IFileService
                 await fileTransferUtility.UploadAsync(uploadRequest);
             }
 
-            serviceResponse.Data = $"https://{_bucketName}.s3.amazonaws.com/{file.FileName}";
+            serviceResponse.Data = $"https://{_bucketName}.s3.amazonaws.com/{folderKey}{file.FileName}";
             serviceResponse.Message = "File uploaded successfully.";
         }
         catch (AmazonS3Exception ex)
@@ -84,6 +102,6 @@ public class S3FileService : IFileService
         }
 
         return serviceResponse;
-       
+
     }
 }

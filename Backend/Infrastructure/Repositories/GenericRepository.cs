@@ -1,4 +1,6 @@
 ﻿using Application.Contracts.Persistence;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System.Linq.Expressions;
@@ -9,6 +11,7 @@ namespace Persistence.Repositories;
 public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected readonly JustinaDbContext _dbContext;
+    private readonly IMapper _mapper;
 
     public GenericRepository(JustinaDbContext dbContext)
     {
@@ -73,4 +76,20 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
     {
         await _dbContext.Set<T>().AddRangeAsync(entities);
     }
+
+    //test projectToGeneric
+    //public async Task<List<TResult>> GetAllProjectedAsync<TResult>()
+    //{
+    //    return await _dbContext.Set<T>()
+    //        .ProjectTo<TResult>(_mapper.ConfigurationProvider)
+    //        .ToListAsync();
+    //}
+
+    //public async Task<List<TResult>> GetAllProjectedAsync<TResult>(Expression<Func<T, bool>> predicate)
+    //{
+    //    return await _dbContext.Set<T>()
+    //        .Where(predicate)
+    //        .ProjectTo<TResult>(_mapper.ConfigurationProvider)
+    //        .ToListAsync();
+    //}
 }

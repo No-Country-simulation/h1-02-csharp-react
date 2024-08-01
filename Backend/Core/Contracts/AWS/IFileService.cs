@@ -5,5 +5,5 @@ namespace Application.Contracts.AWS;
 
 public interface IFileService
 {
-    Task<ServiceResponse<string>> UploadFileAsync(IFormFile file);
+    Task<ServiceResponse<string>> UploadFileMedicalRecordAsync(IFormFile file, string fileFolder);
 }

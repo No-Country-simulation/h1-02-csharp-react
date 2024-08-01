@@ -1,5 +1,4 @@
-﻿using Application.Contracts.AWS;
-using Application.Contracts.Services;
+﻿using Application.Contracts.Services;
 using Application.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +15,7 @@ public static class ServiceExtensions
         services.AddScoped<IHealthCareProviderService, HealthCareProviderService>();
         services.AddScoped<ISpecialityService, SpecialityService>();
         services.AddScoped<IRecordService, RecordService>();
+        services.AddScoped<IMedicalTestService, MedicalTestService>();
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
