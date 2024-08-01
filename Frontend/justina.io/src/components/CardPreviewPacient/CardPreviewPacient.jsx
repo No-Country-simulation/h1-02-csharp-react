@@ -36,7 +36,7 @@ const CardPreviewPacient = () => {
             />
             <Link
               className="flex justify-center items-center shadow-custom rounded-[32px] h-10 w-full mt-auto"
-              to={"/patientdetails"}
+              to={`/patientdetails/${patient?.ID}`}
             >
               Ver todo
             </Link>
