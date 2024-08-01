@@ -18,14 +18,16 @@ public class S3FileService : IFileService
     {
         _configuration = configuration;
         _bucketName = _configuration["AWS:BucketName"];
-        _s3Client = new AmazonS3Client(
-                          _configuration["AWS:AccessKey"],
-                          _configuration["AWS:SecretKey"],
-                          Amazon.RegionEndpoint.SAEast1
-                        );
-        var awsOptions = configuration.GetAWSOptions();
-        _s3Client = awsOptions.CreateServiceClient<IAmazonS3>();
 
+        var awsAccessKey = _configuration["AWS:AccessKey"];
+        var awsSecretKey = _configuration["AWS:SecretKey"];
+
+        if (string.IsNullOrEmpty(awsAccessKey) || string.IsNullOrEmpty(awsSecretKey))
+        {
+            throw new ArgumentException("AWS credentials are not configured properly.");
+        }
+
+        _s3Client = new AmazonS3Client(awsAccessKey, awsSecretKey, Amazon.RegionEndpoint.SAEast1);
     }
 
     public async Task<ServiceResponse<string>> UploadFileMedicalRecordAsync(IFormFile file, string fileFolder)
