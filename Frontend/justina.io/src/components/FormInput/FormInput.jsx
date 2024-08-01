@@ -7,12 +7,13 @@ export default function FormInput({
   onChange,
   height,
   icon,
+  labelStyle,
   autoComplete,
 }) {
   return (
     <div className="mb-1 w-full">
       <label
-        className="block mb-2 text-parrafo font-bold text-neutrals600"
+        className={`block mb-2 text-parrafo font-bold text-neutrals600 ${labelStyle}`}
         htmlFor={id}
       >
         {name}
@@ -25,7 +26,7 @@ export default function FormInput({
           />
         )}
         <input
-          className={`backdrop-blur bg-[rgba(253,239,244,0.1)] inner-shadow-custom appearance-none rounded-3xl w-full p-3 leading-tight text-[0.8rem] lg:text-[1rem] outline-none ${
+          className={`backdrop-blur bg-[rgba(253,239,244,0.1)] inner-shadow-custom appearance-none rounded-3xl text-neutrals600 w-full p-3 leading-tight text-[0.8rem] lg:text-[1rem] outline-none ${
             height ? height : "h-[52px]"
           } ${icon ? "pl-10" : ""}`}
           id={id}

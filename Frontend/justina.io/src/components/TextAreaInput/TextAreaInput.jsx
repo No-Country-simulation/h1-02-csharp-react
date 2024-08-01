@@ -1,6 +1,6 @@
 const TextAreaInput = ({ name, placeholder, id, value, onChange, height }) => {
   return (
-    <div>
+    <div className='w-full'>
       <label htmlFor={id} className="block mb-2 text-parrafo font-bold text-neutrals600">{name}</label>
       <textarea
         id={id}
