@@ -3,3 +3,4 @@ export const SearchState = {
     LOADING: 1,
     FINISH: 2,
   };
+  
