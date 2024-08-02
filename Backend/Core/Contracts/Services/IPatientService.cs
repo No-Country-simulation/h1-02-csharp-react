@@ -10,5 +10,6 @@ namespace Application.Contracts.Services
         Task<ServiceResponse<bool>> UpdatePatient(Guid patientId, PatientUpdateDto updateRequest);
         Task<ServiceResponse<bool>> DeletePatient(Guid patientId);
         Task<ServiceResponse<Guid>> GetPatientIdByUserId(Guid userId);
+        Task<ServiceResponse<PatientGetDto>> GetPatientByCuil(string cuil);
     }
 }

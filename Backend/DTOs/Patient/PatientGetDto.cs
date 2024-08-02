@@ -12,5 +12,6 @@
         public string BloodTypeDescription { get; set; }
         public string IdentificationTypeDescription { get; set; }
         public string IdentificationNumber { get; set; }
+        public string Weight { get; set; }
     }
 }

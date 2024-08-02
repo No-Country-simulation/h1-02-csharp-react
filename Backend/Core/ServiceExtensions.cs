@@ -19,6 +19,7 @@ public static class ServiceExtensions
         services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<INoteService, NoteService>();
         services.AddScoped<IMedicalTestService, MedicalTestService>();
+        services.AddScoped<ITaskItemService, TaskItemService>();
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

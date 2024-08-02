@@ -57,6 +57,22 @@ namespace Application.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<PatientGetDto>> GetPatientByCuil(string cuil)
+        {
+            var serviceResponse = new ServiceResponse<PatientGetDto>();
+            try
+            {
+                serviceResponse.Data = await _patientRepository.GetPatientByCuil(cuil);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, $"{ex.Message}");
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<Guid>> GetPatientIdByUserId(Guid userId)
         {
             var serviceResponse = new ServiceResponse<Guid>();

@@ -19,15 +19,15 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<HealthCareProviderSpeciality> HealthCareProviderSpecialities { get; set; }
     public DbSet<HealthCareProviderMedicalCenter> HealthCareProviderMedicalCenter { get; set; }
     public DbSet<Patient> Patients { get; set; }
-    public DbSet<Doner> Doners { get; set; }
     public DbSet<Drug> Drugs { get; set; }
     public DbSet<MedicalCenter> MedicalCenters { get; set; }
     public DbSet<Pathology> Pathologies { get; set; }
-    public DbSet<Prescription> Prescriptions { get; set; }
     public DbSet<Record> Records { get; set; }
-    public DbSet<Treatment> Treatments { get; set; }
     public DbSet<Note> Notes { get; set; }
     public DbSet<MedicalTest> MedicalTests { get; set; }
+    public DbSet<TaskItem> TaskItems { get; set; }
+    public DbSet<Disease> Diseases { get; set; }
+    public DbSet<Allergy> Allergies { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
