@@ -13,12 +13,14 @@ namespace Application.Services
     {
         private readonly IPatientRepository _patientRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IDiseaseRepository _diseaseRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<PatientService> _logger;
 
-        public PatientService(IPatientRepository patientRepository, IMapper mapper, ILogger<PatientService> logger)
+        public PatientService(IPatientRepository patientRepository, IDiseaseRepository diseaseRepository, IMapper mapper, ILogger<PatientService> logger)
         {
             _patientRepository = patientRepository;
+            _diseaseRepository = diseaseRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -105,6 +107,35 @@ namespace Application.Services
                 }
 
                 _mapper.Map(updateRequest, dbPatient);
+
+                await _patientRepository.SaveChangesAsync();
+
+                serviceResponse.Data = true;
+                serviceResponse.Message = "Patient updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, ex.Message);
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<bool>> UpdatePatientDiseases(Guid patientId, PatientUpdateDiaseasesDto updateRequest)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+
+            try
+            {
+                var dbPatient = await _patientRepository.GetPatientWithRelationships(patientId);
+
+                if (dbPatient == null)
+                {
+                    throw new Exception($"Patient with Id '{patientId}' was not found.");
+                }
+
+                dbPatient.Diseases = await _diseaseRepository.GetDiseasesByIds(updateRequest.DiseaseIds);
 
                 await _patientRepository.SaveChangesAsync();
 

@@ -13,8 +13,8 @@ namespace Domain.Entities
         public ICollection<MedicalCenter>? MedicalCenters { get; set; }
         public ICollection<Note>? Notes { get; set; }
         public ICollection<TaskItem>? TaskList { get; set; }
-        public ICollection<Disease>? ChronicDiseases { get; set; }
-        public ICollection<Drug>? ChronicDrugs { get; set; }
+        public ICollection<Disease>? Diseases { get; set; }
+        public ICollection<Drug>? Drugs { get; set; }
         public ICollection<Allergy>? Allergies { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOnUtc { get; set; }

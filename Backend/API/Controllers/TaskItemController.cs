@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetTasksList")]
-        public async Task<ActionResult<ServiceResponse<List<TaskItemGetDto>>>> GetTasksList()
+        public async Task<ActionResult> GetTasksList()
         {
             var patientId = await GetCurrentPatient();
 
@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetTasksListByDate")]
-        public async Task<ActionResult<ServiceResponse<List<TaskItemGetDto>>>> GetTasksListByDate(DateTime date)
+        public async Task<ActionResult> GetTasksListByDate(DateTime date)
         {
             var patientId = await GetCurrentPatient();
 
@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpPost("AddTasks")]
-        public async Task<ActionResult<ServiceResponse<bool>>> AddTasks(List<TaskItemAddDto> tasks, string taskDescription)
+        public async Task<ActionResult> AddTasks(List<TaskItemAddDto> tasks, string taskDescription)
         {
             var patientId = await GetCurrentPatient();
 
@@ -79,7 +79,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("CompleteTask/{taskId}")]
-        public async Task<ActionResult<ServiceResponse<bool>>> EditTask(Guid taskId, TaskItemUpdateDto updatedTask)
+        public async Task<ActionResult> EditTask(Guid taskId, TaskItemUpdateDto updatedTask)
         {
             var patientId = await GetCurrentPatient();
 
