@@ -13,7 +13,8 @@ import {
   TreatmentForm,
   DrProfile,
   Home,
-  PatientHome
+  PatientHome,
+  MedicalCenterDoctor,
 } from "./pages";
 import RootComponent from "./RootComponent";
 
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
         element: createPrivateRoute(Home),
       },
       {
+        path: "/doctors",
+        element: createPrivateRoute(MedicalCenterDoctor),
+      },
+      {
         path: "/patientdetails/:id",
         element: createPrivateRoute(PatientDetails),
       },
@@ -78,9 +83,9 @@ export const router = createBrowserRouter([
         element: createPrivateRoute(DrProfile),
       },
       {
-        path:"/patienthome",
+        path: "/patienthome",
         element: createPrivateRoute(PatientHome),
-      }
+      },
     ],
   },
 ]);

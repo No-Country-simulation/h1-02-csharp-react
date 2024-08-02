@@ -77,6 +77,14 @@
     order: 0;
   }
 
+  .shadow-glassy-effect {
+    box-shadow: inset 12.6667px -12.6667px 12.6667px rgba(255, 255, 255, 10%),
+      inset -12.6667px 12.6667px 12.6667px rgba(165, 165, 165, 10%);
+
+    backdrop-filter: blur(25.33px);
+    outline: none;
+  }
+
   .text-shadow {
     text-shadow: 1px 3px 4px #27272761;
   }

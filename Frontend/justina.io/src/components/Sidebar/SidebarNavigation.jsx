@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { HomeIcon, PatientsIcon } from "../icons";
+import { HomeIcon, MedicalIcon, PatientsIcon, RecordsIcon } from "../icons";
 import SidebarNavigationItem from "./SidebarNavigationItem";
 import { useCallback } from "react";
 import useUserStore from "../../hooks/useUserStore";
@@ -38,12 +38,12 @@ const menuMedicalCenter = [
     link: "/",
   },
   {
-    icon: <PatientsIcon />,
+    icon: <MedicalIcon />,
     text: "Medicos",
-    link: "/",
+    link: "/doctors",
   },
   {
-    icon: <PatientsIcon />,
+    icon: <RecordsIcon />,
     text: "Records",
     link: "/",
   },

@@ -1,0 +1,105 @@
+.tableWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.divTable {
+  border: 1px solid lightgray;
+  width: fit-content;
+  font-family: "Noto Sans";
+}
+
+.tr {
+  display: flex;
+}
+
+tr,
+.tr {
+  width: fit-content;
+  height: 44px;
+
+  &:nth-child(odd) .td {
+    @apply bg-rose-o10;
+  }
+}
+
+th,
+.th,
+td,
+.td {
+  height: 44px;
+  margin-inline-end: 0.5rem;
+  font-weight: 700;
+  padding-block: 0;
+  padding-inline: 12px;
+  cursor: default;
+
+  &:last-child {
+    margin-inline-end: 0rem;
+  }
+}
+
+th,
+.th {
+  position: relative;
+  text-align: left;
+  background-color: rgba(214, 87, 131, 20%);
+}
+
+td,
+.td {
+  @apply shadow-glassy-effect text-neutrals900 bg-rose-o40;
+}
+
+.resizerButton {
+  background-color: rgba(214, 87, 131, 20%);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  transition: background-color ease 200ms;
+
+  &:hover {
+    opacity: 0;
+    background-color: rgba(214, 87, 131, 30%);
+  }
+}
+
+.isResizing {
+  background-color: rgba(214, 87, 131, 50%);
+  opacity: 1;
+}
+
+*:hover > .resizerButton {
+  opacity: 1;
+}
+.thead {
+  & .tr {
+    margin-block-end: 0;
+  }
+}
+
+.tbody {
+  & .tr:first-child {
+    margin-block-start: 1rem;
+  }
+
+  & .tr {
+    margin-block-end: 0.5rem;
+  }
+}
+
+.headerInfo {
+  @apply text-neutrals800 leading-[120%] w-full h-full;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
