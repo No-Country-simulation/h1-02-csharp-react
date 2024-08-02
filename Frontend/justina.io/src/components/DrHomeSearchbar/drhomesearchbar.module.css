@@ -11,5 +11,6 @@
     border: 1px solid var(--color-primary);
     outline: none;
     margin-block: 0;
+    padding-inline-end: 8%;
   }
 }

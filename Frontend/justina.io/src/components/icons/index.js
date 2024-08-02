@@ -21,5 +21,7 @@ export {
   SearchIcon,
   RecordsIcon,
   MedicalIcon,
-  ArrowLeftIcon,ArrowRightIcon,MicrophoneIcon
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  MicrophoneIcon
 };

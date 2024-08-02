@@ -5,13 +5,15 @@ import css from "./drhomesearchbar.module.css";
 import useDebounce from "../../hooks/useDebounce";
 import { useState } from "react";
 
-export default function DrHomeSearchBar() {
+export default function DrHomeSearchBar({
+  placeHodler = "",
+  onClick = () => alert("Not implemented"),
+}) {
   const [params, setSearchParams] = useSearchParams();
   const [input, setInput] = useState(params.get("search")?.toString() || "");
 
   const handleSearch = useDebounce((value) => {
     if (value) {
-      console.log({ value });
       setSearchParams({ search: value });
     } else {
       setSearchParams({});
@@ -28,13 +30,13 @@ export default function DrHomeSearchBar() {
       <FormInput
         id="searcher"
         type="text"
-        placeholder="Ejem. 20453409113..."
+        placeholder={placeHodler}
         onChange={handleInput}
         value={input || ""}
       />
       <button
         className="absolute right-[2px] top-[48%] rounded-full p-1 -translate-y-1/2 bg-rose-o10 shadow-glass-effect flex justify-center items-center w-12 h-[78%]"
-        onClick={() => alert("Not implemented")}
+        onClick={onClick}
       >
         <SearchIcon />
       </button>
