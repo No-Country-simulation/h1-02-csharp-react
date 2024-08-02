@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import css from "../../styles/table.module.css";
+import { flexRender } from "@tanstack/react-table";
 
 function TableBody({ table }) {
   return (
@@ -16,7 +17,7 @@ function TableBody({ table }) {
                 },
               }}
             >
-              {cell.renderValue()}
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </div>
           ))}
         </div>

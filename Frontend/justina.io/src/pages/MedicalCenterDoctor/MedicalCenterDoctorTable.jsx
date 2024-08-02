@@ -24,6 +24,11 @@ const columns = [
   columnHelper.accessor("id", {
     id: "id",
     header: () => <span className={css.headerInfo}>ID</span>,
+    cell: ({ getValue }) => (
+      <span className="w-full h-full inline-block whitespace-nowrap overflow-hidden text-ellipsis">
+        {getValue()}
+      </span>
+    ),
   }),
   columnHelper.accessor("identification", {
     id: "identification",
@@ -50,7 +55,7 @@ const MedicalCenterDoctorTable = () => {
         String(value).toLowerCase().includes(search)
       )
     );
-  }, [params.get("search")]);
+  }, [params.get("search"), data]);
   const table = useReactTable({
     data: filteredData,
     columns,
