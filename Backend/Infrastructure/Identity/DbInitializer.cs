@@ -31,7 +31,7 @@ public static class DbInitializer
             UserName = "h1-02-csharp-react@proton.me",
             Email = "h1-02-csharp-react@proton.me",
             EmailConfirmed = true,
-            IdentificationType = IdentificationType.DU
+            IdentificationType = IdentificationType.CUIL
         };
 
         var user = await userManager.FindByEmailAsync(adminUser.Email);
