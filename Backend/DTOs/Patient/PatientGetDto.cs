@@ -1,4 +1,6 @@
-﻿namespace DTOs.Patient
+﻿using DTOs.Allergy;
+
+namespace DTOs.Patient
 {
     public class PatientGetDto
     {
@@ -13,5 +15,6 @@
         public string IdentificationTypeDescription { get; set; }
         public string IdentificationNumber { get; set; }
         public string Weight { get; set; }
+        public List<AllergyGetDto> Allergies { get; set; }
     }
 }
