@@ -3,22 +3,13 @@ import css from "../../styles/table.module.css";
 
 function TableBody({ table }) {
   return (
-    <div
-      {...{
-        className: css.tbody,
-      }}
-    >
+    <div className={css.tbody}>
       {table.getRowModel().rows.map((row) => (
-        <div
-          {...{
-            key: row.id,
-            className: css.tr,
-          }}
-        >
+        <div key={row.id} className={css.tr}>
           {row.getVisibleCells().map((cell) => (
             <div
+              key={cell.id}
               {...{
-                key: cell.id,
                 className: css.td,
                 style: {
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,

@@ -6,16 +6,11 @@ function TableHeader({ table }) {
   return (
     <div className={css.thead}>
       {table.getHeaderGroups().map((headerGroup) => (
-        <div
-          {...{
-            key: headerGroup.id,
-            className: css.tr,
-          }}
-        >
+        <div key={headerGroup.id} className={css.tr}>
           {headerGroup.headers.map((header) => (
             <div
+              key={header.id}
               {...{
-                key: header.id,
                 className: css.th,
                 style: {
                   width: `calc(var(--header-${header?.id}-size) * 1px)`,
