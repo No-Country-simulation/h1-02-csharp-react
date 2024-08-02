@@ -54,17 +54,6 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         try
         {
-            //var user = await _userManager.FindByIdAsync(userId);
-
-            //var healthCareProvider = await _healthCareProviderRepository
-            //    .GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
-
-            //if (healthCareProvider == null)
-            //{
-            //    serviceResponse.Data = null;
-            //    serviceResponse.Success = false;
-            //    return serviceResponse;
-            //}
             var healthCareProviderId = new Guid(userId);
 
             var healthCareProviderSpecialities = await _healthCareProviderRepository
@@ -86,7 +75,24 @@ public class HealthCareProviderService : IHealthCareProviderService
             serviceResponse.Message = ex.Message;
             _logger.LogError(ex, $"{ex.Message}");
         }
-           
+
+        return serviceResponse;
+    }
+
+
+    public async Task<ServiceResponse<GetByIdHealthCareProviderDto>> GetHealthCareProviderByCuil(string cuil)
+    {
+        var serviceResponse = new ServiceResponse<GetByIdHealthCareProviderDto>();
+        try
+        {
+            serviceResponse.Data = await _healthCareProviderRepository.GetHealthCareProviderByCuil(cuil);
+        }
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+            _logger.LogError(ex, $"{ex.Message}");
+        }
         return serviceResponse;
     }
 
@@ -96,11 +102,6 @@ public class HealthCareProviderService : IHealthCareProviderService
 
         try
         {
-            //var user = await _userManager.FindByIdAsync(userId.ToString());
-
-
-            //var healthCareProvider = await _healthCareProviderRepository
-            //.GetByConditionAsync(hp => hp.ApplicationUserId == user.Id);
             var healthCareProvider = await _healthCareProviderRepository
                                                 .GetByIdWithSpecialitiesAsync(userId);
 
@@ -166,6 +167,65 @@ public class HealthCareProviderService : IHealthCareProviderService
             _logger.LogError(ex, $"{ex.Message}");
         }
         return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<string>> UpdateContactInfoAsync(string userId, UpdateContactInfoDto updateContactInfoDto)
+    {
+        var response = new ServiceResponse<string>();
+
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
+            if (!string.IsNullOrEmpty(updateContactInfoDto.PhoneNumber))
+            {
+                user.PhoneNumber = updateContactInfoDto.PhoneNumber;
+            }
+
+            if (!string.IsNullOrEmpty(updateContactInfoDto.NewPassword) && !string.IsNullOrEmpty(updateContactInfoDto.CurrentPassword))
+            {
+                var result = await _userManager.ChangePasswordAsync(user, updateContactInfoDto.CurrentPassword, updateContactInfoDto.NewPassword);
+                if (!result.Succeeded)
+                {
+                    if (result.Errors.Any(e => e.Code == "PasswordMismatch"))
+                    {
+                        response.Success = false;
+                        response.Message = "Current password is incorrect.";
+                        response.Data = "PasswordMismatch";
+                        return response;
+                    }
+
+                    response.Success = false;
+                    response.Message = string.Join(", ", result.Errors.Select(e => e.Description));
+                    return response;
+                }
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                response.Success = false;
+                response.Message = string.Join(", ", updateResult.Errors.Select(e => e.Description));
+                return response;
+            }
+
+            response.Success = true;
+            response.Message = "Contact information updated successfully.";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating contact information.");
+            response.Success = false;
+            response.Message = "An error occurred while updating contact information.";
+        }
+
+        return response;
     }
 
     public async Task<ServiceResponse<bool>> DeleteHealthCareProvider(Guid id)
