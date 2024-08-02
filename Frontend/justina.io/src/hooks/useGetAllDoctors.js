@@ -7,7 +7,7 @@ const mapResponse = (values)=>{
         id: value.id,
         email: value.email,
         fullName: `${value.firstName} ${value.lastName}`,
-        identification: value.localRegistrationNumber
+        identification: value.identificationNumber
     }))
 }
 

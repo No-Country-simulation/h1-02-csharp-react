@@ -13,7 +13,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import PaginationControls from "../../components/PaginationControls/PaginationControls";
 import TableContainer from "../../components/TableContainer/TableContainer";
 import useGetAllDoctors from "../../hooks/useGetAllDoctors";
-import { DOCTOR_LIST_MOCKED } from "../../constants/mocks";
+//import { DOCTOR_LIST_MOCKED } from "../../constants/mocks";
 
 const columnHelper = createColumnHelper();
 const columns = [
@@ -44,9 +44,8 @@ const MedicalCenterDoctorTable = () => {
     pageSize: 5,
   });
   const filteredData = useMemo(() => {
-    console.log({ data });
     const search = params.get("search")?.toLowerCase() || "";
-    return DOCTOR_LIST_MOCKED.filter((doctor) =>
+    return data.filter((doctor) =>
       Object.values(doctor).some((value) =>
         String(value).toLowerCase().includes(search)
       )
