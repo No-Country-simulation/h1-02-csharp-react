@@ -50,6 +50,9 @@ th,
 td,
 .td {
   @apply shadow-glassy-effect text-neutrals900 bg-rose-o40;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .resizerButton {

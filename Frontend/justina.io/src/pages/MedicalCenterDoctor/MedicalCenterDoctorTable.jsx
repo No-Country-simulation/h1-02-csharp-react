@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   useReactTable,
   createColumnHelper,
@@ -11,40 +11,49 @@ import css from "../../styles/table.module.css";
 import TableHeader from "../../components/TableHeader/TableHeader";
 import PaginationControls from "../../components/PaginationControls/PaginationControls";
 import TableContainer from "../../components/TableContainer/TableContainer";
+import useGetAllDoctors from "../../hooks/useGetAllDoctors";
+import { useSearchParams } from "react-router-dom";
 import { DOCTOR_LIST_MOCKED } from "../../constants/mocks";
 
 const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor("fullName", {
-    //cell: (info) => info.getValue(),
     id: "fullName",
     header: () => <span className={css.headerInfo}>Nombre Completo</span>,
   }),
   columnHelper.accessor("id", {
-    //cell: (info) => info.getValue(),
     id: "id",
     header: () => <span className={css.headerInfo}>ID</span>,
   }),
   columnHelper.accessor("identification", {
     id: "identification",
-    //cell: (info) => info.getValue(),
     header: () => <span className={css.headerInfo}>N# de Cuil</span>,
   }),
   columnHelper.accessor("email", {
     id: "email",
-    //cell: (info) => info.getValue(),
     header: () => <span className={css.headerInfo}>Contacto</span>,
     minSize: 216,
   }),
 ];
 
 const MedicalCenterDoctorTable = () => {
+  const [params, _] = useSearchParams();
+  const { data } = useGetAllDoctors();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
+  const filteredData = useMemo(() => {
+    console.log({ data });
+    const search = params.get("search")?.toLowerCase() || "";
+    return DOCTOR_LIST_MOCKED.filter((doctor) =>
+      Object.values(doctor).some((value) =>
+        String(value).toLowerCase().includes(search)
+      )
+    );
+  }, [params.get("search")]);
   const table = useReactTable({
-    data: DOCTOR_LIST_MOCKED,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -58,7 +67,7 @@ const MedicalCenterDoctorTable = () => {
     state: {
       pagination,
     },
-    autoResetPageIndex: false,
+    autoResetPageIndex: true,
   });
 
   return (

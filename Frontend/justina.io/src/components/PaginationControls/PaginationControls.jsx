@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "../icons";
-//import Show from "../Show/Show";
+import Show from "../Show/Show";
 
 export default function PaginationControls({ table, pagination }) {
   const { pageIndex } = pagination;
@@ -19,37 +19,39 @@ export default function PaginationControls({ table, pagination }) {
   }
 
   return (
-    <div className="flex justify-center items-center gap-x-12 mt-6">
-      <button
-        className="shadow-glass-effect bg-rose-o10 rounded-full p-2"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        <ArrowLeftIcon />
-      </button>
-      <div className="flex justify-center items-center gap-x-4 ">
-        {pageNumbers.map((pageNum) => (
-          <button
-            key={pageNum}
-            className={`rounded-full p-2 w-11 text-neutrals800 font-bold transition-all duration-300 ${
-              pageIndex === pageNum
-                ? "bg-[#FCE7EF] opacity-100"
-                : "bg-rose-o10 shadow-glass-effect opacity-90"
-            }`}
-            onClick={() => table.setPageIndex(pageNum)}
-            disabled={pageIndex === pageNum}
-          >
-            {pageNum + 1}
-          </button>
-        ))}
+    <Show when={pageCount >= 1}>
+      <div className="flex justify-center items-center gap-x-12 mt-6">
+        <button
+          className="shadow-glass-effect bg-rose-o10 rounded-full p-2"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <div className="flex justify-center items-center gap-x-4 ">
+          {pageNumbers.map((pageNum) => (
+            <button
+              key={pageNum}
+              className={`rounded-full p-2 w-11 text-neutrals800 font-bold transition-all duration-300 ${
+                pageIndex === pageNum
+                  ? "bg-[#FCE7EF] opacity-100"
+                  : "bg-rose-o10 shadow-glass-effect opacity-90"
+              }`}
+              onClick={() => table.setPageIndex(pageNum)}
+              disabled={pageIndex === pageNum}
+            >
+              {pageNum + 1}
+            </button>
+          ))}
+        </div>
+        <button
+          className="shadow-glass-effect bg-rose-o10 rounded-full p-2"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          <ArrowRightIcon />
+        </button>
       </div>
-      <button
-        className="shadow-glass-effect bg-rose-o10 rounded-full p-2"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        <ArrowRightIcon />
-      </button>
-    </div>
+    </Show>
   );
 }
