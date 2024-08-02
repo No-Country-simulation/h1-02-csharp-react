@@ -10,5 +10,7 @@
         public int BloodType { get; set; }
         public int IdentificationType { get; set; }
         public string IdentificationNumber { get; set; }
+        public List<string> Allergies { get; set; }
+        public string Weight { get; set; }
     }
 }

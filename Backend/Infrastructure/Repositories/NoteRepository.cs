@@ -3,7 +3,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using DTOs.Note;
-using DTOs.Patient;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 

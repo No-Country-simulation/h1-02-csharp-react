@@ -32,6 +32,13 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<PatientGetDto?> GetPatientByCuil(string cuil)
+        {
+            return await _dbContext.Patients
+                .ProjectTo<PatientGetDto>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(x => x.IdentificationNumber == cuil);
+        }
+
         public async Task<Patient?> GetPatientWithRelationships(Guid id)
         {
             return await _dbContext.Patients

@@ -14,12 +14,12 @@ namespace API.Controllers
     public class NoteController : ControllerBase
     {
         private readonly INoteService _noteService;
-        private readonly IPatientService _petientService;
+        private readonly IPatientService _patientService;
 
         public NoteController(INoteService noteService, IPatientService patientService)
         {
             _noteService = noteService;
-            _petientService = patientService;
+            _patientService = patientService;
         }
 
         private async Task<Guid> GetCurrentPatient()
@@ -27,7 +27,7 @@ namespace API.Controllers
             var userId = User.FindFirstValue("uid");
             var userGuid = new Guid(userId);
 
-            var patientId = await _petientService.GetPatientIdByUserId(userGuid);
+            var patientId = await _patientService.GetPatientIdByUserId(userGuid);
 
             return patientId.Data;
         }

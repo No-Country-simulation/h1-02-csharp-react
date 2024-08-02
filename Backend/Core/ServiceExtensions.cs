@@ -16,6 +16,7 @@ public static class ServiceExtensions
         services.AddScoped<ISpecialityService, SpecialityService>();
         services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<INoteService, NoteService>();
+        services.AddScoped<ITaskItemService, TaskItemService>();
 
 
         // FluentValidation configuration

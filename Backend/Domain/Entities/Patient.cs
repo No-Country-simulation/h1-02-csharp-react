@@ -8,10 +8,14 @@ namespace Domain.Entities
         public Guid ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public BloodType BloodType { get; set; }
-        public Doner? Doner { get; set; }
-        public ICollection<Record> Records { get; set; }
-        public ICollection<MedicalCenter> MedicalCenters { get; set; }
-        public ICollection<Note> Notes { get; set; }
+        public string? Weight { get; set; }
+        public ICollection<Record>? Records { get; set; }
+        public ICollection<MedicalCenter>? MedicalCenters { get; set; }
+        public ICollection<Note>? Notes { get; set; }
+        public ICollection<TaskItem>? TaskList { get; set; }
+        public ICollection<Disease>? ChronicDiseases { get; set; }
+        public ICollection<Drug>? ChronicDrugs { get; set; }
+        public ICollection<Allergy>? Allergies { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOnUtc { get; set; }
     }

@@ -2,6 +2,7 @@
 using DTOs.Patient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Utilities.Enums;
 
 namespace API.Controllers
@@ -16,21 +17,45 @@ namespace API.Controllers
             _patientService = patientService;
         }
 
-        [Authorize(Roles = nameof(AccountType.HealthCareProvider))]
-        [HttpGet("GetById/{id}")]
-        public async Task<ActionResult> GetPatientById(Guid id)
+        private async Task<Guid> GetCurrentPatient()
         {
-            var result = await _patientService.GetPatientById(id);
+            var userId = User.FindFirstValue("uid");
+            var userGuid = new Guid(userId);
+
+            var patientId = await _patientService.GetPatientIdByUserId(userGuid);
+
+            return patientId.Data;
+        }
+
+        [Authorize(Roles = nameof(AccountType.Patient))]
+        [HttpGet("GetPatient")]
+        public async Task<ActionResult> GetPatientById()
+        {
+            var patientId = await GetCurrentPatient();
+
+            var result = await _patientService.GetPatientById(patientId);
 
             if (result != null)
             {
                 return Ok(result);
             }
-            return NotFound($"Patient with Id {id} was not found.");
+            return NotFound();
         }
 
         [Authorize(Roles = nameof(AccountType.HealthCareProvider))]
-        [Authorize(Roles = nameof(AccountType.MedicalCenter))]
+        [HttpGet("GetPatientByCuil/{cuil}")]
+        public async Task<ActionResult> GetPatientByCuil(string cuil)
+        {
+            var result = await _patientService.GetPatientByCuil(cuil);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound($"Patient with CUIL {cuil} was not found.");
+        }
+
+        [Authorize(Roles = $"{nameof(AccountType.MedicalCenter)}, {nameof(AccountType.HealthCareProvider)}")]
         [HttpGet("GetAllPatients")]
         public async Task<ActionResult> GetAllPatients()
         {
@@ -43,6 +68,7 @@ namespace API.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = nameof(AccountType.Patient))]
         [HttpPut("EditPatient/{patientId}")]
         public async Task<ActionResult> EditPatient(Guid patientId, PatientUpdateDto updateRequest)
         {
@@ -53,6 +79,7 @@ namespace API.Controllers
             return Ok(await _patientService.UpdatePatient(patientId, updateRequest));
         }
 
+        [Authorize(Roles = nameof(AccountType.Patient))]
         [HttpDelete("DeletePatient/{patientId}")]
         public async Task<ActionResult> DeletePatient(Guid patientId)
         {
