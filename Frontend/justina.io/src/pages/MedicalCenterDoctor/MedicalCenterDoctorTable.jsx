@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   useReactTable,
   createColumnHelper,
@@ -12,7 +13,6 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import PaginationControls from "../../components/PaginationControls/PaginationControls";
 import TableContainer from "../../components/TableContainer/TableContainer";
 import useGetAllDoctors from "../../hooks/useGetAllDoctors";
-import { useSearchParams } from "react-router-dom";
 import { DOCTOR_LIST_MOCKED } from "../../constants/mocks";
 
 const columnHelper = createColumnHelper();
