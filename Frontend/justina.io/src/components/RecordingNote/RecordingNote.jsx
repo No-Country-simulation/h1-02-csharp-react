@@ -26,7 +26,7 @@ const RecordingNotes = () => {
           </button>
           <button
             className="text-white bg-primary rounded-[32px] w-32 h-8"
-            onClick={() => alert("Editar")}
+            onClick={() => alert("Guardar")}
           >
             Guardar
           </button>
