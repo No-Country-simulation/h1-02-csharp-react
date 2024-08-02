@@ -16,7 +16,8 @@ public class HealthCareProviderProfile : Profile
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.ApplicationUser.Birthdate))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email))
-            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ApplicationUser.PhoneNumber));
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ApplicationUser.PhoneNumber))
+            .ForMember(dest => dest.IdentificationNumber, opt => opt.MapFrom(src => src.ApplicationUser.IdentificationNumber));
 
         // GetById - Role HealthCareProvider
         CreateMap<HealthCareProvider, GetByIdHealthCareProviderDto>()

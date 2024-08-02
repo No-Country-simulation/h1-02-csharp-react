@@ -19,7 +19,7 @@ public class HealthCareProvidersController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllHealthCareProviders")]
-    //[Authorize(Roles = "MedicalCenter, Patient")]
+    [Authorize(Roles = "MedicalCenter, Patient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetAllHealthCareProviders()
@@ -56,6 +56,38 @@ public class HealthCareProvidersController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("{cuil}")]
+    [Authorize(Roles = "MedicalCenter")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetHealthCareProviderByCuil(string cuil)
+    {
+        var result = await _healthCareProviderService.GetHealthCareProviderByCuil(cuil);
+
+        if (result != null)
+        {
+            return Ok(result);
+        }
+        return NotFound($"HealthCareProvider with CUIL {cuil} was not found.");
+    }
+
+    //[HttpGet("{id}")]
+    //[Authorize(Roles = "MedicalCenter")]
+    //[ProducesResponseType(StatusCodes.Status204NoContent)]
+    //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    //[ProducesResponseType(StatusCodes.Status404NotFound)]
+    //public async Task<ActionResult> GetHealthCareProviderByCuil(Guid id)
+    //{
+    //    var result = await _healthCareProviderService.GetHealthCareProviderByCuil(cuil);
+
+    //    if (result != null)
+    //    {
+    //        return Ok(result);
+    //    }
+    //    return NotFound($"HealthCareProvider with CUIL {cuil} was not found.");
+    //}
+
     [HttpPut("{id}")]
     [Authorize(Roles = "MedicalCenter")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -72,12 +104,12 @@ public class HealthCareProvidersController : ControllerBase
         return NoContent();
     }
 
-    [HttpPatch("update-phone-number")]
+    [HttpPatch("profile/contact-info")]
     [Authorize(Roles = "HealthCareProvider")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdatePhoneNumber([FromBody] UpdatePhoneNumberDto updatePhoneNumberDto)
+    public async Task<IActionResult> UpdateContactInfo([FromBody] UpdateContactInfoDto updateContactInfoDto)
     {
         var userId = User.FindFirstValue("uid");
 
@@ -86,10 +118,15 @@ public class HealthCareProvidersController : ControllerBase
             return Unauthorized();
         }
 
-        var response = await _healthCareProviderService.UpdatePhoneNumber(userId, updatePhoneNumberDto);
+        var response = await _healthCareProviderService.UpdateContactInfoAsync(userId, updateContactInfoDto);
         if (!response.Success)
         {
-            return NotFound();
+            if (response.Data == "PasswordMismatch")
+            {
+                return BadRequest(new { message = response.Message });
+            }
+
+            return NotFound(new { message = response.Message });
         }
 
         return NoContent();

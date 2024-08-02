@@ -1,5 +1,8 @@
 ﻿using Application.Contracts.Persistence;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Entities;
+using DTOs.HealthCareProvider;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
@@ -8,8 +11,11 @@ namespace Persistence.Repositories;
 
 public class HealthCareProviderRepository : GenericRepository<HealthCareProvider>, IHealthCareProviderRepository
 {
-    public HealthCareProviderRepository(JustinaDbContext dbContext) : base(dbContext)
+    private readonly IMapper _mapper;
+
+    public HealthCareProviderRepository(JustinaDbContext dbContext, IMapper mapper) : base(dbContext)
     {
+        _mapper = mapper;
     }
 
     public async Task<List<HealthCareProvider?>> GetHealthCareProvidersWithUserAsync()
@@ -26,6 +32,13 @@ public class HealthCareProviderRepository : GenericRepository<HealthCareProvider
                         .Include(hp => hp.HealthCareProviderSpecialities)
                         .ThenInclude(hps => hps.Speciality)
                         .FirstOrDefaultAsync(hp => hp.Id == id);
+    }
+
+    public async Task<GetByIdHealthCareProviderDto?> GetHealthCareProviderByCuil(string cuil)
+    {
+        return await _dbContext.HealthCareProviders
+            .ProjectTo<GetByIdHealthCareProviderDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(hcp => hcp.IdentificationNumber == cuil);
     }
 
 }
