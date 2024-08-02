@@ -2,10 +2,7 @@ import axios from "axios";
 
 //Se Setea URL base
 const api = axios.create({
-  baseURL: "https://www.justina.somee.com",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "https://justina.somee.com",
 });
 
 //Intercepta la request para agregar el token si existe

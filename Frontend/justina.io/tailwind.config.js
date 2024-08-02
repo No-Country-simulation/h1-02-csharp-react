@@ -7,11 +7,17 @@ export default {
   theme: {
     extend: {
       colors:{
-        primary: 'var(--color-primary)',
+        primary: {
+          DEFAULT: 'var(--color-primary)',
+          300: 'var(--color-primary-300)'
+        },
         secondary: 'var(--color-secondary)',
         neutrals800: 'var(--color-neutrals-800)',
         neutrals600: 'var(--color-neutrals-600)',
-        neutrals900: 'var(--color-neutrals-900)'
+        neutrals900: 'var(--color-neutrals-900)',
+        error: {
+          200: 'var(--color-error-200)'
+        }
       },
       backgroundColor: {
         rose: {
