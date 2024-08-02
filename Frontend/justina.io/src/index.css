@@ -134,6 +134,7 @@ body {
   background-image: url("../src/assets/imgs/template.png");
   background-position: center;
   background-size: cover;
+  min-height: 100dvh;
 }
 
 html,
