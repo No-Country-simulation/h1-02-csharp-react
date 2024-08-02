@@ -43,6 +43,7 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Patients
                 .Include(p => p.ApplicationUser)
+                .Include(p => p.Diseases)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 

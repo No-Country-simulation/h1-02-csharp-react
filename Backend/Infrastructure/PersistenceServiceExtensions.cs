@@ -10,7 +10,7 @@ namespace Persistence;
 
 public static class PersistenceServiceExtensions
 {
-    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration) 
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<SoftDeleteInterceptor>();
 
@@ -28,6 +28,8 @@ public static class PersistenceServiceExtensions
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<IMedicalTestRepository, MedicalTestRepository>();
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
+        services.AddScoped<IAllergyRepository, AllergyRepository>();
+        services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 
         return services;
     }

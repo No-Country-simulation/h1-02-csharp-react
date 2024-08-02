@@ -21,6 +21,8 @@ public static class ServiceExtensions
         services.AddScoped<IMedicalTestService, MedicalTestService>();
         services.AddScoped<ITaskItemService, TaskItemService>();
         services.AddScoped<IMedicalCenterService, MedicalCenterService>();
+        services.AddScoped<IAllergyService, AllergyService>();
+        services.AddScoped<IDiseaseService, DiseaseService>();
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
