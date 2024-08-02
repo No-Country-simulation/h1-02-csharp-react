@@ -1,4 +1,5 @@
 import { HeartIcon } from "../../components/icons";
+import RecordingNotes from "../../components/RecordingNote/RecordingNote";
 import MedicalCenterDoctorTable from "./MedicalCenterDoctorTable";
 import MedicalCenterSearchBar from "./MedicalCenterSearchBar";
 
@@ -14,6 +15,7 @@ const MedicalCenterDoctor = () => {
           <MedicalCenterDoctorTable />
         </div>
       </div>
+      <RecordingNotes />
     </section>
   );
 };

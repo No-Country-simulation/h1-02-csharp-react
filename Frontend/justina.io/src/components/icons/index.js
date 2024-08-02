@@ -9,7 +9,7 @@ import MedicalIcon from "./MedicalIcon.jsx";
 import RecordsIcon from "./RecordsIcon.jsx";
 import ArrowLeftIcon from "./ArrowLeftIcon.jsx";
 import ArrowRightIcon from "./ArrowRightIcon.jsx";
-
+import MicrophoneIcon from "./MicrophoneIcon.jsx";
 
 export {
   HomeIcon,
@@ -21,5 +21,5 @@ export {
   SearchIcon,
   RecordsIcon,
   MedicalIcon,
-  ArrowLeftIcon,ArrowRightIcon
+  ArrowLeftIcon,ArrowRightIcon,MicrophoneIcon
 };
