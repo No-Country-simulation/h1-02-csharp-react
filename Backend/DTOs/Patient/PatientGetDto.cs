@@ -1,5 +1,6 @@
 ﻿using DTOs.Allergy;
 using DTOs.Disease;
+using DTOs.Drug;
 
 namespace DTOs.Patient
 {
@@ -18,5 +19,6 @@ namespace DTOs.Patient
         public string Weight { get; set; }
         public List<AllergyGetDto> Allergies { get; set; }
         public List<DiseaseGetDto> Diseases { get; set; }
+        public List<DrugGetDto> Drugs { get; set; }
     }
 }

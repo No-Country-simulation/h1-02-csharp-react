@@ -89,6 +89,15 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = nameof(AccountType.Patient))]
+        [HttpPut("UpdateMedication")]
+        public async Task<ActionResult> UpdateMedication(PatientUpdateDrugsDro updateRequest)
+        {
+            var patientId = await GetCurrentPatient();
+
+            return Ok(await _patientService.UpdatePatientDrugs(patientId, updateRequest));
+        }
+
+        [Authorize(Roles = nameof(AccountType.Patient))]
         [HttpDelete("DeletePatient/{patientId}")]
         public async Task<ActionResult> DeletePatient(Guid patientId)
         {
