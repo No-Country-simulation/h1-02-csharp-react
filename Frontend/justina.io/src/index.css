@@ -106,7 +106,7 @@
     width: 8px;
   }
 
-  .scrollbar-style::-webkit-scrollbar-track {    
+  .scrollbar-style::-webkit-scrollbar-track {
     background: #cdd3d6;
     border-radius: 10px;
   }
@@ -138,6 +138,7 @@ body {
 
 html,
 :root {
+  height: 100%;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
