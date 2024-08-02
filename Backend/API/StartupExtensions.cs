@@ -8,6 +8,9 @@ using Persistence;
 using Persistence.Data;
 using Persistence.Identity;
 using RealTime;
+using AWS;
+using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace API;
 
@@ -20,6 +23,7 @@ public static class StartupExtensions
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddRealTimeServices();
         builder.Services.AddDomainProfiles();
+        builder.Services.AddAwsServices();
 
         builder.Services.AddHttpContextAccessor();
 
@@ -92,6 +96,9 @@ public static class StartupExtensions
 
             });
 
+            c.OperationFilter<SwaggerAuthorizeCheckOperationFilter>();
+
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = @"JWT Authorization header using the Bearer scheme. \n\n 
@@ -160,6 +167,28 @@ public static class StartupExtensions
         {
             var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
             logger.LogError(ex, "An error occurred while migrating the database.");
+        }
+    }
+
+    public class SwaggerAuthorizeCheckOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            var authorizeAttributes = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
+                .Union(context.MethodInfo.GetCustomAttributes(true))
+                .OfType<AuthorizeAttribute>();
+
+            if (authorizeAttributes.Any())
+            {
+                var roles = authorizeAttributes
+                    .Where(attr => !string.IsNullOrEmpty(attr.Roles))
+                    .Select(attr => attr.Roles)
+                    .Distinct();
+
+                var rolesText = roles.Any() ? $"Roles: {string.Join(", ", roles)}" : "Authorization required";
+
+                operation.Description += $"<br/><b>{rolesText}</b>";
+            }
         }
     }
 }

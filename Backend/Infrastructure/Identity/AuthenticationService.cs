@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Contracts.Services;
+using Application.Exceptions;
 using Application.Models.Authentication;
 using AutoMapper;
 using Domain.Entities;
@@ -49,18 +50,18 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
     {
+        var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, lockoutOnFailure: false);
+
+        if (!result.Succeeded)
+        {
+            throw new InvalidCredentialsException();
+        }
+
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user == null)
         {
-            throw new Exception($"User with {request.Email} not found.");
-        }
-
-        var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
-
-        if (!result.Succeeded)
-        {
-            throw new Exception($"The credentials are not valid.");
+            throw new UserNotFoundException(request.Email);
         }
 
         JwtSecurityToken jwtSecurityToken = await GenerateToken(user);

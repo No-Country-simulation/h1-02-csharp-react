@@ -24,6 +24,7 @@ public class JustinaDbContext : IdentityDbContext<ApplicationUser, IdentityRole<
     public DbSet<Pathology> Pathologies { get; set; }
     public DbSet<Record> Records { get; set; }
     public DbSet<Note> Notes { get; set; }
+    public DbSet<MedicalTest> MedicalTests { get; set; }
     public DbSet<TaskItem> TaskItems { get; set; }
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<Allergy> Allergies { get; set; }

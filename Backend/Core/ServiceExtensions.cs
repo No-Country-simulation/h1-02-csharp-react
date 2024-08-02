@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Services;
 using Application.Services;
+using Application.Validators.Authentication;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -16,11 +18,13 @@ public static class ServiceExtensions
         services.AddScoped<ISpecialityService, SpecialityService>();
         services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<INoteService, NoteService>();
+        services.AddScoped<IMedicalTestService, MedicalTestService>();
         services.AddScoped<ITaskItemService, TaskItemService>();
-
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AuthenticationRequestValidator>());
 
         return services;
     }
