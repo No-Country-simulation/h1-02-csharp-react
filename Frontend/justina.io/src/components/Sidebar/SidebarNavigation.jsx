@@ -45,7 +45,7 @@ const menuMedicalCenter = [
   {
     icon: <RecordsIcon />,
     text: "Records",
-    link: "/",
+    link: "/mcrecords",
   },
 ];
 

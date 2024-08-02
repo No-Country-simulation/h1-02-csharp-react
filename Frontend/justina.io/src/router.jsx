@@ -15,6 +15,7 @@ import {
   Home,
   PatientHome,
   MedicalCenterDoctor,
+  MedicalCenterRecords,
 } from "./pages";
 import RootComponent from "./RootComponent";
 
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "/patienthome",
         element: createPrivateRoute(PatientHome),
+      },
+      {
+        path: "/mcrecords",
+        element: createPrivateRoute(MedicalCenterRecords),
       },
     ],
   },
