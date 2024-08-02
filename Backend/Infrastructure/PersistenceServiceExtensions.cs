@@ -29,6 +29,7 @@ public static class PersistenceServiceExtensions
         services.AddScoped<IMedicalTestRepository, MedicalTestRepository>();
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         services.AddScoped<IAllergyRepository, AllergyRepository>();
+        services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 
         return services;
     }

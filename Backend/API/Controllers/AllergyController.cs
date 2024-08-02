@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetPatientAllergies")]
-        public async Task<ActionResult<ServiceResponse<List<AllergyGetDto>>>> GetPatientAllergies()
+        public async Task<ActionResult> GetPatientAllergies()
         {
             var patientId = await GetCurrentPatient();
 
@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpPost("AddAllergies")]
-        public async Task<ActionResult<ServiceResponse<bool>>> AddAllergies(List<AllergyUpdateDto> allergies)
+        public async Task<ActionResult> AddAllergies(List<AllergyUpdateDto> allergies)
         {
             var patientId = await GetCurrentPatient();
 
@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteAllergy/{allergyId}")]
-        public async Task<ActionResult<bool>> DeleteAllergy(Guid allergyId)
+        public async Task<ActionResult> DeleteAllergy(Guid allergyId)
         {
             var patientId = await GetCurrentPatient();
 
