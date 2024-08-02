@@ -11,7 +11,7 @@ function TableBody({ table }) {
             <div
               key={cell.id}
               {...{
-                className: css.td,
+                className: `${css.td} td`,
                 style: {
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
                 },

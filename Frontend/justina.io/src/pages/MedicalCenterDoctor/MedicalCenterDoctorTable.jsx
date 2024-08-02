@@ -13,7 +13,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import PaginationControls from "../../components/PaginationControls/PaginationControls";
 import TableContainer from "../../components/TableContainer/TableContainer";
 import useGetAllDoctors from "../../hooks/useGetAllDoctors";
-//import { DOCTOR_LIST_MOCKED } from "../../constants/mocks";
+import handleDeleteDoctor from "../../hooks/useHandleDeleteDoctor";
 
 const columnHelper = createColumnHelper();
 const columns = [
@@ -39,7 +39,25 @@ const columns = [
     header: () => <span className={css.headerInfo}>Contacto</span>,
     minSize: 216,
   }),
+  columnHelper.display({
+    id: "actions",
+    header: () => <span className="no-style"></span>,
+    cell: ({ row }) => <RemoveDoctorButton id={row.original.id} />,
+    maxSize: 45,
+    minSize: 45,
+  }),
 ];
+
+const RemoveDoctorButton = ({ id }) => (
+  <span className="no-style">
+    <button
+      onClick={() => handleDeleteDoctor(id)}
+      className="p-1 w-[2.115rem] rounded-full text-error-200 bg-rose-o60 -me-7 transition-all font-semibold hover:font-bold"
+    >
+      X
+    </button>
+  </span>
+);
 
 const MedicalCenterDoctorTable = () => {
   const [params, _] = useSearchParams();
@@ -48,6 +66,7 @@ const MedicalCenterDoctorTable = () => {
     pageIndex: 0,
     pageSize: 5,
   });
+
   const filteredData = useMemo(() => {
     const search = params.get("search")?.toLowerCase() || "";
     return data.filter((doctor) =>
@@ -56,6 +75,7 @@ const MedicalCenterDoctorTable = () => {
       )
     );
   }, [params.get("search"), data]);
+
   const table = useReactTable({
     data: filteredData,
     columns,

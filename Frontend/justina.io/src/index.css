@@ -149,3 +149,13 @@ html,
   font-feature-settings: normal;
   font-variation-settings: normal;
 }
+
+:is(.td, .th):has(> span.no-style) {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+
+  & .resize {
+    display: none;
+  }
+}

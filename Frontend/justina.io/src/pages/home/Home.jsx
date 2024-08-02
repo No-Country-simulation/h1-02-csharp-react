@@ -1,4 +1,4 @@
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 import { DrHome, PatientHome, MedicalCenterHome } from "../index";
 
 export default function Home() {

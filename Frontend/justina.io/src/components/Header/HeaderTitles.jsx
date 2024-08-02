@@ -1,4 +1,4 @@
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 import doctorProfile from "../../assets/imgs/medico.png";
 import userProfile from "../../assets/imgs/avatar.png";
 
