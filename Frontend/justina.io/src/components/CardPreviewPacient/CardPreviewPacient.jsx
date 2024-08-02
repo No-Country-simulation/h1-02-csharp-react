@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useSearchPatient from "../../hooks/useSearchPatient";
 import Show from "../Show/Show";
 import CardPreviewPacientLoader from "../Loader/CardPreviewPacientLoader";
-import { SearchState } from "../constants/SearchState";
+import { SearchState } from "../../constants/SearchState";
 
 const CardPreviewPacient = () => {
   const { isLoading, patient } = useSearchPatient();
