@@ -30,6 +30,7 @@ public static class PersistenceServiceExtensions
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         services.AddScoped<IAllergyRepository, AllergyRepository>();
         services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+        services.AddScoped<IDrugRepository, DrugRepository>();
 
         return services;
     }

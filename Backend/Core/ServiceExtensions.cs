@@ -23,6 +23,7 @@ public static class ServiceExtensions
         services.AddScoped<IMedicalCenterService, MedicalCenterService>();
         services.AddScoped<IAllergyService, AllergyService>();
         services.AddScoped<IDiseaseService, DiseaseService>();
+        services.AddScoped<IDrugService, DrugService>();
 
         // FluentValidation configuration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

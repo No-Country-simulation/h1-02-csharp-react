@@ -14,13 +14,15 @@ namespace Application.Services
         private readonly IPatientRepository _patientRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IDiseaseRepository _diseaseRepository;
+        private readonly IDrugRepository _drugRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<PatientService> _logger;
 
-        public PatientService(IPatientRepository patientRepository, IDiseaseRepository diseaseRepository, IMapper mapper, ILogger<PatientService> logger)
+        public PatientService(IPatientRepository patientRepository, IDiseaseRepository diseaseRepository, IDrugRepository drugRepository, IMapper mapper, ILogger<PatientService> logger)
         {
             _patientRepository = patientRepository;
             _diseaseRepository = diseaseRepository;
+            _drugRepository = drugRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -136,6 +138,35 @@ namespace Application.Services
                 }
 
                 dbPatient.Diseases = await _diseaseRepository.GetDiseasesByIds(updateRequest.DiseaseIds);
+
+                await _patientRepository.SaveChangesAsync();
+
+                serviceResponse.Data = true;
+                serviceResponse.Message = "Patient updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                _logger.LogError(ex, ex.Message);
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<bool>> UpdatePatientDrugs(Guid patientId, PatientUpdateDrugsDro updateRequest)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+
+            try
+            {
+                var dbPatient = await _patientRepository.GetPatientWithRelationships(patientId);
+
+                if (dbPatient == null)
+                {
+                    throw new Exception($"Patient with Id '{patientId}' was not found.");
+                }
+
+                dbPatient.Drugs = await _drugRepository.GetDrugsByIds(updateRequest.DrugIds);
 
                 await _patientRepository.SaveChangesAsync();
 
