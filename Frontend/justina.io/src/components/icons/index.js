@@ -11,6 +11,7 @@ import ArrowLeftIcon from "./ArrowLeftIcon.jsx";
 import ArrowRightIcon from "./ArrowRightIcon.jsx";
 import MicrophoneIcon from "./MicrophoneIcon.jsx";
 import ProfileIcon from "./ProfileIcon.jsx";
+import AskIcon from "./AskIcon";
 
 export {
   HomeIcon,
@@ -26,4 +27,5 @@ export {
   ArrowRightIcon,
   MicrophoneIcon,
   ProfileIcon,
+  AskIcon
 };
