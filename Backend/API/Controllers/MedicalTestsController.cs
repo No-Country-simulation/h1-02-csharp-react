@@ -20,7 +20,7 @@ public class MedicalTestsController : ControllerBase
     private readonly IMapper _mapper;
 
     public MedicalTestsController(
-        IMedicalTestService medicalTestService, 
+        IMedicalTestService medicalTestService,
         IFileService fileService,
         IMapper mapper,
         IPatientService patientService)
@@ -73,10 +73,10 @@ public class MedicalTestsController : ControllerBase
         {
             if (response.ValidationErrors != null && response.ValidationErrors.Count > 0)
             {
-                return BadRequest(new 
-                { 
-                    message = "Validation errors occurred.", 
-                    errors = response.ValidationErrors 
+                return BadRequest(new
+                {
+                    message = "Validation errors occurred.",
+                    errors = response.ValidationErrors
                 });
             }
 
@@ -153,6 +153,7 @@ public class MedicalTestsController : ControllerBase
     [HttpGet("GetAllByMedicalCenter")]
     [Authorize(Roles = "MedicalCenter")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetAllMedicalTests()
     {
@@ -168,6 +169,7 @@ public class MedicalTestsController : ControllerBase
     [HttpGet("GetAllByPatient")]
     [Authorize(Roles = "Patient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetAllMedicalTestsByPatient()
     {
@@ -181,6 +183,23 @@ public class MedicalTestsController : ControllerBase
         }
 
         var response = await _medicalTestService.GetMedicalTestsByPatientId(patientId.Data);
+
+        if (!response.Success)
+        {
+            return NotFound();
+        }
+        return Ok(response);
+    }
+
+
+    [HttpGet("GetAllByHealthCareProvider/{patientId}")]
+    [Authorize(Roles = "HealthCareProvider")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetMedicalTestsByHealthCareProvider(Guid patientId)
+    {
+        var response = await _medicalTestService.GetMedicalTestsByPatientId(patientId);
 
         if (!response.Success)
         {
