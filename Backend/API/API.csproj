@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AWS\AWS.csproj" />
     <ProjectReference Include="..\Core\Application.csproj" />
+    <ProjectReference Include="..\GoogleCloudSpeech\GoogleCloudSpeech.csproj" />
     <ProjectReference Include="..\Infrastructure\Persistence.csproj" />
     <ProjectReference Include="..\Mappings\Mappings.csproj" />
     <ProjectReference Include="..\RealTime\RealTime.csproj" />
