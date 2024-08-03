@@ -14,6 +14,7 @@ const RecordingNotes = () => {
     setNewNoteTitle,
     newNoteText,
     newNoteTitle,
+    buttonRef,
   } = useNoteStore();
   const handleClose = () => {
     if (openNote) {
@@ -21,7 +22,7 @@ const RecordingNotes = () => {
     }
   };
   const ref = useRef();
-  useClickOutside(ref, handleClose);
+  useClickOutside(ref, handleClose, buttonRef);
 
   const handleSave = () => {
     addNote(newNoteText, newNoteTitle).then((res) => {
@@ -48,11 +49,12 @@ const RecordingNotes = () => {
               defaultValue="Title"
               onChange={(e) => setNewNoteTitle(e.target.value)}
             />
-            <RecordingButton />
+            <RecordingButton setNewNoteText={(val) => setNewNoteText(val)} />
           </div>
           <textarea
             placeholder="Note..."
             className="outline outline-primary w-full resize-none border-none outline-1 rounded-lg p-2 min-h-24"
+            value={newNoteText}
             onChange={(e) => setNewNoteText(e.target.value)}
           />
           <div className="flex justify-between items-center mt-3">

@@ -7,6 +7,8 @@ const useNoteStore = create((set) => ({
     notes: [],
     newNoteText: "",
     newNoteTitle: "",
+    buttonRef: null,
+    setButtonRef: (ref) => set({ buttonRef: ref }),
     setNewNoteText: (text) => set({ newNoteText: text }),
     setNewNoteTitle: (title) => set({ newNoteTitle: title }),
     setOpen: (open) => set({ openNote: open }),
