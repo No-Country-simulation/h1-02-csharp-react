@@ -31,6 +31,7 @@ public static class PersistenceServiceExtensions
         services.AddScoped<IAllergyRepository, AllergyRepository>();
         services.AddScoped<IDiseaseRepository, DiseaseRepository>();
         services.AddScoped<IDrugRepository, DrugRepository>();
+        services.AddScoped<IPathologyRepository, PathologyRepository>();
 
         return services;
     }
