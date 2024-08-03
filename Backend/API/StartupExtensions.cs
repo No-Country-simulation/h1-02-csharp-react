@@ -11,6 +11,7 @@ using RealTime;
 using AWS;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using GoogleCloudSpeech;
 
 namespace API;
 
@@ -24,6 +25,7 @@ public static class StartupExtensions
         builder.Services.AddRealTimeServices();
         builder.Services.AddDomainProfiles();
         builder.Services.AddAwsServices();
+        builder.Services.AddGoogleCloudSpeechServices(builder.Configuration);
 
         builder.Services.AddHttpContextAccessor();
 
