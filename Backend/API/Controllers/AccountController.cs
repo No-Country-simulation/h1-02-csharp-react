@@ -68,8 +68,9 @@ public class AccountController : ControllerBase
 
     [HttpPost("register-health-care-provider")]
     [Authorize(Roles = "MedicalCenter")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
     public async Task<ActionResult<RegistrationResponse>> RegisterHealthCareProviderAsync(List<RegistrationHealthCareProviderRequest> request)
     {
@@ -80,16 +81,24 @@ public class AccountController : ControllerBase
             return Unauthorized();
         }
         var medicalCenterId = new Guid(userId);
-        await _authenticationService.RegisterHealthCareProviderAsync(medicalCenterId, request);
-        
-        return Ok();
+        var response = await _authenticationService.RegisterHealthCareProviderAsync(medicalCenterId, request);
+        if (response.Success)
+        {
+            return Created();
+        }
+        else
+        {
+            return BadRequest(new { Message = response.Message, Errors = response.ValidationErrors });
+        }
     }
 
     [HttpGet("me")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AuthenticatedUserReponse>> GetCurrentUser()
     {
-        //var userId = User.FindFirst(ClaimTypes.Name)?.Value;
         var userId = User.FindFirstValue("uid");
 
         if (userId == null)
