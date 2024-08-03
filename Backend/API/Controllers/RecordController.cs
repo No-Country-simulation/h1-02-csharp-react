@@ -21,7 +21,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = nameof(AccountType.HealthCareProvider))]
-        [HttpGet("GetAllRecords{patientId}")]
+        [HttpGet("GetAllRecords/{patientId}")]
         public async Task<ActionResult> GetAllRecordsByPatientId(Guid patientId)
         {
             var result = await _recordService.GetAllRecordsByPatientId(patientId);
@@ -54,7 +54,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = nameof(AccountType.Patient))]
-        [HttpGet("GetMyRecordById{recordId}")]
+        [HttpGet("GetMyRecordById/{recordId}")]
         public async Task<ActionResult> GetMyRecordById(Guid recordId)
         {
             var userId = User.FindFirstValue("uid");
