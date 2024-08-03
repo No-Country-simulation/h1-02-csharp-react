@@ -42,7 +42,9 @@
   --color-rose-o40: rgba(253, 239, 244, 0.4);
   --color-rose-o60: rgba(253, 239, 244, 0.6);
   --color-primary: #d65683;
+  --color-primary-300: #facedd;
   --color-secondary: #4a56ac;
+  --color-error-200: #c03744;
 }
 
 @layer utilities {
@@ -77,6 +79,14 @@
     order: 0;
   }
 
+  .shadow-glassy-effect {
+    box-shadow: inset 12.6667px -12.6667px 12.6667px rgba(255, 255, 255, 10%),
+      inset -12.6667px 12.6667px 12.6667px rgba(165, 165, 165, 10%);
+
+    backdrop-filter: blur(25.33px);
+    outline: none;
+  }
+
   .text-shadow {
     text-shadow: 1px 3px 4px #27272761;
   }
@@ -96,7 +106,7 @@
     width: 8px;
   }
 
-  .scrollbar-style::-webkit-scrollbar-track {    
+  .scrollbar-style::-webkit-scrollbar-track {
     background: #cdd3d6;
     border-radius: 10px;
   }
@@ -124,10 +134,12 @@ body {
   background-image: url("../src/assets/imgs/template.png");
   background-position: center;
   background-size: cover;
+  min-height: 100dvh;
 }
 
 html,
 :root {
+  height: auto;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

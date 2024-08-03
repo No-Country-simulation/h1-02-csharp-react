@@ -1,16 +1,16 @@
-import { useState } from "react"
-import FormInput from "../../components/FormInput/FormInput"
-import medicalCenterImg from '../../assets/imgs/medicalCenterImg.png'
+import { useState } from "react";
+import FormInput from "../../components/FormInput/FormInput";
+import medicalCenterImg from "../../assets/imgs/medicalCenterImg.png";
 
 const MedicalCenterHome = () => {
-  const [medicalCenter, _setMedicalCenter] = useState(
-    {id: 'medicalCenter1',
-    name: 'Clínica',
+  const [medicalCenter, _setMedicalCenter] = useState({
+    id: "medicalCenter1",
+    name: "Clínica",
     image: medicalCenterImg,
-    email: 'mail@gmail.com',
-    cuit: '30213847815',
-    phone: '12345678'}
-  )  
+    email: "mail@gmail.com",
+    cuit: "30213847815",
+    phone: "12345678",
+  });
   return (
     <section className="p-4 flex justify-center"> 
       <div className='backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl py-4 px-6 w-11/12 shadow-custom flex flex-col gap-4'>
@@ -25,7 +25,7 @@ const MedicalCenterHome = () => {
         <FormInput name='Teléfono *' type='text' placeholder='Teléfono no encontrado' id='phone' value={medicalCenter.phone} readOnly={'true'}/>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default MedicalCenterHome;
