@@ -1,38 +1,39 @@
-import { useRef } from "react";
-import useSWR from 'swr';
+import { useState,useEffect } from "react";
 import api from "../api/axios";
+import useDoctorStore from "../store/useDoctorStore";
 
 const mapResponse = (values)=>{
     return values.map((value)=>({
         id: value.id,
         email: value.email,
         fullName: `${value.firstName} ${value.lastName}`,
-        identification: value.localRegistrationNumber
+        identification: value.identificationNumber
     }))
 }
 
-const fetcher = ([pathKey, _]) =>{
-    return api(pathKey).then((values)=>{
-        const data = values.data || [];
-        return mapResponse(data);
-    }).catch((error)=> []);
-}
+
 
 const useGetAllDoctors = () => {
-    const swrKeYRef = useRef(["/api/HealthCareProviders"]);
-    const { data, isLoading } = useSWR(
-		swrKeYRef.current,
-		fetcher,
-		{
-			keepPreviousData: true,
-			revalidateOnReconnect: true,
-            revalidateOnFocus: true,	
-			revalidateOnMount: true,
-			fallbackData: [],
-		}
-	);
+    const {doctors,setDoctors} = useDoctorStore();
+    const [isLoading, setIsLoading] = useState(false);
 
-    return { data, isLoading };
+    useEffect(()=>{
+        const fetcher = async () => {
+            try {
+              const response = await api("/api/HealthCareProviders");
+              const data = response.data || [];
+              const mappedDoctors = mapResponse(data);
+              setDoctors(mappedDoctors);
+            } catch (error) {
+              console.error("Error fetching doctors:", error);
+            } finally {
+              setIsLoading(false);
+            }
+          };
+        setIsLoading(true);
+        fetcher();
+    }, []);
+    return { doctors, isLoading };
 }
 
 export default useGetAllDoctors;

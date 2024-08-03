@@ -1,4 +1,4 @@
-import useUserStore from "./hooks/useUserStore";
+import useUserStore from "./store/useUserStore";
 import { Landing, Home } from "./pages";
 import Layout from "./layouts/Layout";
 

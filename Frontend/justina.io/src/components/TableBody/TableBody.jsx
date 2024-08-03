@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import css from "../../styles/table.module.css";
+import { flexRender } from "@tanstack/react-table";
 
 function TableBody({ table }) {
   return (
@@ -10,13 +11,13 @@ function TableBody({ table }) {
             <div
               key={cell.id}
               {...{
-                className: css.td,
+                className: `${css.td} td`,
                 style: {
                   width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
                 },
               }}
             >
-              {cell.renderValue()}
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </div>
           ))}
         </div>

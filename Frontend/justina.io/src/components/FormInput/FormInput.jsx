@@ -1,14 +1,14 @@
 export default function FormInput({
   id,
   name,
-  type,
+  type = "text",
   placeholder,
   value,
   onChange,
   height = "h-[52px]",
   icon,
   labelStyle,
-  autoComplete,
+  autoComplete = "off",
   readOnly = false,
   inputStyle = "",
 }) {

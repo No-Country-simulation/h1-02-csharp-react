@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 
 export default function HeaderDropDown() {
   const { setToken, setUser } = useUserStore();

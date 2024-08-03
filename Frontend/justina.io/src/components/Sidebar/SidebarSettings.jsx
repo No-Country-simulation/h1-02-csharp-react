@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 import { LogoutIcon, SettingIcon } from "../icons";
 
 export default function SidebarSettings() {

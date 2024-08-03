@@ -10,12 +10,8 @@ function TableHeader({ table }) {
           {headerGroup.headers.map((header) => (
             <div
               key={header.id}
-              {...{
-                className: css.th,
-                style: {
-                  width: `calc(var(--header-${header?.id}-size) * 1px)`,
-                },
-              }}
+              className={`${css.th} th`}
+              style={{ width: `calc(var(--header-${header?.id}-size) * 1px)` }}
             >
               {header.isPlaceholder
                 ? null
@@ -28,7 +24,7 @@ function TableHeader({ table }) {
                   onDoubleClick: () => header.column.resetSize(),
                   onMouseDown: header.getResizeHandler(),
                   onTouchStart: header.getResizeHandler(),
-                  className: `${css.resizerButton} ${
+                  className: `resize ${css.resizerButton} ${
                     header.column.getIsResizing() ? css.isResizing : ""
                   }`,
                 }}
