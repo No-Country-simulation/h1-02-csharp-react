@@ -102,22 +102,35 @@
     line-height: 120%;
     color: var(--color-neutrals-900);
   }
+  .animation-enter {
+    animation: modalAnimation 0.2s ease-in 0.05s forwards;
+  }
+  .scrollbar-style {
+    --bg-scrollbar-thumb: #dde2e5;
+    --bg-scrollbar-thumb-hover: #f2f6f8;
+    --bg-scrollbar-track: #cdd3d6;
+    &.rose {
+      --bg-scrollbar-thumb: rgb(255 209 226 / 75%);
+      --bg-scrollbar-thumb-hover: rgb(255 209 226 / 95%);
+      --bg-scrollbar-track: rgb(209 197 201 / 20%);
+    }
+  }
   .scrollbar-style::-webkit-scrollbar {
     width: 8px;
   }
 
   .scrollbar-style::-webkit-scrollbar-track {
-    background: #cdd3d6;
+    background: var(--bg-scrollbar-track);
     border-radius: 10px;
   }
 
   .scrollbar-style::-webkit-scrollbar-thumb {
-    background-color: #dde2e5;
+    background-color: var(--bg-scrollbar-thumb);
     border-radius: 20px;
   }
 
   .scrollbar-style::-webkit-scrollbar-thumb:hover {
-    background: #f2f6f8;
+    background: var(--bg-scrollbar-thumb-hover);
   }
 }
 
@@ -157,5 +170,16 @@ html,
 
   & .resize {
     display: none;
+  }
+}
+
+@keyframes modalAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
 }

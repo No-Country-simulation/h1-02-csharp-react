@@ -1,4 +1,4 @@
-import useUserStore from "./useUserStore";
+import useUserStore from "../store/useUserStore";
 import { useNavigate } from 'react-router-dom'
 import api from "../api/axios"
 import {decodePayload,getValidUser} from "../api/decodeToken"
