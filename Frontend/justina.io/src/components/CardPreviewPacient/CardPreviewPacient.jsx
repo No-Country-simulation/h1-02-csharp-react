@@ -11,7 +11,8 @@ const CardPreviewPacient = () => {
   return (
     <div
       className={` max-w-[90%] h-96 rounded-[32px] shadow-glass-effect transition-all duration-300 ${
-        !patient && isLoading === SearchState.WAITING
+        (!patient && isLoading === SearchState.WAITING) ||
+        (!patient && isLoading === SearchState.FINISH)
           ? "opacity-0 w-0"
           : "w-[1074px] opacity-100 bg-rose-o60"
       } ${isLoading === 2 ? "px-4 py-6" : ""}`}

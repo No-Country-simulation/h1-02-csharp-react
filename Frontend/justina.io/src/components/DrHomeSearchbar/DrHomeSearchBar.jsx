@@ -3,11 +3,12 @@ import FormInput from "../FormInput/FormInput";
 import { SearchIcon } from "../icons";
 import css from "./drhomesearchbar.module.css";
 import useDebounce from "../../hooks/useDebounce";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export default function DrHomeSearchBar({
   placeHodler = "",
   onClick = () => alert("Not implemented"),
+  useEnter = false,
 }) {
   const [params, setSearchParams] = useSearchParams();
   const [input, setInput] = useState(params.get("search")?.toString() || "");
@@ -24,6 +25,20 @@ export default function DrHomeSearchBar({
     setInput(value);
     handleSearch(value);
   };
+  const handleEnter = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
+        useEnter && onClick();
+      }
+    },
+    [useEnter, onClick]
+  );
+  useEffect(() => {
+    window.addEventListener("keydown", handleEnter);
+    return () => window.removeEventListener("keydown", handleEnter);
+  }, []);
 
   return (
     <div className={css.searchBarContainer}>
