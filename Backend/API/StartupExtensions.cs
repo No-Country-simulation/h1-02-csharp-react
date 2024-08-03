@@ -98,12 +98,11 @@ public static class StartupExtensions
 
             c.OperationFilter<SwaggerAuthorizeCheckOperationFilter>();
 
-
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Description = @"JWT Authorization header using the Bearer scheme. \n\n 
+                Description = @"JWT Authorization header using the Bearer scheme. 
                    Enter 'Bearer' [space] and then your token in the text input below.
-                   \n\nExample: 'Bearer 12345abcdef'",
+                   Example: 'Bearer xxxxx.yyyyy.zzzz'",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.Http, //ApiKey

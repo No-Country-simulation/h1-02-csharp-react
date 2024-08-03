@@ -1,7 +1,5 @@
 ﻿using DTOs;
 using DTOs.HealthCareProvider;
-using DTOs.Patient;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Contracts.Services;
 
