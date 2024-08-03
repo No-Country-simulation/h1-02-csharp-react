@@ -3,9 +3,18 @@ import RecordingButton from "../RecordingButton/RecordingButton";
 import useNoteStore from "../../store/useNoteStore";
 import useClickOutside from "../../hooks/useClickOutside";
 import Show from "../Show/Show";
+import useNotes from "../../hooks/useNotes";
 
 const RecordingNotes = () => {
-  const { openNote, setOpen, setNewNoteText, setNewNoteTitle } = useNoteStore();
+  const { addNote } = useNotes();
+  const {
+    openNote,
+    setOpen,
+    setNewNoteText,
+    setNewNoteTitle,
+    newNoteText,
+    newNoteTitle,
+  } = useNoteStore();
   const handleClose = () => {
     if (openNote) {
       setOpen(false);
@@ -13,6 +22,14 @@ const RecordingNotes = () => {
   };
   const ref = useRef();
   useClickOutside(ref, handleClose);
+
+  const handleSave = () => {
+    addNote(newNoteText, newNoteTitle).then((res) => {
+      if (res.data) {
+        setOpen(false);
+      }
+    });
+  };
   return (
     <div
       ref={ref}
@@ -39,15 +56,15 @@ const RecordingNotes = () => {
             onChange={(e) => setNewNoteText(e.target.value)}
           />
           <div className="flex justify-between items-center mt-3">
-            <button
+            {/*<button
               className="text-primary shadow-custom rounded-[32px] w-32 h-8"
               onClick={() => alert("Editar")}
             >
               Editar
-            </button>
+            </button> */}
             <button
-              className="text-white bg-primary rounded-[32px] w-32 h-8"
-              onClick={() => alert("Guardar")}
+              className="text-white bg-primary rounded-[32px] w-32 h-8 ml-auto"
+              onClick={handleSave}
             >
               Guardar
             </button>
