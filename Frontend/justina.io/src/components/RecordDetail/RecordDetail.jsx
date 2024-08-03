@@ -11,7 +11,7 @@ const RecordDetail = ({ item }) => {
     </div>
   }
   return (
-    <div className='backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl py-2 px-6 w-full mb-4 shadow-custom text-neutrals800 flex flex-col items-center gap-2'>
+    <div className='backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl py-4 px-6 pb-8 w-full mb-4 shadow-custom text-neutrals800 flex flex-col items-center gap-2'>
         <h2 className="py-2 font-semibold text-subtitulo">Resumen Consulta Médica</h2>
         <div className="w-1/2 self-end">
             <FormInput name='Fecha *' type='text' placeholder='Fecha Incompleta' id='recordDate' icon={calendar} labelStyle='text-end' value={item.date} readOnly={'true'}/>
@@ -19,9 +19,7 @@ const RecordDetail = ({ item }) => {
         </div>        
         <FormInput name='Patología *' type='text' placeholder='Patología Incompleta' id='patology' value={item.patology} readOnly={'true'}/>
         <TextAreaInput name='Descripción *' placeholder='Descripción Incompleta' id='recordDescription' height='h-[120px]' value={item.description} readOnly={'true'}/>        
-        <FormInput name='Centro Médico *' type='text' placeholder='Centro Médico Incompleto' id='medicalCenter' value={item.medicalCenter} readOnly={'true'}/>  
-                
-                           
+        <FormInput name='Centro Médico *' type='text' placeholder='Centro Médico Incompleto' id='medicalCenter' value={item.medicalCenter} readOnly={'true'}/> 
     </div>
   )
 }
