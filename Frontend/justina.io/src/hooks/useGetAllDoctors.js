@@ -1,7 +1,6 @@
-import { useRef } from "react";
-import useSWR from 'swr';
+import { useState,useEffect } from "react";
 import api from "../api/axios";
-import { useEffect } from "react";
+import useDoctorStore from "../store/useDoctorStore";
 
 const mapResponse = (values)=>{
     return values.map((value)=>({
@@ -12,47 +11,29 @@ const mapResponse = (values)=>{
     }))
 }
 
-const fetcher = ([pathKey, _]) =>{
-    return api(pathKey).then((values)=>{
-        const data = values.data || [];
-        return mapResponse(data);
-    }).catch((error)=> []);
-}
+
 
 const useGetAllDoctors = () => {
-    const storeStr = localStorage.getItem("doctorStore");
-    const store = storeStr ? JSON.parse(storeStr) : null
-    const swrKeYRef = useRef(["/api/HealthCareProviders"]);
-    const { data, isLoading, mutate } = useSWR(
-		swrKeYRef.current,
-		fetcher,
-		{
-			keepPreviousData: true,
-			revalidateOnReconnect: true,
-            revalidateOnFocus: true,	
-			revalidateOnMount: true,
-			fallbackData: [],
-
-		}
-	);
+    const {doctors,setDoctors} = useDoctorStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=>{
-        if(store?.state?.doctorDeleted){
-            const id = store.state.doctorDeleted;
-            console.log({id})
-            const updatedItems = data.filter(item => item.id !== id);
-            mutate(updatedItems);
-            localStorage.setItem(
-                "doctorStore",
-                JSON.stringify({
-                  version: 0,
-                  state: { ...store.state, doctorDeleted: "" },
-                })
-              );
-        }
-    }, [store.state.doctorDeleted]);
-
-    return { data, isLoading };
+        const fetcher = async () => {
+            try {
+              const response = await api("/api/HealthCareProviders");
+              const data = response.data || [];
+              const mappedDoctors = mapResponse(data);
+              setDoctors(mappedDoctors);
+            } catch (error) {
+              console.error("Error fetching doctors:", error);
+            } finally {
+              setIsLoading(false);
+            }
+          };
+        setIsLoading(true);
+        fetcher();
+    }, []);
+    return { doctors, isLoading };
 }
 
 export default useGetAllDoctors;

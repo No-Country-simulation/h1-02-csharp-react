@@ -1,7 +1,6 @@
-import RegisterDoctorModal from "../../components/RegisterDoctorModal/RegisterDoctorModal";
 import MedicalCenterDoctorTable from "./MedicalCenterDoctorTable";
 import MedicalCenterSearchBar from "./MedicalCenterSearchBar";
-import RegisterDoctorButton from "./RegisterDoctorButton";
+import RegisterDoctorButton from "../../components/RegisterDoctorButton/RegisterDoctorButton";
 
 const MedicalCenterDoctor = () => {
   return (
@@ -13,7 +12,6 @@ const MedicalCenterDoctor = () => {
           <MedicalCenterDoctorTable />
         </div>
       </div>
-      <RegisterDoctorModal />
     </section>
   );
 };

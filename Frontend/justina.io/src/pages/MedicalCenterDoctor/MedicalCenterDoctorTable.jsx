@@ -13,55 +13,13 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import PaginationControls from "../../components/PaginationControls/PaginationControls";
 import TableContainer from "../../components/TableContainer/TableContainer";
 import useGetAllDoctors from "../../hooks/useGetAllDoctors";
-import handleDeleteDoctor from "../../hooks/useHandleDeleteDoctor";
+import RemoveDoctorButton from "../../components/RemoveDoctorButton/RemoveDoctorButton";
 
 const columnHelper = createColumnHelper();
-const columns = [
-  columnHelper.accessor("fullName", {
-    id: "fullName",
-    header: () => <span className={css.headerInfo}>Nombre Completo</span>,
-  }),
-  columnHelper.accessor("id", {
-    id: "id",
-    header: () => <span className={css.headerInfo}>ID</span>,
-    cell: ({ getValue }) => (
-      <span className="w-full h-full inline-block whitespace-nowrap overflow-hidden text-ellipsis">
-        {getValue()}
-      </span>
-    ),
-  }),
-  columnHelper.accessor("identification", {
-    id: "identification",
-    header: () => <span className={css.headerInfo}>N# de Cuil</span>,
-  }),
-  columnHelper.accessor("email", {
-    id: "email",
-    header: () => <span className={css.headerInfo}>Contacto</span>,
-    minSize: 216,
-  }),
-  columnHelper.display({
-    id: "actions",
-    header: () => <span className="no-style"></span>,
-    cell: ({ row }) => <RemoveDoctorButton id={row.original.id} />,
-    maxSize: 45,
-    minSize: 45,
-  }),
-];
-
-const RemoveDoctorButton = ({ id }) => (
-  <span className="no-style">
-    <button
-      onClick={() => handleDeleteDoctor(id)}
-      className="p-1 w-[2.115rem] rounded-full text-error-200 bg-rose-o60 -me-7 transition-all font-semibold hover:font-bold"
-    >
-      X
-    </button>
-  </span>
-);
 
 const MedicalCenterDoctorTable = () => {
   const [params, _] = useSearchParams();
-  const { data } = useGetAllDoctors();
+  const { doctors } = useGetAllDoctors();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -69,12 +27,46 @@ const MedicalCenterDoctorTable = () => {
 
   const filteredData = useMemo(() => {
     const search = params.get("search")?.toLowerCase() || "";
-    return data.filter((doctor) =>
+    return doctors.filter((doctor) =>
       Object.values(doctor).some((value) =>
         String(value).toLowerCase().includes(search)
       )
     );
-  }, [params.get("search"), data]);
+  }, [params.get("search"), doctors]);
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("fullName", {
+        id: "fullName",
+        header: () => <span className={css.headerInfo}>Nombre Completo</span>,
+      }),
+      columnHelper.accessor("id", {
+        id: "id",
+        header: () => <span className={css.headerInfo}>ID</span>,
+        cell: ({ getValue }) => (
+          <span className="w-full h-full inline-block whitespace-nowrap overflow-hidden text-ellipsis">
+            {getValue()}
+          </span>
+        ),
+      }),
+      columnHelper.accessor("identification", {
+        id: "identification",
+        header: () => <span className={css.headerInfo}>N# de Cuil</span>,
+      }),
+      columnHelper.accessor("email", {
+        id: "email",
+        header: () => <span className={css.headerInfo}>Contacto</span>,
+        minSize: 216,
+      }),
+      columnHelper.display({
+        id: "actions",
+        header: () => <span className="no-style"></span>,
+        cell: ({ row }) => <RemoveDoctorButton id={row.original.id} />,
+        maxSize: 45,
+        minSize: 45,
+      }),
+    ],
+    []
+  );
 
   const table = useReactTable({
     data: filteredData,

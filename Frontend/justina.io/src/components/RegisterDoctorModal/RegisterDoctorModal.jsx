@@ -20,7 +20,8 @@ const DEFAULT_VALUES = {
 };
 
 export default function RegisterDoctorModal() {
-  const { openRegisterDoctor, setOpenRegisterDoctor } = useDoctorStore();
+  const { openRegisterDoctor, setOpenRegisterDoctor, addDoctor } =
+    useDoctorStore();
   const { register, specialities } = useRegisterDoctor();
   const [values, setValues] = useState(DEFAULT_VALUES);
   const handleChange = (event) => {
@@ -37,15 +38,16 @@ export default function RegisterDoctorModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    register([
-      {
-        ...values,
-        confirmedPassword: undefined,
-        identificationType: 0,
-        emailConfirmed: values.email,
-        specialitiesIds: [values.specialitiesIds?.id],
-      },
-    ]).then(() => {
+    const sendToRegister = {
+      ...values,
+      confirmedPassword: undefined,
+      identificationType: 0,
+      emailConfirmed: values.email,
+      specialitiesIds: [values.specialitiesIds?.id],
+    };
+
+    register([sendToRegister]).then(() => {
+      addDoctor(values);
       setValues(DEFAULT_VALUES);
       setOpenRegisterDoctor(false);
     });

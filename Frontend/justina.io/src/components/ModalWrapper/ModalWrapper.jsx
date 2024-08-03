@@ -21,7 +21,7 @@ const ModalWrapper = ({ open, onClose, children, className }) => {
   return (
     <Show when={open}>
       <div
-        onDoubleClick={handleClose}
+        onDoubleClick={onClose}
         className="fixed inset-0 w-full h-full flex items-start justify-center z-50 bg-rose-o40"
       >
         <article

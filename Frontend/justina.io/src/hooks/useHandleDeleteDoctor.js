@@ -1,21 +1,9 @@
 import api from "../api/axios";
 
-const useHandleDeleteDoctor = (id) => {
-  api.delete(`/api/HealthCareProviders/${id}`).then((value) => {
-    console.log("Deleted: ", value);
-    const doctorStore = localStorage.getItem("doctorStore")
-      ? JSON.parse(localStorage.getItem("doctorStore"))
-      : {};
-    if (doctorStore) {
-      localStorage.setItem(
-        "doctorStore",
-        JSON.stringify({
-          version: 0,
-          state: { ...doctorStore.state, doctorDeleted: id },
-        })
-      );
-    }
-  });
+const handleDeleteDoctor = (id) => {
+  return api.delete(`/api/HealthCareProviders/${id}`).then((value) => {
+    return true;
+  }).catch(()=> false);
 };
 
-export default useHandleDeleteDoctor;
+export default handleDeleteDoctor;

@@ -1,16 +1,23 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
 
-const storeInit = (store, persistence) => devtools(persist(store, persistence));
 
-const useDoctorStore =create()(
-  storeInit((set) => ({
-    doctorDeleted: "",
-    openRegisterDoctor: false,
-    setOpenRegisterDoctor: (openRegisterDoctor) => set({ openRegisterDoctor }),
-    setDoctorDeleted: (doctorDeleted) => set({ doctorDeleted }),
-  }), {name: "doctorStore"})
-);
+const useDoctorStore =create(((set) => ({
+  openRegisterDoctor: false,
+  doctors: [],
+  setDoctors: (doctors) => {
+    set({ doctors })
+  },
+  removeId: (ID)=> set((state) => ({
+    doctors: state.doctors.filter((doctor) => doctor.id !== ID),
+  })),
+  addDoctor: (doctor) => set((state) => ({ doctors: [...state.doctors, {
+    id: doctor.id,
+    email: doctor.email,
+    fullName: `${doctor.firstName} ${doctor.lastName}`,
+    identification: doctor.identificationNumber
+}] })),
+  setOpenRegisterDoctor: (openRegisterDoctor) => set({ openRegisterDoctor }),
+})));
 
 
 export default useDoctorStore;

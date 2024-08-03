@@ -22,8 +22,7 @@ const useRegisterDoctor = ()=>{
 
     const register = (body)=>{
         return api.post("/api/Account/register-health-care-provider", body).then((res)=>{
-            console.log({res});
-            return true;
+            return res;
         })
     }
 
