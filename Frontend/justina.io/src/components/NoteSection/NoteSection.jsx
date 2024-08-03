@@ -1,13 +1,24 @@
 import { useRef } from "react";
 import useNoteStore from "../../store/useNoteStore";
 import { useEffect } from "react";
+import api from "../../api/axios";
+import NoteComponent from "./NoteComponent";
+
+const fetch = async () => {
+  return api.get("/api/Note/GetAllNotes").then((notes) => {
+    return notes.data;
+  });
+};
 
 export default function NoteSection() {
-  const { setOpen, setButtonRef, openNote } = useNoteStore();
+  const { setOpen, setButtonRef, openNote, setNotes, notes } = useNoteStore();
   const ref = useRef();
 
   useEffect(() => {
     setButtonRef(ref);
+    if (notes.length === 0) {
+      fetch().then((notes) => setNotes(notes));
+    }
   }, [ref]);
   return (
     <section>
@@ -22,25 +33,13 @@ export default function NoteSection() {
         </button>
       </div>
       <div className="w-full grid grid-cols-2 gap-8 pt-4">
-        <div className="rounded-2xl bg-rose-o60 max-w-[300px]">
-          <div className="flex justify-between px-2">
-            <input
-              className="text-primary font-bold text-xl bg-transparent outline-none border-none max-w-[75%]"
-              defaultValue={"Title"}
-              disabled
-            />
-            <div>
-              <button className="text-error-200 rounded-full p-1 bg-rose-o40 w-8">
-                X
-              </button>
-            </div>
-          </div>
-          <textarea
-            className="text-neutrals600 outline-none border-none bg-transparent resize-none p-4"
-            defaultValue={"Probando nota"}
-            disabled
+        {notes.map((note) => (
+          <NoteComponent
+            key={note.id}
+            title={note.title}
+            desc={note.description}
           />
-        </div>
+        ))}
       </div>
     </section>
   );

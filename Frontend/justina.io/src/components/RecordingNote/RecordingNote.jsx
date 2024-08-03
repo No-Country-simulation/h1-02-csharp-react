@@ -15,6 +15,7 @@ const RecordingNotes = () => {
     newNoteText,
     newNoteTitle,
     buttonRef,
+    addItem,
   } = useNoteStore();
   const handleClose = () => {
     if (openNote) {
@@ -28,6 +29,13 @@ const RecordingNotes = () => {
     addNote(newNoteText, newNoteTitle).then((res) => {
       if (res.data) {
         setOpen(false);
+        addItem({
+          id: crypto.randomUUID(),
+          description: newNoteText,
+          title: newNoteTitle,
+        });
+        setNewNoteTitle("");
+        setNewNoteText("");
       }
     });
   };
@@ -58,12 +66,6 @@ const RecordingNotes = () => {
             onChange={(e) => setNewNoteText(e.target.value)}
           />
           <div className="flex justify-between items-center mt-3">
-            {/*<button
-              className="text-primary shadow-custom rounded-[32px] w-32 h-8"
-              onClick={() => alert("Editar")}
-            >
-              Editar
-            </button> */}
             <button
               className="text-white bg-primary rounded-[32px] w-32 h-8 ml-auto"
               onClick={handleSave}

@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 
 const useNoteStore = create((set) => ({
-    openNote: true,
+    openNote: false,
     notes: [],
     newNoteText: "",
     newNoteTitle: "",
@@ -13,6 +13,7 @@ const useNoteStore = create((set) => ({
     setNewNoteTitle: (title) => set({ newNoteTitle: title }),
     setOpen: (open) => set({ openNote: open }),
     setNotes: (notes) => set({ notes }),
+    addItem: (note) => set((state) => ({ notes: [...state.notes, note] })),
 }));
 
 export default useNoteStore;
