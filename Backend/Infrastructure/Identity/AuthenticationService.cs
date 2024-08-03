@@ -3,8 +3,11 @@ using Application.Contracts.Services;
 using Application.Exceptions;
 using Application.Models.Authentication;
 using AutoMapper;
+using Azure;
 using Domain.Entities;
+using DTOs;
 using DTOs.Authentication;
+using DTOs.HealthCareProvider;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -166,38 +169,76 @@ public class AuthenticationService : IAuthenticationService
         return new RegistrationResponse() { UserId = user.Id };
     }
 
-    public async Task RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request)
+    public async Task<ServiceResponse<string>> RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request)
     {
+        var serviceResponse = new ServiceResponse<string>();
+
         var healthCareProviders = new List<HealthCareProvider>();
         try
         {
             foreach (var healthCareProviderDto in request)
             {
-                var user = await CreateUserAsync(healthCareProviderDto);
-
-                var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
-
-                if (!roleResult.Succeeded)
+                try
                 {
-                    await _userManager.DeleteAsync(user);
-                    throw new Exception($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                    var user = await CreateUserAsync(healthCareProviderDto);
+
+                    var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
+
+                    if (!roleResult.Succeeded)
+                    {
+                        await _userManager.DeleteAsync(user);
+                        throw new RoleAssignmentException($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                    }
+
+                    var healthCareProvider = await AddHealthCareProvider(medicalCenterId, user, healthCareProviderDto);
+                    healthCareProviders.Add(healthCareProvider);
                 }
+                catch (UserCreationException ucex)
+                {
+                    serviceResponse.ValidationErrors ??= new List<string>();
+                    serviceResponse.ValidationErrors.Add(ucex.Message);
+                }
+                catch (RoleAssignmentException raex)
+                {
+                    serviceResponse.ValidationErrors ??= new List<string>();
+                    serviceResponse.ValidationErrors.Add(raex.Message);
+                }
+                //var user = await CreateUserAsync(healthCareProviderDto);
 
-                var healthCareProvider = await AddHealthCareProvider(medicalCenterId, user, healthCareProviderDto);
+                //var roleResult = await _userManager.AddToRoleAsync(user, "HealthCareProvider");
 
-                healthCareProviders.Add(healthCareProvider);
+                //if (!roleResult.Succeeded)
+                //{
+                //    await _userManager.DeleteAsync(user);
+                //    throw new RoleAssignmentException($"Error assigning role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                //}
+
+                //var healthCareProvider = await AddHealthCareProvider(medicalCenterId, user, healthCareProviderDto);
+
+                //healthCareProviders.Add(healthCareProvider);
             }
 
-            await _healthCareProviderRepository.AddRangeAsync(healthCareProviders);
+            if (serviceResponse.ValidationErrors == null || serviceResponse.ValidationErrors.Count == 0)
+            {
+                await _healthCareProviderRepository.AddRangeAsync(healthCareProviders);
+                await _healthCareProviderRepository.SaveChangesAsync();
+                serviceResponse.Message = "Health care providers registered successfully.";
+            }
+            else
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Some health care providers could not be registered.";
+            }
+            //await _healthCareProviderRepository.AddRangeAsync(healthCareProviders);
 
-            await _healthCareProviderRepository.SaveChangesAsync();
+            //await _healthCareProviderRepository.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            // Handle exception related to addition
-            throw new Exception($"Error adding {ex.Message}");
+            serviceResponse.Success = false;
+            serviceResponse.Message = $"Unexpected error: {ex.Message}";
         }
-        //return new RegistrationResponse() { UserId = user.Id };
+        return serviceResponse;
     }
 
     private async Task<ApplicationUser> CreateUserAsync(RegistrationUserRequest request)
@@ -206,7 +247,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (existingEmail != null)
         {
-            throw new Exception($"Email '{request.Email}' already exists");
+            throw new UserCreationException($"Email '{request.Email}' already exists");
         }
 
         var user = _mapper.Map<ApplicationUser>(request);
@@ -217,7 +258,7 @@ public class AuthenticationService : IAuthenticationService
             
             if (!result.Succeeded)
             {
-                throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+                throw new UserCreationException($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
 
         }
@@ -225,7 +266,7 @@ public class AuthenticationService : IAuthenticationService
         {
             // Handle exception related to addition
             await _userManager.DeleteAsync(user);
-            throw new Exception($"Error adding {ex.Message}");
+            throw new UserCreationException($"Error adding user: {ex.Message}");
         }
         return user;
     }
@@ -236,7 +277,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (existingEmail != null)
         {
-            throw new Exception($"Email '{request.Email}' already exists");
+            throw new UserCreationException($"Email '{request.Email}' already exists");
         }
         var user = _mapper.Map<ApplicationUser>(request);
 
@@ -246,14 +287,14 @@ public class AuthenticationService : IAuthenticationService
 
             if (!result.Succeeded)
             {
-                throw new Exception($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
+                throw new UserCreationException($"{string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
         }
         catch (Exception ex)
         {
             // Handle exception related to addition
             await _userManager.DeleteAsync(user);
-            throw new Exception($"Error adding {ex.Message}");
+            throw new UserCreationException($"Error adding user: {ex.Message}");
         }
         return user;
     }

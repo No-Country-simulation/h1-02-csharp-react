@@ -1,4 +1,5 @@
-﻿using DTOs.Authentication;
+﻿using DTOs;
+using DTOs.Authentication;
 
 namespace Application.Contracts.Services;
 
@@ -8,5 +9,5 @@ public interface IAuthenticationService
     Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
     Task<AuthenticatedUserReponse> FindByIdAsync(string userId);
     Task<RegistrationResponse> RegisterMedicalCenterAsync(RegistrationMedicalCenterRequest request);
-    Task RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request);
+    Task<ServiceResponse<string>> RegisterHealthCareProviderAsync(Guid medicalCenterId, IEnumerable<RegistrationHealthCareProviderRequest> request);
 }
