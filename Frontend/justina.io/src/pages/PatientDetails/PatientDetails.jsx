@@ -4,63 +4,56 @@ import MedicalResults from "../../components/MedicalResults/MedicalResults"
 import RecordsList from "../../components/RecordsList/RecordsList"
 
 import medicalStudies from '../../assets/imgs/medicalStudies.png'
-import medicalStudiesIcon from "../../assets/icons/medicalStudiesIcon.svg"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
 import DataBar from "../../components/DataBar/DataBar"
+import api from "../../api/axios"
 
-const Records = [
-    {
-        title:'Seguimiento Esguince Tobillo',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de tobillo grado 2',
-        date:'27/07/2024',
-        medicalCenter:'Clínica Olivos',
-        doctor:'Juan Perez'
-    },{
-        title:'Seguimiento Esguince Rodilla',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de rodilla grado 1',
-        date:'25/07/2024',
-        medicalCenter:'Sanatorio Trinidad',
-        doctor:'Esteban García'
-    },{
-        title:'Seguimiento Esguince Tobillo',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de tobillo grado 2',
-        date:'27/07/2024',
-        medicalCenter:'Clínica Olivos',
-        doctor:'Juan Perez'
-    },{
-        title:'Seguimiento Esguince Tobillo',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de tobillo grado 2',
-        date:'27/07/2024',
-        medicalCenter:'Clínica Olivos',
-        doctor:'Juan Perez'
-    },{
-        title:'Seguimiento Esguince Tobillo',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de tobillo grado 2',
-        date:'27/07/2024',
-        medicalCenter:'Clínica Olivos',
-        doctor:'Juan Perez'
-    },{
-        title:'Seguimiento Esguince Tobillo',
-        description:'El paciente demuestra un gran progreso luego de su quinta sesión de kinesiología. Le quedan 5 sesiones más. Hay altas probabilidades de agregar más sesiones al tratamiento.',
-        patology:'Esguince de tobillo grado 2',
-        date:'27/07/2024',
-        medicalCenter:'Clínica Olivos',
-        doctor:'Juan Perez'
-    }
-]
-const PatientDetails = () => {
+const PatientDetails = ({patientId='ed34ef2f-ae0e-4e5c-398e-08dcb3ea29bc'}) => {
     const [selectedRecord, setSelectedRecord] = useState(null)
     const [isModalOpen, setModalOpen] = useState(false)
+    const [records, setRecords] = useState([])
+    const [medicalResults, setMedicalResults] = useState([])
 
     const openModal = () => setModalOpen(true)
     const closeModal = () => setModalOpen(false)
+
+    const fetchPatientData = async () => {      
+      try { 
+        const response = await api.get(`/api/Record/GetAllRecords/${patientId}`)
+        if (response.success) {
+          setRecords([
+            ...response.data          
+          ])
+        } else {
+          console.error('Error: ', response.message);
+        }
+      } catch (error) {
+        console.error('Error fetching records data:', error)
+      }
+    }
+    const fetchPatientMedicalResults = async () => {      
+      try { 
+        const response = await api.get(`/api/MedicalTests/GetAllByHealthCareProvider/${patientId}`)
+        if (response.success) {          
+          setMedicalResults([
+            ...response.data          
+          ])
+        } else {
+          console.error('Error: ', response.message);
+        }
+      } catch (error) {
+        console.error('Error fetching medical results:', error)
+      }
+    }
+    
+    useEffect(() => {
+        if (patientId) {
+          fetchPatientData()
+          fetchPatientMedicalResults()
+        }
+      }, [])
     
     return (
         <>            
@@ -75,14 +68,13 @@ const PatientDetails = () => {
                             <div className="flex flex-col items-start gap-4 w-2/3 max-h-20">                           
                                 <RecordsList 
                                     title="Últimas Consultas Médicas"
-                                    items={Records}
+                                    items={records}
                                     itemClicked={setSelectedRecord}
                                 />
                             </div>   
                             <div className="w-1/3 flex flex-col gap-4">                        
                                     <MedicalResults                    
                                         title="Resultados Médicos"
-                                        icon={medicalStudiesIcon}
                                         image={medicalStudies}
                                         onClick={openModal}
                                     />                 
@@ -96,7 +88,7 @@ const PatientDetails = () => {
                     </div>
                 </div>
             </section>
-            <MedicalResultsModal isOpen={isModalOpen} onClose={closeModal}/> 
+            <MedicalResultsModal isOpen={isModalOpen} onClose={closeModal} medicalResults={medicalResults}/> 
         </>
     )
 }

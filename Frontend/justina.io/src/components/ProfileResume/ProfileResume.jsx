@@ -19,8 +19,7 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464' }) 
     allergies:[],
     diseases:[],
     drugs:[],
-    image: malePatientPhoto}  )  
-  
+    image: malePatientPhoto})    
   
   useEffect(() => {
     const fetchPatientData = async () => {      
