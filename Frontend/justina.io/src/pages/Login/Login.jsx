@@ -2,6 +2,9 @@ import { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput";
 
 import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
+import logo from "../../assets/imgs/imagotype.webp"
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,40 +27,63 @@ const Login = () => {
   };
 
   return (
-    
-    <div className="w-2/3 h-screen p-8 justify-center items-center">
-      <h2 className="text-neutrals800 text-titulo font font-bold mb-4">
-        Login
-      </h2>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-        <FormInput
-          name="Email"
-          type="email"
-          placeholder="Ingrese su email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <FormInput
-          name="Password"
-          type="password"
-          autoComplete="current-password"
-          placeholder="Ingrese su contraseña"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="bg-primary text-parrafo py-1 px-4 rounded-lg text-white w-fit"
-        >
-          Ingresar
-        </button>
-      </form>
+    <div className="flex justify-center items-center">
+      <div className="w-[1100px] m-14 h-screen pr-8 flex justify-center items-center rounded-3xl bg-rose-o10 shadow-glass-effect">
+        <div className="rounded-3xl w-1/2 flex flex-col justify-center items-center h-full px-14">
+          <img className="rounded-3xl absolute w-1/2 h-full inset-0 object-cover" src="https://images.unsplash.com/photo-1638202993928-7267aad84c31?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+          <div className="rounded-3xl absolute w-1/2 inset-0 bg-pink-700 bg-opacity-70">
+            
+          </div>
+          <div className="relative flex flex-col justify-center items-center h-full">
+            <img className="w-56 mb-3" src={logo} alt="" />
+            <p className="text-white text-small mb-8">Ayudemos a Todos los que Podamos</p>
+            <p className="text-white text-center">Toda la información del paciente en un único lugar, para que pueda ser consultada de manera rápida y segura.</p>
+          </div>
+          
+          <img src="" alt="" />
+          
+        </div>
+        <div className="w-1/2 px-14">
+          <h2 className="text-neutrals800 text-titulopag font font-bold mb-4">
+            Inicia Sesión
+          </h2>
+          <form onSubmit={handleSubmit} className="grid gap-4">
+            <FormInput
+              name="Email"
+              type="email"
+              placeholder="Ingrese su email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <FormInput
+              name="Password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Ingrese su contraseña"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button
+              type="submit"
+              className="bg-primary text-parrafo py-2 px-4 rounded-[32px] text-white w-full"
+            >
+              Ingresar
+            </button>
+          </form>
+          <div className="w-full px-4 text-neutrals800 inline-flex justify-center mt-6">
+            <p className="text-small">¿No tienes una cuenta?</p>
+            <Link className="text-primary text-parrafo font-semibold pl-2 hover:text-secondary" to="/register">Regístrate</Link>
+          </div>
+
+        </div>
+
+      </div>
     </div>
-
-    
+      
   );
 };
 
