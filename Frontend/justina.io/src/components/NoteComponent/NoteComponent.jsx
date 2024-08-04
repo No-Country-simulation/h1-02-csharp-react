@@ -1,5 +1,6 @@
 import NoteTextarea from "./NoteTextarea";
 import useHandleDeleteNote from "../../hooks/useHandleDeleteNote";
+import { CrossIcon } from "../icons";
 
 function getRandomClass() {
   const classes = [
@@ -25,7 +26,7 @@ export default function NoteComponent({ title, desc, id, i = 0 }) {
         i % 2 === 0 ? classess[0] : classess[1]
       }`}
     >
-      <div className="flex justify-between px-4">
+      <div className="flex justify-between pl-4 pr-2">
         <input
           className="text-primary font-bold text-xl bg-transparent outline-none border-none max-w-[75%]"
           defaultValue={title || "No title"}
@@ -33,10 +34,10 @@ export default function NoteComponent({ title, desc, id, i = 0 }) {
         />
         <div>
           <button
-            className="text-error-200 rounded-full p-1 bg-rose-o40 w-8 font-bold"
+            className="text-error-200 rounded-full p-1 bg-white/60 w-8 font-bold scale-[0.9]"
             onClick={handleDelete}
           >
-            X
+            <CrossIcon />
           </button>
         </div>
       </div>
