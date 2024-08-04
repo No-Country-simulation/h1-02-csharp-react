@@ -17,6 +17,7 @@ const RecordingNotes = () => {
     buttonRef,
     addItem,
   } = useNoteStore();
+
   const handleClose = () => {
     if (openNote) {
       setOpen(false);
@@ -39,6 +40,7 @@ const RecordingNotes = () => {
       }
     });
   };
+
   return (
     <div
       ref={ref}

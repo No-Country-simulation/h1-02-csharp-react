@@ -32,12 +32,13 @@ export default function NoteSection() {
           Crear Nueva Nota +
         </button>
       </div>
-      <div className="w-full grid grid-cols-2 gap-8 pt-4">
+      <div className="w-full grid grid-cols-2 gap-8 pt-4 transition-all duration-200">
         {notes.map((note) => (
           <NoteComponent
             key={note.id}
             title={note.title}
             desc={note.description}
+            id={note.id}
           />
         ))}
       </div>

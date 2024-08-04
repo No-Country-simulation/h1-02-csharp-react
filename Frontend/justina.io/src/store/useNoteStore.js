@@ -14,6 +14,7 @@ const useNoteStore = create((set) => ({
     setOpen: (open) => set({ openNote: open }),
     setNotes: (notes) => set({ notes }),
     addItem: (note) => set((state) => ({ notes: [...state.notes, note] })),
+    removeItem: (id) => set((state) => ({ notes: state.notes.filter((note) => note.id !== id) })),
 }));
 
 export default useNoteStore;
