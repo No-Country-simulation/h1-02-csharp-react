@@ -1,6 +1,5 @@
 import ButtonSoft from "../../components/ButtonSoft/ButtonSoft";
 import DataBar from "../../components/DataBar/DataBar";
-import NoteSection from "../../components/NoteSection/NoteSection";
 
 import ToDoList from "../../components/ToDoList/ToDoList";
 
@@ -22,9 +21,6 @@ const PatientHome = () => {
           </div>
           <div className="flex justify-center">
             <ToDoList />
-          </div>
-          <div className="block mt-20">
-            <NoteSection />
           </div>
         </div>
       </div>
