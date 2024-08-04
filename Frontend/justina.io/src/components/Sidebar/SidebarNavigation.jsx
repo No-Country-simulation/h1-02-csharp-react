@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import { HomeIcon, MedicalIcon, PatientsIcon, RecordsIcon } from "../icons";
+import { HomeIcon, MedicalIcon, RecordsIcon } from "../icons";
 import SidebarNavigationItem from "./SidebarNavigationItem";
 import { useCallback } from "react";
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 import { useMemo } from "react";
 
 const ITEM_SIZE = 55;
@@ -24,11 +24,6 @@ const menuPatientAndDr = [
     icon: <HomeIcon />,
     text: "Inicio",
     link: "/",
-  },
-  {
-    icon: <PatientsIcon />,
-    text: "Perfil",
-    link: "/drprofile",
   },
 ];
 const menuMedicalCenter = [

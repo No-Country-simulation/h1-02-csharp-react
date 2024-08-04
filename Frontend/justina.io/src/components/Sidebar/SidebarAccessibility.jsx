@@ -1,5 +1,5 @@
 import justina from "../../assets/imgs/JustinaHelper.png";
-import { PersonIcon, HeartIcon } from "../icons";
+import { PersonIcon, AskIcon } from "../icons";
 
 const SidebarAccessibility = () => (
   <div className="w-[207px] p-4 mt-4 flex-col justify-start items-center gap-[13px] inline-flex">
@@ -10,9 +10,10 @@ const SidebarAccessibility = () => (
     </div>
     <div className="flex flex-col gap-y-4">
       <button
-        title="Abrir accesibilidad"
-        className="shadow-glass-effect bg-rose-o40 rounded-full p-2"
+        className="shadow-glass-effect bg-rose-o40 rounded-full p-2 opacity-70"
         onClick={() => alert("Not implemented")}
+        disabled
+        title="Accesibilidad, muy pronto..."
       >
         <PersonIcon />
       </button>
@@ -21,7 +22,7 @@ const SidebarAccessibility = () => (
         className="shadow-glass-effect bg-rose-o40 rounded-full p-2"
         onClick={() => alert("Not implemented")}
       >
-        <HeartIcon />
+        <AskIcon />
       </button>
     </div>
     <img

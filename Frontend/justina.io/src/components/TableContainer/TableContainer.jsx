@@ -17,10 +17,10 @@ export default function TableContainer({ table, children }) {
   return (
     <div
       {...{
-        className: css.divTable,
+        className: `${css.divTable} shadow-glass-effect rounded-[16px]`,
         style: {
           ...columnSizeVars,
-          width: table.getTotalSize() + 32,
+          width: table.getTotalSize(),
         },
       }}
     >

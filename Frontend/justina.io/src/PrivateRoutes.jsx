@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import useUserStore from "./hooks/useUserStore";
+import useUserStore from "./store/useUserStore";
 
 export default function PrivateRoute({ children }) {
   const { token, user } = useUserStore();
