@@ -8,7 +8,7 @@ import ModalMedicacion from "../../components/ModalMedicacion/ModalMedicacion";
 
 const PatientHome = () => {
   const [openMedicacion, setOpenMedicacion] = useState(false);
-  const [_openResults, setOpenResults] = useState(false);
+  const [openResults, setOpenResults] = useState(false);
 
   const closeModal = () => {
     setOpenMedicacion(false);
