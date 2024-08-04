@@ -5,6 +5,7 @@ import DataBar from "../../components/DataBar/DataBar";
 import ToDoList from "../../components/ToDoList/ToDoList";
 
 import ModalMedicacion from "../../components/ModalMedicacion/ModalMedicacion";
+import NoteSection from "../../components/NoteSection/NoteSection";
 
 const PatientHome = () => {
   const [openMedicacion, setOpenMedicacion] = useState(false);
@@ -38,6 +39,7 @@ const PatientHome = () => {
       </div>
 
       {openMedicacion && <ModalMedicacion closeModal={closeModal} />}
+      <NoteSection />
     </div>
   );
 };
