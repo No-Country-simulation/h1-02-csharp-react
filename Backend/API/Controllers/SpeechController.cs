@@ -31,8 +31,8 @@ public class SpeechController : ControllerBase
         if (!serviceResponse.Success)
         {
             if (
-                serviceResponse.Message.Contains("Encoding error") || 
-                serviceResponse.Message.Contains("JSON error") || 
+                serviceResponse.Message.Contains("Encoding error") ||
+                serviceResponse.Message.Contains("JSON error") ||
                 serviceResponse.Message.Contains("Error"))
             {
                 return BadRequest(serviceResponse.Message);
@@ -47,6 +47,6 @@ public class SpeechController : ControllerBase
             }
         }
 
-        return Ok(serviceResponse.Data);
+        return Ok(new { Transcription = serviceResponse.Data });
     }
 }
