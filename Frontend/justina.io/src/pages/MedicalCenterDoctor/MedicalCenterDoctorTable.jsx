@@ -26,24 +26,33 @@ const MedicalCenterDoctorTable = () => {
   });
 
   const filteredData = useMemo(() => {
+    //Al hacer el tolowercase antes se evita ejecutarlo en cada iteracion del filtro
     const search = params.get("search")?.toLowerCase() || "";
+    //Filtra los valores por cualquer atributo del objeto
     return doctors.filter((doctor) =>
       Object.values(doctor).some((value) =>
         String(value).toLowerCase().includes(search)
       )
     );
   }, [params.get("search"), doctors]);
+  //Necesita estar dentro del componente porque el boton para eliminar usa un hook para que funcione
+  //Si no tienes un campo de este esilo mejor sacarlo  fuera
   const columns = useMemo(
     () => [
       columnHelper.accessor("fullName", {
         id: "fullName",
         header: () => <span className={css.headerInfo}>Nombre Completo</span>,
+        cell: ({ getValue }) => (
+          <span className="w-full h-auto inline-block whitespace-nowrap overflow-hidden text-ellipsis">
+            {getValue()}
+          </span>
+        ),
       }),
       columnHelper.accessor("id", {
         id: "id",
         header: () => <span className={css.headerInfo}>ID</span>,
         cell: ({ getValue }) => (
-          <span className="w-full h-full inline-block whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="w-full h-auto inline-block whitespace-nowrap overflow-hidden text-ellipsis">
             {getValue()}
           </span>
         ),
@@ -55,14 +64,17 @@ const MedicalCenterDoctorTable = () => {
       columnHelper.accessor("email", {
         id: "email",
         header: () => <span className={css.headerInfo}>Contacto</span>,
-        minSize: 216,
+        minSize: 216, //Siempre va a tener como minimo este tamaño
       }),
       columnHelper.display({
         id: "actions",
-        header: () => <span className="no-style"></span>,
+        //La clase no-resize ponee en display none el rezieButton para que no se pueda modificar
+        header: () => (
+          <span className={`${css.headerInfo} no-resize`}>Eliminar</span>
+        ),
         cell: ({ row }) => <RemoveDoctorButton id={row.original.id} />,
-        maxSize: 45,
-        minSize: 45,
+        maxSize: 80,
+        minSize: 80,
       }),
     ],
     []
@@ -75,15 +87,15 @@ const MedicalCenterDoctorTable = () => {
     getPaginationRowModel: getPaginationRowModel(),
     columnResizeMode: "onChange",
     defaultColumn: {
-      minSize: 80,
-      size: 216,
-      maxSize: 300,
+      minSize: 80, //Valor minimo de las columnas (Se puede modificar desde columns)
+      size: 216, //Valor por defecto de las columnas (Se puede modificar desde columns)
+      maxSize: 300, //Valor maximo de las columnas (Se puede modificar desde columns)
     },
     onPaginationChange: setPagination,
     state: {
       pagination,
     },
-    autoResetPageIndex: true,
+    autoResetPageIndex: true, //Reiniciar la paginacion, cuanda el valor de data cambie
   });
 
   return (
@@ -91,8 +103,8 @@ const MedicalCenterDoctorTable = () => {
       <TableContainer table={table}>
         <TableHeader table={table} />
         <TableBodyWrapper table={table} />
-        <PaginationControls table={table} pagination={pagination} />
       </TableContainer>
+      <PaginationControls table={table} pagination={pagination} />
     </div>
   );
 };

@@ -43,6 +43,7 @@
   --color-rose-o60: rgba(253, 239, 244, 0.6);
   --color-primary: #d65683;
   --color-primary-300: #facedd;
+  --color-primary-o30: rgb(214 86 131 / 30%);
   --color-secondary: #4a56ac;
   --color-error-200: #c03744;
 }
@@ -171,6 +172,10 @@ html,
   & .resize {
     display: none;
   }
+}
+
+:is(.td, .th):has(> span.no-resize) .resize {
+  display: none;
 }
 
 @keyframes modalAnimation {
