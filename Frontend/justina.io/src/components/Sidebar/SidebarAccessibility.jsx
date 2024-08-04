@@ -10,9 +10,10 @@ const SidebarAccessibility = () => (
     </div>
     <div className="flex flex-col gap-y-4">
       <button
-        title="Abrir accesibilidad"
-        className="shadow-glass-effect bg-rose-o40 rounded-full p-2"
+        className="shadow-glass-effect bg-rose-o40 rounded-full p-2 opacity-70"
         onClick={() => alert("Not implemented")}
+        disabled
+        title="Accesibilidad, muy pronto..."
       >
         <PersonIcon />
       </button>

@@ -1,5 +1,6 @@
 import handleDeleteDoctor from "../../hooks/useHandleDeleteDoctor";
 import useDoctorStore from "../../store/useDoctorStore";
+import { CrossIcon } from "../icons";
 
 const RemoveDoctorButton = ({ id }) => {
   const { removeId } = useDoctorStore();
@@ -11,12 +12,12 @@ const RemoveDoctorButton = ({ id }) => {
     });
   };
   return (
-    <span className="no-style">
+    <span className="w-full flex justify-center items-center">
       <button
         onClick={onRemove}
-        className="p-1 w-[2.115rem] rounded-full text-error-200 bg-rose-o60 -me-7 transition-all font-semibold hover:font-bold"
+        className="p-1 w-[2.115rem] rounded-full bg-rose-o60 transition-all font-semibold hover:font-bold text-neutrals800 hover:text-error-200"
       >
-        X
+        <CrossIcon />
       </button>
     </span>
   );

@@ -22,10 +22,10 @@ const ModalWrapper = ({ open, onClose, children, className }) => {
     <Show when={open}>
       <div
         onDoubleClick={onClose}
-        className="fixed inset-0 w-full h-full flex items-start justify-center z-50 bg-rose-o40"
+        className="fixed inset-0 w-full h-full flex items-start justify-center z-50 bg-rose-o40 backdrop-blur-sm"
       >
         <article
-          className={`relative flex flex-col my-auto opacity-0 animation-enter min-w-[330px] bg-[#fafafa]/10 shadow-glass-effect rounded-[32px] overflow-hidden text-neutrals600 p-4 ${className}`}
+          className={`relative flex flex-col my-auto opacity-0 animation-enter min-w-[330px] bg-[#fafafa]/10 shadow-glass-effect rounded-[32px] overflow-hidden text-neutrals800 p-4 ${className}`}
         >
           {children}
         </article>

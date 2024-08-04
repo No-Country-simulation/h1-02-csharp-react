@@ -72,6 +72,7 @@ export default function RegisterDoctorModal() {
             name="Nombre *"
             id="firstName"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.firstName}
           />
@@ -79,12 +80,14 @@ export default function RegisterDoctorModal() {
             name="Apellido *"
             id="lastName"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.lastName}
           />
           <FormInput
             name="CUIL *"
             id="identificationNumber"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.identificationNumber}
           />
@@ -94,6 +97,7 @@ export default function RegisterDoctorModal() {
             type="tel"
             id="phoneNumber"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.phoneNumber}
           />
@@ -102,6 +106,7 @@ export default function RegisterDoctorModal() {
             type="email"
             id="email"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.email}
           />
@@ -119,6 +124,7 @@ export default function RegisterDoctorModal() {
             name="Matricula Nacional *"
             id="nationalRegistrationNumber"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.nationalRegistrationNumber}
           />
@@ -126,6 +132,7 @@ export default function RegisterDoctorModal() {
             name="Matricula Local"
             id="localRegistrationNumber"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.localRegistrationNumber}
           />
@@ -135,6 +142,7 @@ export default function RegisterDoctorModal() {
             id="password"
             type="password"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.password}
           />
@@ -143,6 +151,7 @@ export default function RegisterDoctorModal() {
             id="confirmedPassword"
             type="password"
             inputStyle="min-w-[220px]"
+            labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.confirmedPassword}
           />
