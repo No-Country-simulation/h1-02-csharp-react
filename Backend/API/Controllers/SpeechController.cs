@@ -1,7 +1,10 @@
 ﻿using Application.Contracts.GoogleCloudSpeech;
+using Application.Exceptions;
 using DTOs.GoogleCloudSpeech;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -16,25 +19,6 @@ public class SpeechController : ControllerBase
         _speechToTextService = speechToTextService;
     }
 
-    //[HttpPost("transcribe")]
-    //public async Task<IActionResult> Transcribe([FromForm] IFormFile audioFile)
-    //{
-    //    if (audioFile == null || audioFile.Length == 0)
-    //    {
-    //        return BadRequest("Audio file is required.");
-    //    }
-
-    //    var filePath = Path.GetTempFileName();
-
-    //    using (var stream = System.IO.File.Create(filePath))
-    //    {
-    //        await audioFile.CopyToAsync(stream);
-    //    }
-
-    //    var transcription = await _speechToTextService.TranscribeAsync(filePath);
-    //    return Ok(new { Transcription = transcription });
-    //}
-
     [HttpPost("transcribe")]
     public async Task<IActionResult> TranscribeWithGoogleSpeechToText([FromBody] FileAudioBase64Dto fileAudioBase64Dto)
     {
@@ -43,14 +27,26 @@ public class SpeechController : ControllerBase
             return BadRequest("Invalid request object.");
         }
 
-        try
+        var serviceResponse = await _speechToTextService.TranscribeAsync(fileAudioBase64Dto);
+        if (!serviceResponse.Success)
         {
-            var transcription = await _speechToTextService.TranscribeAsync(fileAudioBase64Dto);
-            return Ok(new { transcription });
+            if (
+                serviceResponse.Message.Contains("Encoding error") || 
+                serviceResponse.Message.Contains("JSON error") || 
+                serviceResponse.Message.Contains("Error"))
+            {
+                return BadRequest(serviceResponse.Message);
+            }
+            else if (serviceResponse.Message.Contains("Network error"))
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, serviceResponse.Message);
+            }
+            else
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, serviceResponse.Message);
+            }
         }
-        catch (HttpRequestException ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
+
+        return Ok(serviceResponse.Data);
     }
 }

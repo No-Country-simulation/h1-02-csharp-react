@@ -1,9 +1,9 @@
-﻿using DTOs.GoogleCloudSpeech;
+﻿using DTOs;
+using DTOs.GoogleCloudSpeech;
 
 namespace Application.Contracts.GoogleCloudSpeech;
 
 public interface ISpeechToTextService
 {
-    //Task<string> TranscribeAsync(string audioFilePath);
-    Task<string> TranscribeAsync(FileAudioBase64Dto fileAudioBase64Dto);
+    Task<ServiceResponse<string>> TranscribeAsync(FileAudioBase64Dto fileAudioBase64Dto);
 }
