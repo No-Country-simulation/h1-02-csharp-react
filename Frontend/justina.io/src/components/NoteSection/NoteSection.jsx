@@ -37,14 +37,16 @@ export default function NoteSection() {
         </button>
       </div>
       <div className="w-full grid grid-cols-2 gap-8 transition-all duration-200">
-        {notes.map((note) => (
-          <NoteComponent
-            key={note.id}
-            title={note.title}
-            desc={note.description}
-            id={note.id}
-          />
-        ))}
+        {notes.map((note) => {
+          return (
+            <NoteComponent
+              key={note.id}
+              title={note.title}
+              desc={note.description}
+              id={note.id}
+            />
+          );
+        })}
       </div>
     </section>
   );

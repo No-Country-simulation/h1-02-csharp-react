@@ -1,16 +1,29 @@
 import NoteTextarea from "./NoteTextarea";
 import useHandleDeleteNote from "../../hooks/useHandleDeleteNote";
 
-export default function NoteComponent({ title, desc, id }) {
+function getRandomClass() {
+  const classes = [
+    "even:bg-purple-o40 odd:bg-green-o40",
+    "even:bg-white/40 odd:bg-primary-o40",
+  ];
+  const randomIndex = Math.floor(Math.random() * classes.length);
+  const second = randomIndex === 0 ? 1 : 0;
+
+  return [classes[randomIndex], classes[second]];
+}
+
+export default function NoteComponent({ title, desc, id, i = 0 }) {
   const { handleDeleteNote } = useHandleDeleteNote();
+
   const handleDelete = () => {
     handleDeleteNote(id);
   };
+  const classess = getRandomClass();
   return (
     <div
-      className={
-        "rounded-2xl max-w-[400px] h-[175px] p-1 odd:bg-rose-o60 even:bg-indigo-300 pb-6"
-      }
+      className={`shadow-glass-effect rounded-2xl max-w-[400px] h-[175px] p-1 pb-6 ${
+        i % 2 === 0 ? classess[0] : classess[1]
+      }`}
     >
       <div className="flex justify-between px-4">
         <input

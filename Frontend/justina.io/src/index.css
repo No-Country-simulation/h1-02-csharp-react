@@ -44,6 +44,10 @@
   --color-primary: #d65683;
   --color-primary-300: #facedd;
   --color-primary-o30: rgb(214 86 131 / 30%);
+  --color-primary-o40: rgb(214 86 131 / 40%);
+  --color-green-o40: rgb(77 165 98 / 40%);
+  --color-purple-o40: rgb(151 149 191 / 40%);
+  --color-white-o40: rgb(255 255 255 / 40%);
   --color-secondary: #4a56ac;
   --color-error-200: #c03744;
 }

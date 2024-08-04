@@ -8,6 +8,7 @@ export default {
           DEFAULT: "var(--color-primary)",
           300: "var(--color-primary-300)",
           o30: "var(--color-primary-o30)",
+          o40: "var(--color-primary-o40)",
         },
         secondary: "var(--color-secondary)",
         neutrals800: "var(--color-neutrals-800)",
@@ -16,6 +17,12 @@ export default {
         error: {
           200: "var(--color-error-200)",
         },
+        green: {
+          o40: "var(--color-green-o40)",
+        },
+        purple: {
+          o40: "var(--color-purple-o40)",
+        }
       },
       backgroundColor: {
         rose: {
