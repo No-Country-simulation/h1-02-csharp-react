@@ -166,7 +166,11 @@ export default function RegisterDoctorModal() {
             />
             <button
               onClick={() => setShowPass((prev) => !prev)}
-              className="absolute top-1/2 right-[5%] text-primary"
+              className={`rounded-full p-1 absolute top-[47%] right-[5%] text-primary outline-none border-none focus:outline-none hover:opacity-100 transition-all duration-150 ${
+                showPass
+                  ? "opacity-100 bg-rose-o60"
+                  : "bg-transparent opacity-85"
+              }`}
             >
               <EyeIcon />
             </button>
@@ -184,7 +188,11 @@ export default function RegisterDoctorModal() {
             />
             <button
               onClick={() => setShowConfirmedPass((prev) => !prev)}
-              className="absolute top-1/2 right-[5%] text-primary"
+              className={`rounded-full p-1 absolute top-[47%] right-[5%] text-primary outline-none border-none focus:outline-none hover:opacity-100 transition-all duration-150 ${
+                showConfirmedPass
+                  ? "opacity-100 bg-rose-o60"
+                  : "bg-transparent opacity-85"
+              }`}
             >
               <EyeIcon />
             </button>
