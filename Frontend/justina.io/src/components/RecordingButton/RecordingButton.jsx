@@ -1,8 +1,8 @@
 import { MicrophoneIcon } from "../icons";
 import useRecording from "../../hooks/useRecording";
-import blobToBase64 from "../../hooks/useBlobToBase64";
+import handleBlobToBase64 from "../../hooks/handleBlobToBase64";
 import transcript from "../../hooks/useTranscript";
-import { getEncoding } from "../../hooks/audioRecordingService";
+import { getEncoding } from "../../hooks/handleAudioRecording";
 
 export default function RecordingButton({ setNewNoteText }) {
   const {
@@ -18,7 +18,7 @@ export default function RecordingButton({ setNewNoteText }) {
       return;
     }
     stopRecordingAudio().then(([audio, type]) =>
-      blobToBase64(audio).then((base64) =>
+      handleBlobToBase64(audio).then((base64) =>
         transcript(base64, getEncoding(type)).then((text) => {
           setNewNoteText(text);
         })

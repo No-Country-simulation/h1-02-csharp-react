@@ -1,16 +1,28 @@
-import handleDeleteDoctor from "../../hooks/useHandleDeleteDoctor";
+import { useCallback } from "react";
+import handleDeleteDoctor from "../../hooks/handleDeleteDoctor";
+import useConfirmStore from "../../store/useConfirmStore";
 import useDoctorStore from "../../store/useDoctorStore";
 import { CrossIcon } from "../icons";
 
 const RemoveDoctorButton = ({ id }) => {
-  const { removeId } = useDoctorStore();
+  const { removeId, doctors } = useDoctorStore();
+  const { setOnConfirm, setModalType, setOpen } = useConfirmStore();
+  const handleDeleted = useCallback(
+    () =>
+      handleDeleteDoctor(id).then((res) => {
+        if (res) {
+          removeId(id);
+        }
+        setOpen(false);
+      }),
+    [id, doctors, removeId]
+  );
   const onRemove = () => {
-    handleDeleteDoctor(id).then((res) => {
-      if (res) {
-        removeId(id);
-      }
-    });
+    setModalType("RemoveDoctor");
+    setOpen(true);
+    setOnConfirm(handleDeleted);
   };
+
   return (
     <span className="w-full flex justify-center items-center">
       <button

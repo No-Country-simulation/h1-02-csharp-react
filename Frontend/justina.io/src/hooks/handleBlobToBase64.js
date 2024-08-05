@@ -1,4 +1,4 @@
-const useBlobToBase64 = (blob)=>{
+const handleBlobToBase64 = (blob)=>{
     return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.onloadend = () => {
@@ -14,4 +14,4 @@ const useBlobToBase64 = (blob)=>{
 	});
 }
 
-export default useBlobToBase64;
+export default handleBlobToBase64;
