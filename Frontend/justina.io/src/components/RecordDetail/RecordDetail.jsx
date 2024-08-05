@@ -117,7 +117,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
   return (
     <div className='backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl py-4 px-6 pb-8 w-full shadow-custom text-neutrals800 flex flex-col items-center gap-2'>
         <h2 className="py-2 font-semibold text-subtitulo">Resumen Consulta Médica</h2>
-        <div className="w-1/2 self-end">
+        <div className="w-full md:w-1/2 md:self-end">
             <FormInput 
               name='Fecha *'
               type='text' 
@@ -145,7 +145,6 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
               placeholder='Nombre Incompleto' 
               id='healthCareProviderName' 
               icon={profile} 
-              labelStyle='text-end' 
               value={item ? item.healthCareProviderName + ' ' + item.healthCareProviderLastName : ''} 
               readOnly={!isEditMode}
             />

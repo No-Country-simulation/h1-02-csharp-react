@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom"
 import api from "../../api/axios"
 
 const PatientDetails = () => {
-    const { patientId } = useParams()
+    const { patientId, patientIdentificationNumber } = useParams()
     const [selectedRecord, setSelectedRecord] = useState(null)
     const [isModalOpen, setModalOpen] = useState(false)
     const [records, setRecords] = useState([])
@@ -37,11 +37,11 @@ const PatientDetails = () => {
     }
     const fetchPatientMedicalResults = async () => {      
       try { 
-        const response = await api.get(`/api/MedicalTests/GetAllByHealthCareProvider/${patientId}`)
+        const response = await api.get(`/api/MedicalTests/GetAllByHealthCareProvider/${patientId}`)        
         if (response.success) {          
           setMedicalResults([
             ...response.data          
-          ])
+          ])          
         } else {
           console.error('Error: ', response.message);
         }
@@ -60,29 +60,29 @@ const PatientDetails = () => {
     return (
         <>            
             <section className="flex flex-col gap-4 py-3 px-6 w-full">
-                <DataBar/>
-                <div className="flex gap-4">
-                    <div className="w-1/4">                
-                        <ProfileResume />
+                <DataBar patientIdentificationNumber={patientIdentificationNumber}/>
+                <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="w-full lg:w-1/4">                
+                        <ProfileResume patientIdentificationNumber={patientIdentificationNumber}/>
                     </div>
-                    <div className="flex flex-col w-3/4 gap-4">
-                        <div className="flex gap-4">
-                            <div className="flex flex-col items-start gap-4 w-2/3 max-h-20">                           
-                                <RecordsList 
-                                    title="Últimas Consultas Médicas"
-                                    items={records}
-                                    itemClicked={setSelectedRecord}
-                                />
-                            </div>   
-                            <div className="w-1/3 flex flex-col gap-4">                        
-                                    <MedicalResults                    
-                                        title="Resultados Médicos"
-                                        image={medicalStudies}
-                                        onClick={openModal}
-                                    />                 
+                    <div className="flex flex-col lg:w-2/3 gap-4">
+                        <div className="w-full flex flex-col lg:flex-row gap-4">
+                            <div className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3">                        
+                              <MedicalResults                    
+                                title="Resultados Médicos"
+                                image={medicalStudies}
+                                onClick={openModal}
+                              />
                             </div>
+                            <div className="w-full lg:w-1/2 xl:w-2/3">
+                              <RecordsList 
+                                title="Últimas Consultas Médicas"
+                                items={records}
+                                itemClicked={setSelectedRecord}
+                              />
+                            </div>               
                         </div>
-                        <div>
+                        <div className="flex flex-col items-start gap-4 w-full max-h-20">
                             <RecordDetail
                                 item={selectedRecord}
                             />

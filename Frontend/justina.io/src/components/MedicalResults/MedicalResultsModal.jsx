@@ -54,11 +54,7 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
     }
     
     const formData = new FormData()
-    formData.append('file', file, "medicalStudies.png")
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    formData.append('file', file)
     
     try {      
       const response = await api.post(`/api/MedicalTests/${selectedPatientOption}`,  formData, {
@@ -103,17 +99,23 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
       columnHelper.accessor((row, index) => index + 1, {
         id: "index",
         header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nº</span>,
-        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,        
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,  
+        minSize:100,
+        maxSize:100      
       }),
       columnHelper.accessor("testName", {
         id: "testName",
         header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nombre</span>,
         cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,
+        minSize:300,
+        maxSize:400 
       }),
       columnHelper.accessor("testDate", {
         id: "testDate",
         header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Fecha</span>,
         cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{formatDate(getValue())}</span>,
+        minSize:200,
+        maxSize:200 
       }),
       columnHelper.accessor("fileUrl", {
         id: "fileUrl",
@@ -123,6 +125,8 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
             <img src={downloadIcon} alt="Descargar" className="h-8 w-8 rounded-full shadow-custom" />
           </a>
         ),
+        minSize:150,
+        maxSize:150  
       }),
     ],[])
 
@@ -189,21 +193,27 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
             </>
             :
             <>
-                <div className="flex items-center justify-center gap-8 w-11/12 pb-2"> 
-                    <DrHomeSearchBar />
-                    {patients &&
-                    <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
-                        <HeartIcon /> Agregar archivo
-                    </button> 
-                    }
-                </div>
-                <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto pb-2 p-1">
-                <TableContainer table={table}>
-                    <TableHeader table={table} />
-                    <TableBodyWrapper table={table} />
-                </TableContainer>
-                <PaginationControls table={table} pagination={pagination} />
-                </div>
+            {medicalResults.length > 0 ?
+                <>
+                  <div className="flex items-center justify-center gap-8 w-11/12 pb-2"> 
+                      <DrHomeSearchBar />
+                      {patients &&
+                      <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
+                          <HeartIcon /> Agregar archivo
+                      </button> 
+                      }
+                  </div>                
+                  <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto pb-2 p-1">
+                  <TableContainer table={table}>
+                      <TableHeader table={table} />
+                      <TableBodyWrapper table={table} />
+                  </TableContainer>
+                  <PaginationControls table={table} pagination={pagination} />
+                  </div>
+                </>
+                :
+                <p>No hay archivos cargados</p>
+                }
             </>
             }                       
           </div>                    
