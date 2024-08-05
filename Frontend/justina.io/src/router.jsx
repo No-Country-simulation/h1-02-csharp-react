@@ -27,8 +27,8 @@ const createSuspenseRoute = (Component) => (
 );
 
 //Crea un ruta privada con un componente con lazy
-const createPrivateRoute = (Component) => (
-  <PrivateRoute>
+const createPrivateRoute = (Component, allowedRoles) => (
+  <PrivateRoute allowedRoles={allowedRoles}>
     {createSuspenseRoute(() => (
       <Layout>
         <Component />
@@ -65,31 +65,31 @@ export const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: createPrivateRoute(Home),
+        element: createPrivateRoute(Home, ["any"]),
       },
       {
         path: "/doctors",
-        element: createPrivateRoute(MedicalCenterDoctor),
+        element: createPrivateRoute(MedicalCenterDoctor, ["MedicalCenter"]),
       },
       {
         path: "/patientdetails/:id",
-        element: createPrivateRoute(PatientDetails),
+        element: createPrivateRoute(PatientDetails, ["any"]),
       },
       {
         path: "/treatmentform",
-        element: createPrivateRoute(TreatmentForm),
+        element: createPrivateRoute(TreatmentForm, ["any"]),
       },
       {
         path: "/drprofile",
-        element: createPrivateRoute(DrProfile),
+        element: createPrivateRoute(DrProfile, ["HealthCareProvider"]),
       },
       {
         path: "/patienthome",
-        element: createPrivateRoute(PatientHome),
+        element: createPrivateRoute(PatientHome, ["Patient"]),
       },
       {
         path: "/mcrecords",
-        element: createPrivateRoute(MedicalCenterRecords),
+        element: createPrivateRoute(MedicalCenterRecords, ["MedicalCenter"]),
       },
     ],
   },
