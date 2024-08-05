@@ -4,7 +4,7 @@ import TextAreaInput from '../TextAreaInput/TextAreaInput'
 import malePatientPhoto from '../../assets/imgs/malePatientPhoto.png'
 import api from '../../api/axios'
 
-const ProfileResume = ({ bgColor, patientIdentificationNumber }) => {
+const ProfileResume = ({ bgColor, patientIdentificationNumber, isPatient }) => {
   const [expanded, setExpanded] = useState(false)
   const [selectedPatient, setSelectedPatient] = useState(
     {applicationUserId: '',
@@ -24,7 +24,8 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber }) => {
   useEffect(() => {
     const fetchPatientData = async () => {      
       try { 
-        const response = await api.get(`/api/Patient/GetPatientByCuil/${patientIdentificationNumber}`)
+        const path = isPatient ? '/api/Patient/GetPatient' : `/api/Patient/GetPatientByCuil/${patientIdentificationNumber}`
+        const response = await api.get(path)
         if (response.success) {
           setSelectedPatient({
             ...response.data,
@@ -38,10 +39,10 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber }) => {
       }
     }
 
-    if (patientIdentificationNumber) {
+    if (patientIdentificationNumber || isPatient) {
       fetchPatientData()
     }
-  }, [patientIdentificationNumber])
+  }, [])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)

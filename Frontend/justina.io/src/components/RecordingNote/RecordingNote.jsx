@@ -4,8 +4,10 @@ import useNoteStore from "../../store/useNoteStore";
 import useClickOutside from "../../hooks/useClickOutside";
 import Show from "../Show/Show";
 import useNotes from "../../hooks/useNotes";
+import { useState } from "react";
 
 const RecordingNotes = () => {
+  const [isLoading, setIsLoading] = useState();
   const { addNote } = useNotes();
   const {
     openNote,
@@ -27,6 +29,7 @@ const RecordingNotes = () => {
   useClickOutside(ref, handleClose, buttonRef);
 
   const handleSave = () => {
+    setIsLoading(true);
     addNote(newNoteText, newNoteTitle).then((res) => {
       if (res.data) {
         setOpen(false);
@@ -35,6 +38,7 @@ const RecordingNotes = () => {
           description: newNoteText,
           title: newNoteTitle,
         });
+        setIsLoading(false);
         setNewNoteTitle("");
         setNewNoteText("");
       }
@@ -73,6 +77,7 @@ const RecordingNotes = () => {
             <button
               className="text-white bg-primary rounded-[32px] w-32 h-8 ml-auto"
               onClick={handleSave}
+              disabled={isLoading}
             >
               Guardar
             </button>

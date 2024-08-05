@@ -9,7 +9,7 @@ export default function HeaderTitles() {
 
   return (
     <div className="pr-[36.24px] p-4 bg-neutral-50/opacity-10 rounded-2xl ">
-      <p className="text-neutral-600 text-[40px] font-bold font-['Noto Sans'] leading-[48px] flex gap-x-4 justify-start items-center">
+      <p className="text-neutral-600 text-[30px] font-bold font-['Noto Sans'] leading-[48px] flex gap-x-4 justify-start items-center">
         <img
           src={profile}
           className="rounded-full object-cover object-center size-9"
@@ -17,9 +17,9 @@ export default function HeaderTitles() {
           loading="lazy"
           decoding="async"
         />{" "}
-        Buen día {user.fullname}
+        Bienvenido {user.fullname}
       </p>
-      <p className="text-neutral-600 text-subtitulo font-normal font-['Noto Sans'] leading-tight">
+      <p className="text-neutral-600 text-subtitulo text-base font-normal font-['Noto Sans'] leading-tight">
         {isMedicalCenter
           ? "Aqui puedes registrar todos tus tratamientos"
           : "Revisa el progreso de los pacientes y los tratamientos"}

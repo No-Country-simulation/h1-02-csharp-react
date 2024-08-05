@@ -55,10 +55,10 @@ const CustomChatBot = () => {
     start: {
       message: "¿En que te puedo ayudar?",
       chatDisabled: true,
-      options: ["¿Qué es la Ley Justina?", "¿Qué es Justina io?"],
+      options: ["¿Qué es la Ley Justina?", "¿Qué es Justina.io?"],
       path: async (params) => {
         const option = params.userInput;
-        if (option === "¿Qué es Justina io?") {
+        if (option === "¿Qué es Justina.io?") {
           return "res_platform";
         } else {
           return "res_leyjustina";
@@ -73,7 +73,7 @@ const CustomChatBot = () => {
         );
         return new Promise((resolve) =>
           setTimeout(
-            () => resolve("Puedo ayudarte en alguna otra cosa puedo ayudarte?"),
+            () => resolve("¿Puedo ayudarte en alguna otra cosa?"),
             2000
           )
         );
@@ -100,7 +100,7 @@ const CustomChatBot = () => {
 
         return new Promise((resolve) =>
           setTimeout(
-            () => resolve("Puedo ayudarte en alguna otra cosa puedo ayudarte?"),
+            () => resolve("¿Puedo ayudarte en alguna otra cosa?"),
             2000
           )
         );
@@ -118,12 +118,12 @@ const CustomChatBot = () => {
       },
     },
     loop: {
-      message: "En que exactamente?",
+      message: "¿En que exactamente?",
       chatDisabled: true,
-      options: ["¿Qué es la Ley Justina?", "¿Qué es Justion io?"],
+      options: ["¿Qué es la Ley Justina?", "¿Qué es Justina.io?"],
       path: async (params) => {
         const option = params.userInput;
-        if (option === "¿Qué es Justion io?") {
+        if (option === "¿Qué es Justina.io?") {
           return "res_platform";
         } else {
           return "res_leyjustina";

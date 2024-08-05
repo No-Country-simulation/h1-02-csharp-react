@@ -13,10 +13,17 @@ const useRegisterDoctor = (opened)=>{
         })
     }, [setSpecilistList])
 
-    const register = (body)=>{
-        return api.post("/api/Account/register-health-care-provider", body).then((res)=>{
+    const register = async (body)=>{
+        try {
+            const res = await api.post("/api/Account/register-health-care-provider", body).then((res)=>{
+                return res;
+            });
             return res;
-        })
+        } catch(e){
+            console.error(e);
+            return undefined;
+        }
+            
     }
 
     useEffect(()=>{

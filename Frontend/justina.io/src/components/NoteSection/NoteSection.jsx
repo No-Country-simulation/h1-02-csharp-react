@@ -22,7 +22,7 @@ export default function NoteSection() {
     }
   }, [ref]);
   return (
-    <section className="w-full flex flex-col gap-y-4 justify-start mt-10 max-w-[790px]">
+    <section className="w-full flex flex-col gap-y-4 justify-start mt-3 max-w-[790px]">
       <div className="flex justify-between text-primary font-bold">
         <h2 className="text-titulopag">Tus Notas</h2>
         <button

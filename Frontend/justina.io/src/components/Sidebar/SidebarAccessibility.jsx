@@ -12,8 +12,8 @@ const SidebarAccessibility = () => {
   }, [ref.current]);
   return (
     <div className="w-[207px] p-4 mt-4 flex-col justify-start items-center gap-[13px] inline-flex">
-      <div className="w-[104px] text-base font-normal font-['Noto Sans'] leading-tight flex items-center">
-        <span className="text-neutrals800 font-semibold text-shadow">
+      <div className="w-full text-base font-normal font-['Noto Sans'] leading-tight flex items-center">
+        <span className="w-full text-neutrals800 font-semibold text-shadow whitespace-nowrap">
           ¿Necesitas ayuda?
         </span>
       </div>

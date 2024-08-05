@@ -24,6 +24,12 @@ const MedicalCenterDoctor = lazy(() =>
 const MedicalCenterRecords = lazy(() =>
   import("./MedicalCenterRecords/MedicalCenterRecords")
 );
+const PatientRecords = lazy(() => import("./PatientRecords/PatientRecords"));
+
+const PatientProfile = lazy(() => import("./PatientProfile/PatientProfile"));
+
+const PatientStudies = lazy(()=> import("./PatientStudies/PatientStudies"));
+
 const NotFound = lazy(()=> import("./NotFound/NotFound"))
 
 export {
@@ -36,6 +42,9 @@ export {
   DrProfile,
   Home,
   PatientHome,
+  PatientRecords,
+  PatientProfile,
+  PatientStudies,
   MedicalCenterHome,
   MedicalCenterDoctor,
   MedicalCenterRecords,

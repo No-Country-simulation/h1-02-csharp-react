@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import calendar from "../../assets/icons/calendar.svg"
 import profile from "../../assets/icons/profileIcon.svg"
 import api from "../../api/axios"
+import { toast } from "react-toastify"
 
 const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, patient }) => {
   const [selectedDrOption, setSelectedDrOption] = useState('')  
@@ -54,7 +55,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
       const response = await api.post('/api/Record/AddRecords', [newRecord])
       if (response.success) {
           console.log(response.data)
-          alert('Registro guardado')
+          toast.success('Registro guardado con éxito.')
           setNewRecord(prevState => ({
             ...prevState,
             title: "",
@@ -68,11 +69,11 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
           setSelectedPathologyOption('')   
       } else {
         console.error('Error: ', response.message);
-        alert('Error de respuesta')
+        toast.error('Error de respuesta')
       }
     } catch (error) {
       console.error('Error uploading new record:', error)
-      alert('Error')
+      toast.error('Error')
     }
   }
   

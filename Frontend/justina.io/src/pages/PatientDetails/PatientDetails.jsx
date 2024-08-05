@@ -1,15 +1,15 @@
-import ProfileResume from "../../components/ProfileResume/ProfileResume"
-import RecordDetail from "../../components/RecordDetail/RecordDetail"
-import MedicalResults from "../../components/MedicalResults/MedicalResults"
-import RecordsList from "../../components/RecordsList/RecordsList"
-import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
-import DataBar from "../../components/DataBar/DataBar"
+import ProfileResume from "../../components/ProfileResume/ProfileResume";
+import RecordDetail from "../../components/RecordDetail/RecordDetail";
+import MedicalResults from "../../components/MedicalResults/MedicalResults";
+import RecordsList from "../../components/RecordsList/RecordsList";
+import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal";
+import DataBar from "../../components/DataBar/DataBar";
 
-import medicalStudies from '../../assets/imgs/medicalStudies.png'
+import medicalStudies from "../../assets/imgs/medicalStudies.png";
 
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import api from "../../api/axios"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../../api/axios";
 
 const PatientDetails = () => {
     const { patientId, patientIdentificationNumber } = useParams()
@@ -21,20 +21,18 @@ const PatientDetails = () => {
     const openModal = () => setModalOpen(true)
     const closeModal = () => setModalOpen(false)
 
-    const fetchPatientData = async () => {      
-      try { 
-        const response = await api.get(`/api/Record/GetAllRecords/${patientId}`)
-        if (response.success) {
-          setRecords([
-            ...response.data          
-          ])
-        } else {
-          console.error('Error: ', response.message);
-        }
-      } catch (error) {
-        console.error('Error fetching records data:', error)
+  const fetchPatientData = async () => {
+    try {
+      const response = await api.get(`/api/Record/GetAllRecords/${patientId}`);
+      if (response.success) {
+        setRecords([...response.data]);
+      } else {
+        console.error("Error: ", response.message);
       }
+    } catch (error) {
+      console.error("Error fetching records data:", error);
     }
+  }
     const fetchPatientMedicalResults = async () => {      
       try { 
         const response = await api.get(`/api/MedicalTests/GetAllByHealthCareProvider/${patientId}`)        
@@ -48,8 +46,7 @@ const PatientDetails = () => {
       } catch (error) {
         console.error('Error fetching medical results:', error)
       }
-    }
-    
+    }  
     useEffect(() => {
         if (patientId) {
           fetchPatientData()

@@ -1,56 +1,59 @@
-import { useMemo, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   useReactTable,
   createColumnHelper,
   getCoreRowModel,
   getPaginationRowModel,
-} from "@tanstack/react-table"
-import TableBodyWrapper from "../../components/TableBody/TableBodyWrapper"
-import TableHeader from "../../components/TableHeader/TableHeader"
-import PaginationControls from "../../components/PaginationControls/PaginationControls"
-import TableContainer from "../../components/TableContainer/TableContainer"
-import ModalWrapper from "../ModalWrapper/ModalWrapper"
-import DrHomeSearchBar from "../DrHomeSearchbar/DrHomeSearchBar"
-import FormInput from "../FormInput/FormInput"
-import SelectList from "../SelectList/SelectList"
-import api from "../../api/axios"
+} from "@tanstack/react-table";
+import TableBodyWrapper from "../../components/TableBody/TableBodyWrapper";
+import TableHeader from "../../components/TableHeader/TableHeader";
+import PaginationControls from "../../components/PaginationControls/PaginationControls";
+import TableContainer from "../../components/TableContainer/TableContainer";
+import ModalWrapper from "../ModalWrapper/ModalWrapper";
+import DrHomeSearchBar from "../DrHomeSearchbar/DrHomeSearchBar";
+import FormInput from "../FormInput/FormInput";
+import SelectList from "../SelectList/SelectList";
+import api from "../../api/axios";
+import { toast } from "react-toastify";
 
-import downloadIcon from '../../assets/icons/downloadIcon.svg'
-import { HeartIcon, LogoutIcon } from "../icons"
+import downloadIcon from "../../assets/icons/downloadIcon.svg";
+import { HeartIcon, LogoutIcon } from "../icons";
 
-const columnHelper = createColumnHelper()
+const columnHelper = createColumnHelper();
 
 const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
-  const [selectedPatientOption, setSelectedPatientOption] = useState('')
-  const [file, setFile] = useState(null)
-  const [fileInputOpen, setFileInputOpen] = useState(false)   
+  const [selectedPatientOption, setSelectedPatientOption] = useState("");
+  const [file, setFile] = useState(null);
+  const [fileInputOpen, setFileInputOpen] = useState(false);
 
   const patientOptions = [
-    { id: '', value: '', label: 'Selecciona un paciente' },
-    ...(patients ? patients.map(patient => ({
-        id: patient.id,
-        value: patient.id,
-        label: `${patient.firstName} ${patient.lastName} (${patient.identificationNumber})`
-      })) : [] )
-  ]    
+    { id: "", value: "", label: "Selecciona un paciente" },
+    ...(patients
+      ? patients.map((patient) => ({
+          id: patient.id,
+          value: patient.id,
+          label: `${patient.firstName} ${patient.lastName} (${patient.identificationNumber})`,
+        }))
+      : []),
+  ];
 
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0]
+    const selectedFile = event.target.files[0];
     if (selectedFile) {
-      setFile(selectedFile)      
+      setFile(selectedFile);
     }
-  }
+  };
 
   const handleFileSubmit = async () => {
     if (!selectedPatientOption) {
-      alert('Por favor selecciona un paciente.')
-      return
+      toast.error("Por favor selecciona un paciente.");
+      return;
     }
-  
+
     if (!file) {
-      alert('Por favor selecciona un archivo.')
-      return
+      toast.error("Por favor selecciona un archivo.");
+      return;
     }
     
     const formData = new FormData()
@@ -63,34 +66,32 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
       },
       })
       if (response) {
-          console.log(response)
-          alert('Registro guardado')
-          setFile(null)          
-          setSelectedPatientOption('')   
+        console.log(response);
+        toast.success("Registro guardado con exito");
+        setFile(null);
+        setSelectedPatientOption("");
       } else {
-        console.error('Error: ', response.message);
-        alert('Error de respuesta')
+        console.error("Error: ", response.message);
       }
     } catch (error) {
-      console.error('Error uploading new file:', error)
-      alert('Error')
+      console.error("Error uploading new file:", error);      
     }
-  }
-  
-  const [params] = useSearchParams()
+  };
+
+  const [params] = useSearchParams();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
-  })
+  });
 
   // Filtrar los datos según la búsqueda
   const filteredData = useMemo(() => {
-    const search = params.get("search")?.toLowerCase() || ""
+    const search = params.get("search")?.toLowerCase() || "";
     return medicalResults.filter((result) =>
       Object.values(result).some((value) =>
         String(value).toLowerCase().includes(search)
       )
-    )
+    );
   }, [params.get("search"), medicalResults]);
 
   // Definir las columnas de la tabla
@@ -119,16 +120,31 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
       }),
       columnHelper.accessor("fileUrl", {
         id: "fileUrl",
-        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Descarga</span>,
+        header: () => (
+          <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">
+            Descarga
+          </span>
+        ),
         cell: ({ getValue }) => (
-          <a href={getValue()} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full">
-            <img src={downloadIcon} alt="Descargar" className="h-8 w-8 rounded-full shadow-custom" />
+          <a
+            href={getValue()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-full"
+          >
+            <img
+              src={downloadIcon}
+              alt="Descargar"
+              className="h-8 w-8 rounded-full shadow-custom"
+            />
           </a>
         ),
         minSize:150,
         maxSize:150  
       }),
-    ],[])
+    ],
+    []
+  );
 
   // Configuración de la tabla
   const table = useReactTable({
@@ -147,49 +163,59 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
       pagination,
     },
     autoResetPageIndex: true,
-  })
+  });
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${day}/${month}/${year} - ${hours}:${minutes}hs`;
-  }
+  };
 
   return (
-    <ModalWrapper open={isOpen} onClose={onClose}>    
-      <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-full">  
-          <div className="flex flex-col items-center p-4">                            
-            <h2 className="text-xl text-center font-semibold mb-4">Lista de Archivos</h2>            
-            {fileInputOpen ? 
+    <ModalWrapper open={isOpen} onClose={onClose} addCrossClose>
+      <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-full">
+        <div className="flex flex-col items-center p-4">
+          <h2 className="text-xl text-center font-semibold mb-4">
+            Lista de Archivos
+          </h2>
+          {fileInputOpen ? 
             <>
-                <div className="flex items-center justify-center w-3/4">             
-                    <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 py-2 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
-                        <LogoutIcon /> Volver
-                    </button> 
-                </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <SelectList
-                    id="patientselect"
-                    name="Seleccionar Paciente"
-                    options={patientOptions}
-                    value={selectedPatientOption}
-                    onChange={(e) => {
-                      setSelectedPatientOption(e.target.value)                      
-                    }}
-                  /> 
-                  <FormInput                     
-                    id="fileInput"
-                    type="file"
-                    onChange={handleFileChange}
-                    height="h-[52px]"
-                    inputStyle="cursor-pointer"                                       
-                  />
-                  <button className="no-underline text-primary text-parrafo backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom w-40 py-2 self-center" onClick={handleFileSubmit}>Guardar</button>
-                </div>
+              <div className="flex items-center justify-center w-3/4">
+                <button
+                  className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 py-2 shadow-glass-effect my-2"
+                  onClick={() => setFileInputOpen(!fileInputOpen)}
+                >
+                  <LogoutIcon /> Volver
+                </button>
+              </div>
+              <div className="flex flex-col gap-2 items-center justify-center">
+                <SelectList
+                  id="patientselect"
+                  name="Seleccionar Paciente"
+                  options={patientOptions}
+                  value={selectedPatientOption}
+                  onChange={(e) => {
+                    setSelectedPatientOption(e.target.value);
+                  }}
+                />
+                <FormInput
+                  id="fileInput"
+                  type="file"
+                  onChange={handleFileChange}
+                  height="h-[52px]"
+                  inputStyle="cursor-pointer"
+                />
+                <button
+                  className="no-underline text-primary text-parrafo backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom w-40 py-2 self-center"
+                  onClick={handleFileSubmit}
+                >
+                  Guardar
+                </button>
+              </div>
             </>
             :
             <>
@@ -215,11 +241,11 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
                 <p>No hay archivos cargados</p>
                 }
             </>
-            }                       
-          </div>                    
-        </div>        
+          }
+        </div>
+      </div>
     </ModalWrapper>
-  )
-}
+  );
+};
 
-export default MedicalResultsModal
+export default MedicalResultsModal;

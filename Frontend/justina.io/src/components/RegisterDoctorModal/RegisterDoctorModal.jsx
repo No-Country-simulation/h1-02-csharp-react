@@ -5,6 +5,8 @@ import { EyeIcon, ProfileIcon, SaveIcon } from "../icons";
 import useRegisterDoctor from "../../hooks/useRegisterDoctor";
 import SpecialistDropDown from "./SpecialistDropDown";
 import useDoctorStore from "../../store/useDoctorStore";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
 const DEFAULT_VALUES = {
   firstName: "",
@@ -20,12 +22,14 @@ const DEFAULT_VALUES = {
 };
 
 export default function RegisterDoctorModal() {
+  const [isLoading, setIsLoading] = useState();
   const { openRegisterDoctor, setOpenRegisterDoctor, addDoctor } =
     useDoctorStore();
   const { register, specialities } = useRegisterDoctor(openRegisterDoctor);
   const [values, setValues] = useState(DEFAULT_VALUES);
   const [showPass, setShowPass] = useState(false);
   const [showConfirmedPass, setShowConfirmedPass] = useState(false);
+  const toastId = useRef(undefined);
   const handleChange = (event) => {
     const { id, value } = event.target;
     if (id === "phoneNumber" && !/^[0-9]*$/.test(value)) {
@@ -42,7 +46,7 @@ export default function RegisterDoctorModal() {
     e.stopPropagation();
 
     if (values.password !== values.confirmedPassword) {
-      alert("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
       return;
     }
 
@@ -53,11 +57,20 @@ export default function RegisterDoctorModal() {
       emailConfirmed: values.email,
       specialitiesIds: [values.specialitiesIds?.id],
     };
+    setIsLoading(true);
+    toastId.current = toast.loading("Registrando...");
+    register([sendToRegister]).then((res) => {
+      toast.done(toastId.current);
 
-    register([sendToRegister]).then(() => {
-      addDoctor(values);
-      setValues(DEFAULT_VALUES);
-      setOpenRegisterDoctor(false);
+      if (res) {
+        addDoctor(values);
+        setValues(DEFAULT_VALUES);
+        setOpenRegisterDoctor(false);
+        toast.success("Se ha registrado el medico con exito");
+      } else {
+        toast.error("Ha ocurrido un error");
+      }
+      setIsLoading(false);
     });
   };
 
@@ -210,7 +223,10 @@ export default function RegisterDoctorModal() {
           </div>
 
           <div className="col-span-2 flex justify-center items-center">
-            <button className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2 flex gap-x-5 font-bold justify-center items-center">
+            <button
+              className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2 flex gap-x-5 font-bold justify-center items-center"
+              disabled={isLoading}
+            >
               <SaveIcon /> Guardar
             </button>
           </div>

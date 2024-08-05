@@ -14,6 +14,9 @@ import {
   DrProfile,
   Home,
   PatientHome,
+  PatientRecords,
+  PatientProfile,
+  PatientStudies,
   MedicalCenterDoctor,
   MedicalCenterRecords,
   NotFound,
@@ -87,6 +90,18 @@ export const router = createBrowserRouter([
       {
         path: "/patienthome",
         element: createPrivateRoute(PatientHome, ["Patient"]),
+      },
+      {
+        path: "/patientrecords",
+        element: createPrivateRoute(PatientRecords)
+      },
+      {
+        path: "/patientprofile",
+        element: createPrivateRoute(PatientProfile)
+      },
+      {
+        path: "/patientstudies",
+        element: createPrivateRoute(PatientStudies)
       },
       {
         path: "/mcrecords",

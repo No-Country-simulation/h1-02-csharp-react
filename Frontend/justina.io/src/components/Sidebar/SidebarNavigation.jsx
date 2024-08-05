@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-import { HomeIcon, MedicalIcon, RecordsIcon } from "../icons";
+import { HomeIcon, MedicalIcon, RecordsIcon, HeartIcon, PatientsIcon} from "../icons";
 import SidebarNavigationItem from "./SidebarNavigationItem";
 import { useCallback } from "react";
 import useUserStore from "../../store/useUserStore";
 import { useMemo } from "react";
 
+
 const ITEM_SIZE = 55;
-const ITEM_GAP = 20;
+const ITEM_GAP = 11;
 const SIDEBAR_MARGIN = 12;
 const SIDEBAR_SIZE = (ITEM_COUNT) =>
   SIDEBAR_MARGIN * 2 + ITEM_SIZE * ITEM_COUNT + ITEM_GAP * (ITEM_COUNT - 1);
@@ -19,13 +20,43 @@ const calculateItemPosition = (index) => {
   return SIDEBAR_MARGIN + index * (ITEM_SIZE + ITEM_GAP);
 };
 
-const menuPatientAndDr = [
+const menuPatient = [
   {
     icon: <HomeIcon />,
     text: "Inicio",
     link: "/",
   },
+  {
+    icon: <HeartIcon />,
+    text: "Estudios",
+    link: "/patientstudies",
+  },
+  {
+    icon: <MedicalIcon />,
+    text: "Consultas Médicas",
+    link: "/patientrecords",
+  },
+  {
+    icon: <PatientsIcon />,
+    text: "Perfil",
+    link: "/patientprofile",
+  }
 ];
+
+
+const menuDr = [
+  {
+    icon: <HomeIcon />,
+    text: "Inicio",
+    link: "/",
+  },
+  {
+    icon: <MedicalIcon />,
+    text: "Perfil",
+    link: "/drprofile",
+  }
+];
+
 const menuMedicalCenter = [
   {
     icon: <HomeIcon />,
@@ -49,8 +80,10 @@ const SidebarNavigation = () => {
   const [activeLink, setActiveLink] = useState("Inicio");
   const menu = useMemo(
     () =>
-      user?.roles === "Patient" || user?.roles === "HealthCareProvider"
-        ? menuPatientAndDr
+      user?.roles === "Patient"
+        ? menuPatient
+        :  user?.roles === "HealthCareProvider"
+        ? menuDr
         : menuMedicalCenter,
     [user?.roles]
   );
@@ -61,7 +94,7 @@ const SidebarNavigation = () => {
 
   return (
     <div
-      className="relative w-16 h-auto mt-3 p-3 text-left rounded-[32px] shadow-custom bg-[rgba(253,239,244,0.1)] backdrop-blur-[12px] flex-col justify-start items-center gap-[13px] inline-flex me-auto"
+      className="relative w-16 h-auto mt-2 p-3 text-left rounded-[32px] shadow-custom bg-[rgba(253,239,244,0.1)] backdrop-blur-[12px] flex-col justify-start items-center gap-[13px] inline-flex me-auto"
       style={{ minHeight }}
     >
       {menu.map((item, index) => (

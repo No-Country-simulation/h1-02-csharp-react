@@ -3,6 +3,7 @@ import TextAreaInput from "../../components/TextAreaInput/TextAreaInput"
 import FormInput from "../../components/FormInput/FormInput"
 import api from "../../api/axios"
 import editIcon from "../../assets/icons/editIcon.svg"
+import { toast } from "react-toastify"
 
 const DrProfile = () => {
     const [drProfileInfo, setDrProfileInfo] = useState({
@@ -70,11 +71,10 @@ const DrProfile = () => {
             currentPassword: profileChanges.currentPassword,
             newPassword: profileChanges.newPassword
         }
-        console.log('changestosubmit',changesToSubmit)
-        console.log('profilechanges',profileChanges)
         try {
             const response = await api.patch('/api/HealthCareProviders/profile/contact-info', changesToSubmit)
-            alert('Cambios realizados con éxito!',response)  
+            toast.success("Cambios realizados con éxito!")  
+            console.log(response)
             setIsEditable({
                 phoneNumber: false,
                 currentPassword: false
@@ -87,6 +87,7 @@ const DrProfile = () => {
             fetchDrProfileData()
         } catch (error) {
             console.error('Error updating profile:', error)
+            toast.error("Error al cargar los cambios.")
         }
     }
 

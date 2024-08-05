@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import api from "../../api/axios"
 
-const DataBar = ({ patientIdentificationNumber }) => {
+const DataBar = ({ patientIdentificationNumber, isPatient }) => {
     const [selectedPatient, setSelectedPatient] = useState(
         {bloodTypeDescription:'',
         diseases:[],
@@ -9,7 +9,8 @@ const DataBar = ({ patientIdentificationNumber }) => {
     }) 
     const fetchPatientData = async () => {      
         try { 
-          const response = await api.get(`/api/Patient/GetPatientByCuil/${patientIdentificationNumber}`)
+          const path = isPatient ? '/api/Patient/GetPatient' : `/api/Patient/GetPatientByCuil/${patientIdentificationNumber}`
+          const response = await api.get(path)
           if (response.success) {
             setSelectedPatient({
               ...response.data,
@@ -22,9 +23,9 @@ const DataBar = ({ patientIdentificationNumber }) => {
         }
     }  
     useEffect(() => {        
-        if (patientIdentificationNumber) {
+        if (patientIdentificationNumber || isPatient) {
           fetchPatientData()
-        }
+        }        
     }, [])
 
     return ( 

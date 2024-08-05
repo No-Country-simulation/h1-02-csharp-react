@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import medicine from "../../assets/icons/medication.png";
 import calendar from "../../assets/icons/calendarheart.png";
@@ -9,23 +9,27 @@ import food from "../../assets/icons/food.png";
 import Button from "../Button/Button"
 import Task from "./Task";
 import FormTask from "./FormTasks";
+import api from "../../api/axios";
+import { FaPlus } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
-
+import ConfirmDialog from "./ConfirmDialog";
 
 const ToDoList = () => {
 
 
     const [ modalTask, setModalTask ] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState(null);
 
     const closeModal = () => {
         setModalTask(false);
+        setRefresh(!refresh);
     };
 
     const headerIcons = [
-        {
-            icon:food,
-            texto:"Alimentación",
-        },
+        { icon:food, texto:"Alimentación"},
         {
             icon:sport,
             texto:"Deporte",
@@ -44,49 +48,131 @@ const ToDoList = () => {
         }
 
     ]
-    const [tareas, setTareas] = useState([]);
 
-    const agregaTarea = tarea => {
-        if(tarea.texto.trim()){
-            tarea.texto = tarea.texto.trim();
-            const tareasActualizadas = [tarea, ...tareas];
-            setTareas(tareasActualizadas);
+    const [tasks, setTasks] = useState([]);
+    const [currentDate, setCurrentDate] = useState('');
+
+    useEffect(() => {
+        const now = new Date();
+        const monthIndex = now.getMonth();
+        const day = String(now.getDate()).padStart(2, '0');
+
+        const monthNames = [
+            'ene', 'feb', 'mar', 'abr', 'may', 'jun', 
+            'jul', 'ago', 'sep', 'oct', 'nov', 'dic'
+        ];
+
+        const formattedCurrentDate = `${day} de ${monthNames[monthIndex]}`;
+        setCurrentDate(formattedCurrentDate);
+    }, []);
+
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const now = new Date();
+                const formattedDate = now.toISOString().split('.')[0]; // Formato YYYY-MM-DDTHH:MM:SS
+                const response = await api.get(`/api/TaskItem/GetTasksListByDate`, {
+                    params: {
+                        date: formattedDate
+                    }
+                });
+
+                console.log('data', response.data);
+                if (response.data) {
+                    setTasks(response.data);
+                    
+                } else{
+                    throw new Error('Error en la solicitud');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchTasks();
+    }, [refresh]);
+
+    const handleNewTask = (newTask) => {
+        if(newTask.texto.trim()){
+            const formattedTask = {
+                taskDate: newTask.taskDate || new Date().toISOString(),
+                taskDescription: newTask.texto,
+                isCompleted: newTask.completada || false,
+                category: newTask.category || 4
+            };
+            setTasks([formattedTask,...tasks]);
         }
     
     };
 
-    const completarTarea = id => {
-        const tareasActualizadas = tareas.map(tarea => {
-            if(tarea.id === id){
-                tarea.completada = !tarea.completada
+    const completarTarea = async id => {
+        try {
+            const updatedTask = {
+                id: id,
+                isCompleted: true
+            };
+            const response = await api.patch(`/api/TaskItem/CompleteTask/${id}`, updatedTask, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response) {
+                toast.success("Tarea agregada")
+                const tareasActualizadas = tasks.map(tarea => {
+                    if (tarea.id === id) {
+                        tarea.isCompleted = !tarea.isCompleted;
+                    }
+                    return tarea;
+                });
+                setTasks(tareasActualizadas);
+            } else {
+                throw new Error('Error en la solicitud');
             }
-            return tarea;
-        });
-        setTareas(tareasActualizadas);
+        } catch (error) {
+            console.error('Error al completar la tarea:', error);
+        }
     }
 
+    const handleDeleteTask = (id) => {
+        setTaskToDelete(id);
+        setConfirmDialogVisible(true);
+    };
 
-    const eliminiarTarea = id => {
-        const tareasActualizadas = tareas.filter(tarea => tarea.id !== id);
-        setTareas(tareasActualizadas);
+
+    const eliminiarTarea = async () => {
+            try{
+                const response = await api.delete(`/api/TaskItem/DeleteTask/${taskToDelete}`);
+                if (response) {
+                    
+                    const tareasActualizadas = tasks.filter(tarea => tarea.id !== taskToDelete);
+                    setTasks(tareasActualizadas);
+                    setTaskToDelete(null);
+                    setConfirmDialogVisible(false);
+                } else {
+                    throw new Error('Error en la solicitud');
+                }
+            } catch (error) {
+                console.error('Error al eliminar la tarea:', error);
+            }
+        
     }
-
     return ( 
 
         <div>
-
-            <div className="w-full inline-flex justify-between items-center gap-8">
+            <div className="w-full inline-flex justify-between items-center gap-8 mb-3">
                 <p className="text-subtitulo text-primary">Tareas Diarias</p>
 
-                <Button text="Crear tarea" onClick={()=>setModalTask(true)}/>
+                <Button icon={<FaPlus />} text="Crear tarea" onClick={()=>setModalTask(true)}/>
             </div>
-
             <table className="table-auto ">
                 <thead className="h-auto text-small text-neutrals800">
                     <tr className="flex items-center border rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-transparent ">
                         <th className="">
                             <p className="w-[60px] h-[60px] bg-[#dd93ad] rounded-full shadow-inner backdrop-blur-[25.33px] flex items-center">
-                                1 de Agosto
+                                {currentDate}
                             </p> 
                         </th>
                         {headerIcons.map((header, indexHeader) =>
@@ -101,27 +187,38 @@ const ToDoList = () => {
                      
                     </tr>
                 </thead>
-                <tbody className="mt-2 items-center text-small">
+                <tbody className="mt-2 items-center text-small ">
+                    <div className="overflow-auto max-h-[240px]">
+
                     {
-                        tareas.map((tarea, index) => 
+                        tasks.map((task) => 
                             <Task 
-                                key={index}
-                                id={tarea.id}
-                                texto={tarea.texto}
-                                completada={tarea.completada}
+                                key={task.id}
+                                id={task.id}
+                                texto={task.taskDescription}
+                                completada={task.isCompleted}
                                 completarTarea={completarTarea}
-                                eliminiarTarea={eliminiarTarea}
-                            
+                                eliminiarTarea={handleDeleteTask}
+                                category={task.category}
                             />
                         )
                     }
-                  
+                    </div>
+                   
                 </tbody>
-
+               
             </table>
 
             { modalTask && (
-                <FormTask closeModal={closeModal}/>
+                <FormTask onSubmit={handleNewTask} closeModal={closeModal}/>
+            )}
+
+            {confirmDialogVisible && (
+                <ConfirmDialog
+                    message="¿Está seguro de que quiere eliminar esta tarea?"
+                    onConfirm={eliminiarTarea}
+                    onCancel={() => setConfirmDialogVisible(false)}
+                />
             )}
         </div>
 
