@@ -33,6 +33,7 @@ export default function SpecialistDropDown({
         <FormInput
           id="specialitiesIds"
           inputStyle="w-full -z-20 select-none relative"
+          labelStyle="text-neutrals800"
           value={selected ? selected.description : "Seleccione la especialidad"}
           readOnly={true}
         />

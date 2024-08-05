@@ -14,6 +14,8 @@ import ProfileIcon from "./ProfileIcon.jsx";
 import AskIcon from "./AskIcon.jsx";
 import CrossIcon from "./CrossIcon.jsx";
 import PlusIcon from "./PlusIcon.jsx";
+import SaveIcon from "./SaveIcon.jsx";
+import EyeIcon from "./EyeIcon.jsx";
 
 export {
   HomeIcon,
@@ -32,4 +34,5 @@ export {
   AskIcon,
   CrossIcon,
   PlusIcon,
+  SaveIcon,EyeIcon
 };
