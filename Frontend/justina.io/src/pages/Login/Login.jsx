@@ -28,8 +28,9 @@ const Login = () => {
 
   return (
 
-    <div className="flex justify-center items-center">
-      <div className="w-[1100px] m-14 h-screen pr-8 flex justify-center items-center rounded-3xl bg-rose-o10 shadow-glass-effect">
+    <div className="flex justify-center items-center h-screen py-8">
+      
+      <div className="w-[1100px] m-14 h-full pr-8 flex justify-center items-center rounded-3xl bg-rose-o10 shadow-glass-effect">
         <div className="rounded-3xl w-1/2 flex flex-col justify-center items-center h-full px-14">
           <img className="rounded-3xl absolute w-1/2 h-full inset-0 object-cover" src="https://images.unsplash.com/photo-1638202993928-7267aad84c31?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
           <div className="rounded-3xl absolute w-1/2 inset-0 bg-pink-700 bg-opacity-70">
