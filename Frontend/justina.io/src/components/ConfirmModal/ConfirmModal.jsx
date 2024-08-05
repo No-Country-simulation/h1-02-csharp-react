@@ -22,7 +22,7 @@ const ConfirmModal = ({ message, currentType }) => {
           </button>
           <button
             onClick={onConfirm}
-            className="shadow-glass-effect rounded-2xl font-bold py-2 px-5 h-[40px] flex justify-center items-center text-white bg-primary-o40 outline-none border-none focus:outline-none"
+            className="shadow-glass-effect rounded-2xl font-bold py-2 px-5 h-[40px] flex justify-center items-center text-white bg-primary outline-none border-none focus:outline-none"
           >
             Confirmar
           </button>

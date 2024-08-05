@@ -10,7 +10,7 @@ user: {
 const useConfirmStore = create()(
   storeInit((set) => ({
     open: false,
-    modalType:"",
+    modalType: "",
     onConfirm: ()=>{},
     setOnConfirm: (onConfirm) => set({ onConfirm }),
     setModalType: (modalType) => set({ modalType }),

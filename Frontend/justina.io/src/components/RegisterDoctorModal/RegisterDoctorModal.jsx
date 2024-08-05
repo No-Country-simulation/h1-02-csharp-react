@@ -40,6 +40,12 @@ export default function RegisterDoctorModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (values.password !== values.confirmedPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+
     const sendToRegister = {
       ...values,
       confirmedPassword: undefined,
