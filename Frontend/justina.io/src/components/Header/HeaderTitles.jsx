@@ -17,9 +17,9 @@ export default function HeaderTitles() {
           loading="lazy"
           decoding="async"
         />{" "}
-        Buen día {user.fullname}
+        Bienvenido {user.fullname}
       </p>
-      <p className="text-neutral-600 text-subtitulo font-normal font-['Noto Sans'] leading-tight">
+      <p className="text-neutral-600 text-subtitulo text-base font-normal font-['Noto Sans'] leading-tight">
         {isMedicalCenter
           ? "Aqui puedes registrar todos tus tratamientos"
           : "Revisa el progreso de los pacientes y los tratamientos"}
