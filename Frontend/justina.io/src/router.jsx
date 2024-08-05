@@ -73,8 +73,8 @@ export const router = createBrowserRouter([
         element: createPrivateRoute(MedicalCenterDoctor, ["MedicalCenter"]),
       },
       {
-        path: "/patientdetails/:id",
-        element: createPrivateRoute(PatientDetails, ["any"]),
+        path: "/patientdetails/:patientId",
+        element: createPrivateRoute(PatientDetails),
       },
       {
         path: "/treatmentform",
