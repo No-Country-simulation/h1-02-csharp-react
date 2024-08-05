@@ -37,7 +37,7 @@ const ModalWrapper = ({
           <Show when={addCrossClose}>
             <button
               onClick={onClose}
-              className="absolute top-2 right-[2.5%] rounded-full p-1 bg-transparent outline-none focus:outline-none border-none text-neutrals900"
+              className="absolute top-2 right-[2.5%] rounded-full p-1 bg-transparent outline-none focus:outline-none border-none text-neutrals900 z-40"
             >
               <CrossIcon />
             </button>
