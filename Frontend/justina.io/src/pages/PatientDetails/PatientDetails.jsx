@@ -2,15 +2,17 @@ import ProfileResume from "../../components/ProfileResume/ProfileResume"
 import RecordDetail from "../../components/RecordDetail/RecordDetail"
 import MedicalResults from "../../components/MedicalResults/MedicalResults"
 import RecordsList from "../../components/RecordsList/RecordsList"
+import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
+import DataBar from "../../components/DataBar/DataBar"
 
 import medicalStudies from '../../assets/imgs/medicalStudies.png'
 
 import { useEffect, useState } from "react"
-import MedicalResultsModal from "../../components/MedicalResults/MedicalResultsModal"
-import DataBar from "../../components/DataBar/DataBar"
+import { useParams } from "react-router-dom"
 import api from "../../api/axios"
 
-const PatientDetails = ({patientId='ed34ef2f-ae0e-4e5c-398e-08dcb3ea29bc'}) => {
+const PatientDetails = () => {
+    const { patientId } = useParams()
     const [selectedRecord, setSelectedRecord] = useState(null)
     const [isModalOpen, setModalOpen] = useState(false)
     const [records, setRecords] = useState([])
@@ -53,7 +55,7 @@ const PatientDetails = ({patientId='ed34ef2f-ae0e-4e5c-398e-08dcb3ea29bc'}) => {
           fetchPatientData()
           fetchPatientMedicalResults()
         }
-      }, [])
+      }, [patientId])
     
     return (
         <>            
