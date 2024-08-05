@@ -82,7 +82,7 @@ const Login = () => {
               />
               <button
                 onClick={handleShowPass}
-                className={`rounded-full p-1 absolute top-[47%] right-[5%] text-primary outline-none border-none focus:outline-none hover:opacity-100 transition-all duration-150 ${
+                className={`show-pass-style ${
                   showPass
                     ? "opacity-100 bg-rose-o60"
                     : "bg-transparent opacity-85"
