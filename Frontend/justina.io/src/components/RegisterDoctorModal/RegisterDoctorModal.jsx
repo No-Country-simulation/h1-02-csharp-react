@@ -5,6 +5,8 @@ import { EyeIcon, ProfileIcon, SaveIcon } from "../icons";
 import useRegisterDoctor from "../../hooks/useRegisterDoctor";
 import SpecialistDropDown from "./SpecialistDropDown";
 import useDoctorStore from "../../store/useDoctorStore";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
 const DEFAULT_VALUES = {
   firstName: "",
@@ -27,6 +29,7 @@ export default function RegisterDoctorModal() {
   const [values, setValues] = useState(DEFAULT_VALUES);
   const [showPass, setShowPass] = useState(false);
   const [showConfirmedPass, setShowConfirmedPass] = useState(false);
+  const toastId = useRef(undefined);
   const handleChange = (event) => {
     const { id, value } = event.target;
     if (id === "phoneNumber" && !/^[0-9]*$/.test(value)) {
@@ -43,7 +46,7 @@ export default function RegisterDoctorModal() {
     e.stopPropagation();
 
     if (values.password !== values.confirmedPassword) {
-      alert("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
       return;
     }
 
@@ -55,10 +58,18 @@ export default function RegisterDoctorModal() {
       specialitiesIds: [values.specialitiesIds?.id],
     };
     setIsLoading(true);
-    register([sendToRegister]).then(() => {
-      addDoctor(values);
-      setValues(DEFAULT_VALUES);
-      setOpenRegisterDoctor(false);
+    toastId.current = toast.loading("Registrando...");
+    register([sendToRegister]).then((res) => {
+      toast.done(toastId.current);
+
+      if (res) {
+        addDoctor(values);
+        setValues(DEFAULT_VALUES);
+        setOpenRegisterDoctor(false);
+        toast.success("Se ha registrado el medico con exito");
+      } else {
+        toast.error("Ha ocurrido un error");
+      }
       setIsLoading(false);
     });
   };

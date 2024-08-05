@@ -9,14 +9,16 @@ import { toast } from "react-toastify";
 import { useRef } from "react";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const { login } = useAuth();
-  const toastId = useRef();
+  const toastId = useRef(undefined);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     toastId.current = toast.loading("Iniciando Sesion...");
     try {
       login({
@@ -31,6 +33,8 @@ const Login = () => {
         } else {
           toast.error("Las credenciales no son validas");
         }
+        setIsLoading(false);
+        toastId.current = undefined;
       });
     } catch (error) {
       console.error("Error al Iniciar sesion:", error);
@@ -106,6 +110,7 @@ const Login = () => {
             <button
               type="submit"
               className="bg-primary text-parrafo py-2 px-4 rounded-[32px] text-white w-full"
+              disabled={isLoading}
             >
               Ingresar
             </button>
