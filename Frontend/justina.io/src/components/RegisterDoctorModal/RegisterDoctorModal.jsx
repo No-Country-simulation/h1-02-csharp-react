@@ -20,6 +20,7 @@ const DEFAULT_VALUES = {
 };
 
 export default function RegisterDoctorModal() {
+  const [isLoading, setIsLoading] = useState();
   const { openRegisterDoctor, setOpenRegisterDoctor, addDoctor } =
     useDoctorStore();
   const { register, specialities } = useRegisterDoctor(openRegisterDoctor);
@@ -53,11 +54,12 @@ export default function RegisterDoctorModal() {
       emailConfirmed: values.email,
       specialitiesIds: [values.specialitiesIds?.id],
     };
-
+    setIsLoading(true);
     register([sendToRegister]).then(() => {
       addDoctor(values);
       setValues(DEFAULT_VALUES);
       setOpenRegisterDoctor(false);
+      setIsLoading(false);
     });
   };
 
@@ -210,7 +212,10 @@ export default function RegisterDoctorModal() {
           </div>
 
           <div className="col-span-2 flex justify-center items-center">
-            <button className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2 flex gap-x-5 font-bold justify-center items-center">
+            <button
+              className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2 flex gap-x-5 font-bold justify-center items-center"
+              disabled={isLoading}
+            >
               <SaveIcon /> Guardar
             </button>
           </div>
