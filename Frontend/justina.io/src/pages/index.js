@@ -24,6 +24,7 @@ const MedicalCenterDoctor = lazy(() =>
 const MedicalCenterRecords = lazy(() =>
   import("./MedicalCenterRecords/MedicalCenterRecords")
 );
+const NotFound = lazy(()=> import("./NotFound/NotFound"))
 
 export {
   Login,
@@ -38,4 +39,5 @@ export {
   MedicalCenterHome,
   MedicalCenterDoctor,
   MedicalCenterRecords,
+  NotFound
 };

@@ -16,6 +16,7 @@ import {
   PatientHome,
   MedicalCenterDoctor,
   MedicalCenterRecords,
+  NotFound,
 } from "./pages";
 import RootComponent from "./RootComponent";
 
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path: "/mcrecords",
         element: createPrivateRoute(MedicalCenterRecords, ["MedicalCenter"]),
+      },
+      {
+        path: "*",
+        element: createSuspenseRoute(NotFound),
       },
     ],
   },
