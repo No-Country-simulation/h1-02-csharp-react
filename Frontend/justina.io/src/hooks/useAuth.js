@@ -7,12 +7,6 @@ const useAuth = ()=> {
     const authStore = useUserStore();
     const navigate = useNavigate();
 
-    /*const setUserFullName =async ()=>{
-        //TODO: Gestionar caso de fallo
-        const response = await api.get('/api/Account/me');
-        authStore.setUserFullname(`${response.firstName} ${response.lastName}`);
-    }*/
-
     const login = async (credential)=>{
         //TODO: Gestionar caso de fallo
         try {
@@ -33,8 +27,10 @@ const useAuth = ()=> {
        try {
         await api.post('/api/account/register', credentials);
         navigate("/login");
+        return true;
        } catch(e){
         console.error("Error: ", e);
+        return false;
        }
     }
 
