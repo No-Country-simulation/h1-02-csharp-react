@@ -15,6 +15,7 @@ import DrHomeSearchBar from "../DrHomeSearchbar/DrHomeSearchBar";
 import FormInput from "../FormInput/FormInput";
 import SelectList from "../SelectList/SelectList";
 import api from "../../api/axios";
+import { toast } from "react-toastify";
 
 import downloadIcon from "../../assets/icons/downloadIcon.svg";
 import { HeartIcon, LogoutIcon } from "../icons";
@@ -46,44 +47,34 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
 
   const handleFileSubmit = async () => {
     if (!selectedPatientOption) {
-      alert("Por favor selecciona un paciente.");
+      toast.error("Por favor selecciona un paciente.");
       return;
     }
 
     if (!file) {
-      alert("Por favor selecciona un archivo.");
+      toast.error("Por favor selecciona un archivo.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file", file, "medicalStudies.png");
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    try {
-      const response = await api.post(
-        `/api/MedicalTests/${selectedPatientOption}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    
+    const formData = new FormData()
+    formData.append('file', file)
+    
+    try {      
+      const response = await api.post(`/api/MedicalTests/${selectedPatientOption}`,  formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+      })
       if (response) {
         console.log(response);
-        alert("Registro guardado");
+        toast.success("Registro guardado con exito");
         setFile(null);
         setSelectedPatientOption("");
       } else {
         console.error("Error: ", response.message);
-        alert("Error de respuesta");
       }
     } catch (error) {
-      console.error("Error uploading new file:", error);
-      alert("Error");
+      console.error("Error uploading new file:", error);      
     }
   };
 
@@ -108,42 +99,24 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
     () => [
       columnHelper.accessor((row, index) => index + 1, {
         id: "index",
-        header: () => (
-          <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">
-            Nº
-          </span>
-        ),
-        cell: ({ getValue }) => (
-          <span className="text-center w-full text-neutrals800">
-            {getValue()}
-          </span>
-        ),
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nº</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,  
+        minSize:100,
+        maxSize:100      
       }),
       columnHelper.accessor("testName", {
         id: "testName",
-        header: () => (
-          <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">
-            Nombre
-          </span>
-        ),
-        cell: ({ getValue }) => (
-          <span className="text-center w-full text-neutrals800">
-            {getValue()}
-          </span>
-        ),
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nombre</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,
+        minSize:300,
+        maxSize:400 
       }),
       columnHelper.accessor("testDate", {
         id: "testDate",
-        header: () => (
-          <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">
-            Fecha
-          </span>
-        ),
-        cell: ({ getValue }) => (
-          <span className="text-center w-full text-neutrals800">
-            {formatDate(getValue())}
-          </span>
-        ),
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Fecha</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{formatDate(getValue())}</span>,
+        minSize:200,
+        maxSize:200 
       }),
       columnHelper.accessor("fileUrl", {
         id: "fileUrl",
@@ -166,6 +139,8 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
             />
           </a>
         ),
+        minSize:150,
+        maxSize:150  
       }),
     ],
     []
@@ -207,7 +182,7 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
           <h2 className="text-xl text-center font-semibold mb-4">
             Lista de Archivos
           </h2>
-          {fileInputOpen ? (
+          {fileInputOpen ? 
             <>
               <div className="flex items-center justify-center w-3/4">
                 <button
@@ -242,28 +217,31 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
                 </button>
               </div>
             </>
-          ) : (
+            :
             <>
-              <div className="flex items-center justify-center gap-8 w-11/12 pb-2">
-                <DrHomeSearchBar />
-                {patients && (
-                  <button
-                    className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2"
-                    onClick={() => setFileInputOpen(!fileInputOpen)}
-                  >
-                    <HeartIcon /> Agregar archivo
-                  </button>
-                )}
-              </div>
-              <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto pb-2 p-1">
-                <TableContainer table={table}>
-                  <TableHeader table={table} />
-                  <TableBodyWrapper table={table} />
-                </TableContainer>
-                <PaginationControls table={table} pagination={pagination} />
-              </div>
+            {medicalResults.length > 0 ?
+                <>
+                  <div className="flex items-center justify-center gap-8 w-11/12 pb-2"> 
+                      <DrHomeSearchBar />
+                      {patients &&
+                      <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
+                          <HeartIcon /> Agregar archivo
+                      </button> 
+                      }
+                  </div>                
+                  <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto pb-2 p-1">
+                  <TableContainer table={table}>
+                      <TableHeader table={table} />
+                      <TableBodyWrapper table={table} />
+                  </TableContainer>
+                  <PaginationControls table={table} pagination={pagination} />
+                  </div>
+                </>
+                :
+                <p>No hay archivos cargados</p>
+                }
             </>
-          )}
+          }
         </div>
       </div>
     </ModalWrapper>

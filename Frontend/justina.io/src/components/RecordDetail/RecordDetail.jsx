@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import calendar from "../../assets/icons/calendar.svg"
 import profile from "../../assets/icons/profileIcon.svg"
 import api from "../../api/axios"
+import { toast } from "react-toastify"
 
 const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, patient }) => {
   const [selectedDrOption, setSelectedDrOption] = useState('')  
@@ -54,7 +55,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
       const response = await api.post('/api/Record/AddRecords', [newRecord])
       if (response.success) {
           console.log(response.data)
-          alert('Registro guardado')
+          toast.success('Registro guardado con éxito.')
           setNewRecord(prevState => ({
             ...prevState,
             title: "",
@@ -68,11 +69,11 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
           setSelectedPathologyOption('')   
       } else {
         console.error('Error: ', response.message);
-        alert('Error de respuesta')
+        toast.error('Error de respuesta')
       }
     } catch (error) {
       console.error('Error uploading new record:', error)
-      alert('Error')
+      toast.error('Error')
     }
   }
   
@@ -117,7 +118,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
   return (
     <div className='backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl py-4 px-6 pb-8 w-full shadow-custom text-neutrals800 flex flex-col items-center gap-2'>
         <h2 className="py-2 font-semibold text-subtitulo">Resumen Consulta Médica</h2>
-        <div className="w-1/2 self-end">
+        <div className="w-full md:w-1/2 md:self-end">
             <FormInput 
               name='Fecha *'
               type='text' 
@@ -145,7 +146,6 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
               placeholder='Nombre Incompleto' 
               id='healthCareProviderName' 
               icon={profile} 
-              labelStyle='text-end' 
               value={item ? item.healthCareProviderName + ' ' + item.healthCareProviderLastName : ''} 
               readOnly={!isEditMode}
             />

@@ -4,7 +4,7 @@ import TextAreaInput from '../TextAreaInput/TextAreaInput'
 import malePatientPhoto from '../../assets/imgs/malePatientPhoto.png'
 import api from '../../api/axios'
 
-const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', isPatient}) => {
+const ProfileResume = ({ bgColor, patientIdentificationNumber, isPatient }) => {
   const [expanded, setExpanded] = useState(false)
   const [selectedPatient, setSelectedPatient] = useState(
     {applicationUserId: '',
@@ -39,10 +39,10 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', is
       }
     }
 
-    if (patientIdentificationNumber) {
+    if (patientIdentificationNumber || isPatient) {
       fetchPatientData()
     }
-  }, [patientIdentificationNumber])
+  }, [])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -67,7 +67,7 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', is
           <FormInput name='Peso *' type='text' placeholder='Completar peso' id='weight' value={selectedPatient.weight || ''} readOnly />
           <TextAreaInput name='Alergias *' placeholder='Completar alergias' id='allergies' value={selectedPatient.allergies.map(a => a.name).join(', ')} height='h-[90px]' readOnly />
           <TextAreaInput name='Enfermedades *' placeholder='Completar enfermedades' id='diseases' value={selectedPatient.diseases.map(d => d.name).join(', ')} height='h-[90px]' readOnly />
-          <TextAreaInput name='Medicamentos *' placeholder='Completar medicamentos' id='drugs' value={selectedPatient.drugs.map(d => d.name).join(', ')} height='h-[90px]' readOnly />
+          <TextAreaInput name='Medicamentos *' placeholder='Completar medicamentos' id='drugs' value={selectedPatient.drugs.map(d => d.description).join(', ')} height='h-[90px]' readOnly />
         </>
       )}
       <button className="no-underline text-primary text-parrafo backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom w-40 py-2 self-center" onClick={() => {setExpanded(!expanded)}}>{expanded? 'Ver menos' : 'Ver más'}</button>

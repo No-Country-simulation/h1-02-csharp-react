@@ -3,6 +3,7 @@ import TextAreaInput from "../../components/TextAreaInput/TextAreaInput"
 import FormInput from "../../components/FormInput/FormInput"
 import api from "../../api/axios"
 import editIcon from "../../assets/icons/editIcon.svg"
+import { toast } from "react-toastify"
 
 const DrProfile = () => {
     const [drProfileInfo, setDrProfileInfo] = useState({
@@ -52,7 +53,7 @@ const DrProfile = () => {
 
     const fetchDrProfileData = async () => {      
         try {          
-            const response = await api.get('/api/HealthCareProviders/profile')
+            const response = await api.get('/api/HealthCareProviders/profile')            
             console.log(response.data)
             if (response.success) {
                 setDrProfileInfo(response.data)
@@ -70,11 +71,10 @@ const DrProfile = () => {
             currentPassword: profileChanges.currentPassword,
             newPassword: profileChanges.newPassword
         }
-        console.log('changestosubmit',changesToSubmit)
-        console.log('profilechanges',profileChanges)
         try {
             const response = await api.patch('/api/HealthCareProviders/profile/contact-info', changesToSubmit)
-            alert('Cambios realizados con éxito!',response)  
+            toast.success("Cambios realizados con éxito!")  
+            console.log(response)
             setIsEditable({
                 phoneNumber: false,
                 currentPassword: false
@@ -87,6 +87,7 @@ const DrProfile = () => {
             fetchDrProfileData()
         } catch (error) {
             console.error('Error updating profile:', error)
+            toast.error("Error al cargar los cambios.")
         }
     }
 
@@ -105,8 +106,8 @@ const DrProfile = () => {
     return ( 
         <div className="p-4">
             <p className="text-primary text-titulopag text-start font-semibold p-3">Perfil</p>
-            <div className="flex gap-6">
-                <div className="w-1/2 bg-[rgba(253,239,244,0.1)] rounded-3xl py-2 px-4 mb-4 shadow-custom flex flex-col gap-2">
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className="w-full md:w-1/2 bg-[rgba(253,239,244,0.1)] rounded-3xl py-2 px-4 mb-4 shadow-custom flex flex-col gap-2">
                     <p className="text-neutrals800 text-subtitulo text-start font-semibold py-2">Datos Personales</p>
                     <FormInput name='Nombre Completo' type='text' id='name' value={drProfileInfo.firstName+ ' ' + drProfileInfo.lastName} placeholder='Nombre incompleto' readOnly/>
                     <FormInput name='Fecha de Nacimiento' type='text' id='birthDate' value={formatDate(drProfileInfo.birthDate)} placeholder='Fecha incompleta' readOnly/> 
@@ -117,11 +118,13 @@ const DrProfile = () => {
                     </div>
                     <div className="flex items-center gap-4">
                         <FormInput name='Contraseña Actual' type='text' id='currentPassword' value={profileChanges.currentPassword || ''} placeholder='********' readOnly={!isEditable.currentPassword} onChange={handleChange} inputRef={currentPasswordRef} inputStyle={isEditable.currentPassword && "border-2 border-secondary"}/> 
-                        <button className="w-10 h-10 p-2 shadow-custom rounded-full mt-6 hover:shadow-none" onClick={() => handleEditClick('currentPassword')}><img src={editIcon} alt='icono edición'/></button>                            
+                        <button className="w-10 h-10 p-2 shadow-custom rounded-full mt-6 hover:shadow-none" onClick={() => handleEditClick('currentPassword')}><img src={editIcon} alt='icono edición'/></button>                           
                     </div>
-                    {isEditable.currentPassword && <FormInput name='Nueva Contraseña' type='text' id='newPassword' value={profileChanges.newPassword || ''} placeholder='Nueva contraseña' readOnly={!isEditable.currentPassword} onChange={handleChange} inputRef={currentPasswordRef} inputStyle={isEditable.currentPassword && "border-2 border-secondary"}/>}              
+                    {isEditable.currentPassword && <FormInput name='Nueva Contraseña' type='text' id='newPassword' value={profileChanges.newPassword || ''} placeholder='Nueva contraseña' readOnly={!isEditable.currentPassword} onChange={handleChange} inputRef={currentPasswordRef} inputStyle={isEditable.currentPassword && "border-2 border-secondary"}/>}
+                    {(isEditable.currentPassword || isEditable.phoneNumber) &&
+                    <button onClick={handleChangesSubmit} className='h-10 flex justify-between items-center border gap-2 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom text-parrafo py-1 px-4 text-primary w-fit'>Guardar Cambios</button>}             
                 </div>
-                <div className="w-1/2 bg-[rgba(253,239,244,0.1)] rounded-3xl py-2 px-4 mb-4 shadow-custom flex flex-col gap-2"> 
+                <div className="w-full md:w-1/2 bg-[rgba(253,239,244,0.1)] rounded-3xl py-2 px-4 mb-4 shadow-custom flex flex-col gap-2"> 
                     <p className="text-neutrals800 text-subtitulo text-start font-semibold">Perfil Profesional</p>
                     <FormInput name='CUIL' type='text' id='cuil' value={drProfileInfo.identificationNumber} placeholder='Cuil incompleto' readOnly/>
                     <TextAreaInput name='Especialidades' placeholder='Especialidades' id='specialities' value={drProfileInfo.specialities.join(', ')} height='h-[90px]' readOnly />                        
@@ -129,8 +132,7 @@ const DrProfile = () => {
                     <FormInput name='Matrícula Nacional' type='text' id='nationalRegistrationNumber' value={drProfileInfo.nationalRegistrationNumber} placeholder='Matrícula incompleta' readOnly/>
                 </div>
             </div>
-            {(isEditable.currentPassword || isEditable.phoneNumber) &&
-            <button onClick={handleChangesSubmit} className='h-10 flex justify-between items-center border gap-2 rounded-[32px] bg-[rgba(253,239,244,0.4)] shadow-custom text-parrafo py-1 px-4 text-primary w-fit'>Guardar Cambios</button>}
+            
         </div>        
     )
 }

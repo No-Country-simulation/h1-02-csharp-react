@@ -9,7 +9,6 @@ import NoteSection from "../../components/NoteSection/NoteSection";
 
 const PatientHome = () => {
 
-
     return ( 
         <div className=" m-4">
             <div className='inline-flex items-center justify-center mb-4 pl-1 '>
@@ -18,7 +17,7 @@ const PatientHome = () => {
             </div>
             <div>
 
-              <DataBar/>
+              <DataBar isPatient/>
               <div className="flex w-[95%] flex-row mt-4 mx-4 gap-8 justify-between">
                   <div className=" flex-col gap-[38px] inline-flex justify-start">
                       {/*<div className="inline-flex justify-around mx-4">
