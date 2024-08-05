@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalWrapper from "../../components/ModalWrapper/ModalWrapper";
 import FormInput from "../FormInput/FormInput";
-import { ProfileIcon } from "../icons";
+import { EyeIcon, ProfileIcon, SaveIcon } from "../icons";
 import useRegisterDoctor from "../../hooks/useRegisterDoctor";
 import SpecialistDropDown from "./SpecialistDropDown";
 import useDoctorStore from "../../store/useDoctorStore";
@@ -22,8 +22,10 @@ const DEFAULT_VALUES = {
 export default function RegisterDoctorModal() {
   const { openRegisterDoctor, setOpenRegisterDoctor, addDoctor } =
     useDoctorStore();
-  const { register, specialities } = useRegisterDoctor();
+  const { register, specialities } = useRegisterDoctor(openRegisterDoctor);
   const [values, setValues] = useState(DEFAULT_VALUES);
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirmedPass, setShowConfirmedPass] = useState(false);
   const handleChange = (event) => {
     const { id, value } = event.target;
     if (id === "phoneNumber" && !/^[0-9]*$/.test(value)) {
@@ -38,6 +40,12 @@ export default function RegisterDoctorModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (values.password !== values.confirmedPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+
     const sendToRegister = {
       ...values,
       confirmedPassword: undefined,
@@ -57,6 +65,7 @@ export default function RegisterDoctorModal() {
       className="h-[90dvh] max-h-[625px]"
       open={openRegisterDoctor}
       onClose={() => setOpenRegisterDoctor(false)}
+      addCrossClose
     >
       <div className="shadow-glass-effect flex justify-center items-center rounded-[32px] bg-[#FDEFF4]/40 mx-auto mb-4">
         <h3 className="flex gap-x-4 text-primary font-bold px-4 py-2 ">
@@ -73,6 +82,7 @@ export default function RegisterDoctorModal() {
             id="firstName"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
+            placeholder="Ej. Hector"
             onChange={handleChange}
             value={values.firstName}
           />
@@ -81,12 +91,14 @@ export default function RegisterDoctorModal() {
             id="lastName"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
+            placeholder="Ej. Gimenez"
             onChange={handleChange}
             value={values.lastName}
           />
           <FormInput
             name="CUIL *"
             id="identificationNumber"
+            placeholder="Ej. 20453369083"
             labelStyle="text-neutrals800"
             onChange={handleChange}
             value={values.identificationNumber}
@@ -98,6 +110,7 @@ export default function RegisterDoctorModal() {
             id="phoneNumber"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
+            placeholder="Ej. 5493757585720"
             onChange={handleChange}
             value={values.phoneNumber}
           />
@@ -105,6 +118,7 @@ export default function RegisterDoctorModal() {
             name="Correo Electronico *"
             type="email"
             id="email"
+            placeholder="Ej. email@gmail.com"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
             onChange={handleChange}
@@ -123,6 +137,7 @@ export default function RegisterDoctorModal() {
           <FormInput
             name="Matricula Nacional *"
             id="nationalRegistrationNumber"
+            placeholder="Ej. MN789012"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
             onChange={handleChange}
@@ -130,6 +145,7 @@ export default function RegisterDoctorModal() {
           />
           <FormInput
             name="Matricula Local"
+            placeholder="Ej. MP123456 (Opcional)"
             id="localRegistrationNumber"
             inputStyle="min-w-[220px]"
             labelStyle="text-neutrals800"
@@ -137,28 +153,54 @@ export default function RegisterDoctorModal() {
             value={values.localRegistrationNumber}
           />
 
-          <FormInput
-            name="Contraseña *"
-            id="password"
-            type="password"
-            inputStyle="min-w-[220px]"
-            labelStyle="text-neutrals800"
-            onChange={handleChange}
-            value={values.password}
-          />
-          <FormInput
-            name="Confirme la contraseña *"
-            id="confirmedPassword"
-            type="password"
-            inputStyle="min-w-[220px]"
-            labelStyle="text-neutrals800"
-            onChange={handleChange}
-            value={values.confirmedPassword}
-          />
+          <div className="w-full h-auto relative">
+            <FormInput
+              name="Contraseña *"
+              id="password"
+              type={showPass ? "text" : "password"}
+              inputStyle="min-w-[220px] pr-[2.35rem]"
+              labelStyle="text-neutrals800"
+              placeholder="Contraseña"
+              onChange={handleChange}
+              value={values.password}
+            />
+            <button
+              onClick={() => setShowPass((prev) => !prev)}
+              className={`show-pass-style ${
+                showPass
+                  ? "opacity-100 bg-rose-o60"
+                  : "bg-transparent opacity-85"
+              }`}
+            >
+              <EyeIcon />
+            </button>
+          </div>
+          <div className="w-full h-auto relative">
+            <FormInput
+              name="Confirme la contraseña *"
+              id="confirmedPassword"
+              type={showConfirmedPass ? "text" : "password"}
+              inputStyle="min-w-[220px] pr-[2.35rem]"
+              labelStyle="text-neutrals800"
+              placeholder="Confirme la contraseña"
+              onChange={handleChange}
+              value={values.confirmedPassword}
+            />
+            <button
+              onClick={() => setShowConfirmedPass((prev) => !prev)}
+              className={`show-pass-style ${
+                showConfirmedPass
+                  ? "opacity-100 bg-rose-o60"
+                  : "bg-transparent opacity-85"
+              }`}
+            >
+              <EyeIcon />
+            </button>
+          </div>
 
           <div className="col-span-2 flex justify-center items-center">
-            <button className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2">
-              Agregar
+            <button className="shadow-custom w-40 bg-rose-o40 text-primary leading-[120%] text-center p-2 rounded-[32px] mb-2 flex gap-x-5 font-bold justify-center items-center">
+              <SaveIcon /> Guardar
             </button>
           </div>
         </form>

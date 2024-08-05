@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import {startRecording,stopRecording,isRecording} from "./audioRecordingService";
+import {startRecording,stopRecording,isRecording} from "./handleAudioRecording";
 
 const useRecording = () => {
   const [recorder, setRecorder] = useState();
