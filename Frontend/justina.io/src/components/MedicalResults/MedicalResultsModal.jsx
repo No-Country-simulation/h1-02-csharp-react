@@ -1,57 +1,222 @@
+import { useMemo, useState } from "react"
+import { useSearchParams } from "react-router-dom"
+import {
+  useReactTable,
+  createColumnHelper,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from "@tanstack/react-table"
+import TableBodyWrapper from "../../components/TableBody/TableBodyWrapper"
+import TableHeader from "../../components/TableHeader/TableHeader"
+import PaginationControls from "../../components/PaginationControls/PaginationControls"
+import TableContainer from "../../components/TableContainer/TableContainer"
+
 import closeIcon from '../../assets/icons/closeIcon.svg'
 import downloadIcon from '../../assets/icons/downloadIcon.svg'
+import DrHomeSearchBar from "../DrHomeSearchbar/DrHomeSearchBar"
+import { HeartIcon, LogoutIcon } from "../icons"
+import FormInput from "../FormInput/FormInput"
+import SelectList from "../SelectList/SelectList"
+import api from "../../api/axios"
 
-const MedicalResultsModal = ({ isOpen, onClose, medicalResults }) => {  
-    const handleClose = () => onClose()
+const columnHelper = createColumnHelper()
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString)
-        const day = date.getDate().toString().padStart(2, '0')
-        const month = (date.getMonth() + 1).toString().padStart(2, '0')
-        const year = date.getFullYear()
-        const hours = date.getHours().toString().padStart(2, '0')
-        const minutes = date.getMinutes().toString().padStart(2, '0')
+const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
+  const [selectedPatientOption, setSelectedPatientOption] = useState('')
+  const [file, setFile] = useState(null)
+  const [fileInputOpen, setFileInputOpen] = useState(false)   
 
-        return `${day}/${month}/${year} - ${hours}:${minutes}hs`
-    } 
+  const patientOptions = [
+    { id: '', value: '', label: 'Selecciona un paciente' },
+    ...(patients ? patients.map(patient => ({
+        id: patient.id,
+        value: patient.id,
+        label: `${patient.firstName} ${patient.lastName} (${patient.identificationNumber})`
+      })) : [] )
+  ]
+  const handleClose = () => onClose()  
 
-    return (
-        <div className={`${isOpen ? "fixed" : "hidden"} inset-0 z-50 flex items-center justify-center`}>
-            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={handleClose}></div>
-            <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-1/2">
-                <div className="p-4">
-                    <button onClick={handleClose} className="absolute top-3 right-4 text-neutrals600"><img src={closeIcon}/></button>
-                    <div>                            
-                        <h2 className="text-xl text-center font-semibold mb-4">Lista de Archivos</h2>
-                        <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto">
-                            <table className="w-full text-left rounded-2xl overflow-hidden">
-                                <thead className='bg-[rgba(214,86,131,.3)]'>
-                                    <tr>
-                                        <th className="px-4 py-2 text-center">Nº</th>
-                                        <th className="px-4 py-2 text-center">Nombre</th>
-                                        <th className="px-4 py-2 text-center">Fecha</th>
-                                        <th className="px-4 py-2 text-center">Descarga</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='bg-[rgba(255,255,255,.3)]'>
-                                    {medicalResults?.map((link, index) => (
-                                        <tr key={link.id} className="border-b border-neutrals300">
-                                            <td className="px-4 py-2 text-center">{index + 1}</td>
-                                            <td className="px-4 py-2 text-center">{link.testName}</td>
-                                            <td className="px-4 py-2 text-center">{formatDate(link.testDate)}</td>
-                                            <td className="px-4 py-2 flex justify-center">
-                                                <a href={link.fileUrl} target="_blank" rel="noopener noreferrer" ><img src={downloadIcon} alt="Descargar" className="h-9 w-9 shadow-custom rounded-full p-2"/></a>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>                       
-                    </div>                    
-                </div>
-            </div>
-        </div>
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0]
+    if (selectedFile) {
+      setFile(selectedFile)      
+    }
+  }
+
+  const handleFileSubmit = async () => {
+    if (!selectedPatientOption) {
+      alert('Por favor selecciona un paciente.')
+      return
+    }
+  
+    if (!file) {
+      alert('Por favor selecciona un archivo.')
+      return
+    }
+    
+    const formData = new FormData()
+    formData.append('file', file, "medicalStudies.png")
+
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    
+    try {      
+      const response = await api.post(`/api/MedicalTests/${selectedPatientOption}`,  formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+      })
+      if (response) {
+          console.log(response)
+          alert('Registro guardado')
+          setFile(null)          
+          setSelectedPatientOption('')   
+      } else {
+        console.error('Error: ', response.message);
+        alert('Error de respuesta')
+      }
+    } catch (error) {
+      console.error('Error uploading new file:', error)
+      alert('Error')
+    }
+  }
+  
+  const [params] = useSearchParams()
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  })
+
+  // Filtrar los datos según la búsqueda
+  const filteredData = useMemo(() => {
+    const search = params.get("search")?.toLowerCase() || ""
+    return medicalResults.filter((result) =>
+      Object.values(result).some((value) =>
+        String(value).toLowerCase().includes(search)
+      )
     )
+  }, [params.get("search"), medicalResults]);
+
+  // Definir las columnas de la tabla
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor((row, index) => index + 1, {
+        id: "index",
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nº</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,        
+      }),
+      columnHelper.accessor("testName", {
+        id: "testName",
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Nombre</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{getValue()}</span>,
+      }),
+      columnHelper.accessor("testDate", {
+        id: "testDate",
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Fecha</span>,
+        cell: ({ getValue }) => <span className="text-center w-full text-neutrals800">{formatDate(getValue())}</span>,
+      }),
+      columnHelper.accessor("fileUrl", {
+        id: "fileUrl",
+        header: () => <span className="text-neutrals800 leading-[120%] w-full h-full flex justify-center items-center whitespace-pre-wrap truncate">Descarga</span>,
+        cell: ({ getValue }) => (
+          <a href={getValue()} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full">
+            <img src={downloadIcon} alt="Descargar" className="h-8 w-8 rounded-full shadow-custom" />
+          </a>
+        ),
+      }),
+    ],[])
+
+  // Configuración de la tabla
+  const table = useReactTable({
+    data: filteredData,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    columnResizeMode: "onChange",
+    defaultColumn: {
+      minSize: 20,
+      size: 216,
+      maxSize: 300,
+    },
+    onPaginationChange: setPagination,
+    state: {
+      pagination,
+    },
+    autoResetPageIndex: true,
+  })
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}/${month}/${year} - ${hours}:${minutes}hs`;
+  }
+
+  return (
+    <div className={`${isOpen ? "fixed" : "hidden"} inset-0 z-50 flex items-center justify-center`}>
+      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={handleClose}></div>
+      <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-2/3">
+        <div className="p-4">
+          <button onClick={handleClose} className="absolute top-3 right-4 text-neutrals600">
+            <img src={closeIcon} alt="Cerrar" />
+          </button>
+          <div className="flex flex-col items-center">                            
+            <h2 className="text-xl text-center font-semibold mb-4">Lista de Archivos</h2>            
+            {fileInputOpen ? 
+            <>
+                <div className="flex items-center justify-end w-3/4">             
+                    <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 py-2 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
+                        <LogoutIcon /> Volver
+                    </button> 
+                </div>
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <SelectList
+                    id="patientselect"
+                    name="Seleccionar Paciente"
+                    options={patientOptions}
+                    value={selectedPatientOption}
+                    onChange={(e) => {
+                      setSelectedPatientOption(e.target.value)                      
+                    }}
+                  /> 
+                  <FormInput                     
+                    id="fileInput"
+                    type="file"
+                    onChange={handleFileChange}
+                    height="h-[52px]"
+                    inputStyle="cursor-pointer"                                       
+                  />
+                  <button className="no-underline text-primary text-parrafo backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom w-40 py-2 self-center" onClick={handleFileSubmit}>Guardar</button>
+                </div>
+            </>
+            :
+            <>
+                <div className="flex items-center justify-center gap-8 w-11/12 pb-2"> 
+                    <DrHomeSearchBar />
+                    {patients &&
+                    <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
+                        <HeartIcon /> Agregar archivo
+                    </button> 
+                    }
+                </div>
+                <div className="backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom overflow-x-auto pb-2 p-1">
+                <TableContainer table={table}>
+                    <TableHeader table={table} />
+                    <TableBodyWrapper table={table} />
+                </TableContainer>
+                <PaginationControls table={table} pagination={pagination} />
+                </div>
+            </>
+            }                       
+          </div>                    
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default MedicalResultsModal

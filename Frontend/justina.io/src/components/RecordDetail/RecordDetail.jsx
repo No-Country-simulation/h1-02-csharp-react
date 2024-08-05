@@ -8,7 +8,7 @@ import calendar from "../../assets/icons/calendar.svg"
 import profile from "../../assets/icons/profileIcon.svg"
 import api from "../../api/axios"
 
-const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) => {
+const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, patient }) => {
   const [selectedDrOption, setSelectedDrOption] = useState('')  
   const [selectedPathologyOption, setSelectedPathologyOption] = useState('')
   const [newRecord, setNewRecord] = useState({
@@ -16,7 +16,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) 
     description: "",
     createdDate: "",
     medicalCenterCuit: "",
-    patientIdentificationNumber: "",
+    patientIdentificationNumber: patient?.identificationNumber || "",
     pathologyDescription: "",
     healthCareProviderIdentificationNumber: ""
   })
@@ -29,7 +29,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) 
         createdDate: nowDate || ''
       }))
     }
-  }, [])
+  }, [medicalCenterInfo])
 
   const handleInputChange = (e) => {
     const { id, value } = e.target
@@ -48,6 +48,8 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) 
 
   const handleRecordSubmit = async () => {    
     try {
+      console.log('newRecord',newRecord)
+      console.log('patient',patient)
       const response = await api.post('/api/Record/AddRecords', [newRecord])
       if (response.success) {
           console.log(response.data)
@@ -116,12 +118,11 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) 
         <h2 className="py-2 font-semibold text-subtitulo">Resumen Consulta Médica</h2>
         <div className="w-1/2 self-end">
             <FormInput 
-              name='Fecha *' 
+              name='Fecha *'
               type='text' 
               placeholder='Fecha Incompleta' 
               id='createdDate' 
-              icon={calendar} 
-              labelStyle='text-end' 
+              icon={calendar}  
               value={item ? formatDate(item.createdDate) : formatDate(nowDate)} 
               readOnly={!isEditMode}
             />
@@ -194,7 +195,7 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList }) 
               type='text' 
               placeholder='Cuil Incompleto' 
               id='patientIdentificationNumber' 
-              value={item ? item.patientIdentificationNumber : newRecord.patientIdentificationNumber}               
+              value={patient ? patient.identificationNumber : ''}               
               onChange={handleInputChange}
             /> 
             <button className="no-underline text-primary text-parrafo backdrop-blur bg-[rgba(253,239,244,0.1)] rounded-3xl shadow-custom w-40 py-2 self-center" onClick={handleRecordSubmit}>Guardar</button>

@@ -35,7 +35,7 @@ export default function FormInput({
           type={type}
           placeholder={placeholder}
           name={id}
-          value={value || ""}
+          value={type === "file" ? undefined : value || ""}
           onChange={onChange}
           autoComplete={autoComplete || ""}
           disabled={readOnly}

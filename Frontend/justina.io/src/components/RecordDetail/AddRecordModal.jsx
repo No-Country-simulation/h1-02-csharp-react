@@ -3,7 +3,7 @@ import closeIcon from '../../assets/icons/closeIcon.svg'
 import RecordDetail from './RecordDetail'
 import api from '../../api/axios'
 
-const AddRecordModal = ({ isOpen, onClose }) => { 
+const AddRecordModal = ({ isOpen, onClose, patient }) => { 
     const [medicalCenterInfo, setMedicalCenterInfo] = useState({        
         healthCareProviders: []
     })
@@ -53,8 +53,8 @@ const AddRecordModal = ({ isOpen, onClose }) => {
             <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-1/2">                
               <button onClick={handleClose} className="absolute top-3 right-3 text-neutrals600 z-50"><img src={closeIcon}/></button>
               <div>                            
-                <RecordDetail isEditMode medicalCenterInfo={medicalCenterInfo} pathologiesList={pathologiesList}/>
-              </div> 
+                <RecordDetail isEditMode medicalCenterInfo={medicalCenterInfo} pathologiesList={pathologiesList} patient={patient}/>
+              </div>
             </div>
         </div>
     )
