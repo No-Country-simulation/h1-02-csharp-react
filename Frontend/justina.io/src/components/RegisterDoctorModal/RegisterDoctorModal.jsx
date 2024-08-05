@@ -22,7 +22,7 @@ const DEFAULT_VALUES = {
 export default function RegisterDoctorModal() {
   const { openRegisterDoctor, setOpenRegisterDoctor, addDoctor } =
     useDoctorStore();
-  const { register, specialities } = useRegisterDoctor();
+  const { register, specialities } = useRegisterDoctor(openRegisterDoctor);
   const [values, setValues] = useState(DEFAULT_VALUES);
   const [showPass, setShowPass] = useState(false);
   const [showConfirmedPass, setShowConfirmedPass] = useState(false);

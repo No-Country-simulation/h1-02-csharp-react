@@ -1,24 +1,17 @@
 import { useState } from "react"
 import api from "../api/axios"
 import { useEffect } from "react";
+import { useCallback } from "react";
 
-const useRegisterDoctor = ()=>{
+const useRegisterDoctor = (opened)=>{
     const [specialities, setSpecilistList] = useState([]);
     
 
-    const searchSpecialities = ()=>{
+    const searchSpecialities = useCallback(()=>{
         api.get("/api/Specialities").then((res)=>{
-            /* 
-            [
-              data: {
-               id: string,
-               description: string
-              }
-            ]
-            */
             setSpecilistList(res.data);
         })
-    }
+    }, [setSpecilistList])
 
     const register = (body)=>{
         return api.post("/api/Account/register-health-care-provider", body).then((res)=>{
@@ -27,8 +20,10 @@ const useRegisterDoctor = ()=>{
     }
 
     useEffect(()=>{
-        searchSpecialities();
-    }, []);
+        if(opened && specialities.length === 0){
+            searchSpecialities();
+        }
+    }, [opened]);
 
     return {register,specialities}
 }
