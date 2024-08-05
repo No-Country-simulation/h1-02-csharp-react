@@ -4,11 +4,9 @@
 [![Justina](https://raw.githubusercontent.com/No-Country-simulation/h1-02-csharp-react/main/Frontend/justina.io/public/logo.png)](https://justinaio-app.netlify.app/)
 </div>
 
-## Qué Hace Diferente a Justina IO
-
 En Justina, nos enfocamos en proporcionar una solución integral y segura para la gestión de información médica. Nuestro enfoque centrado en el usuario y nuestra arquitectura robusta aseguran que tanto médicos como pacientes puedan acceder a la información de manera eficiente y segura. Nuestra plataforma no solo facilita la administración de datos médicos, sino que también mejora la colaboración y comunicación entre todos los actores del sistema de salud.
 
-## Características de la aplicación web
+##💡 Características de la aplicación web
 
 - **Roles y permisos diferenciados**: Administrador, Centros Médicos, Profesionales de la Salud y Pacientes.
   - **Administradores**: Pueden dar de alta a los Centros Médicos.
@@ -22,20 +20,19 @@ En Justina, nos enfocamos en proporcionar una solución integral y segura para l
 
 - **Actualización de información**: Los pacientes pueden ver y actualizar su información, incluyendo la carga de documentación adicional.
 
-## Diseño
-
-Puedes ver el diseño en Figma a través del siguiente enlace:
-
-[![Diseño en Figma](https://img.shields.io/badge/DISE%C3%91O-5A4FCF?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/SwshZNP8buopIg0jQzUXWe/No-Country-H1-02-Justina.IO?node-id=6-12&t=uI2kGoMOtgDJAVb9-0)
-
-
-## Sitio web
+##🚀 Sitio web
 
 Visita el sitio web:
 
 [![Justina](https://img.shields.io/badge/JUSTINA-5A4FCF?style=for-the-badge&logo=netlify&logoColor=white)](https://justinaio-app.netlify.app/)
 
-## Equipo de Desarrollo
+##🎨 Diseño
+
+Puedes ver el diseño en Figma a través del siguiente enlace:
+
+[![Diseño en Figma](https://img.shields.io/badge/DISE%C3%91O-5A4FCF?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/SwshZNP8buopIg0jQzUXWe/No-Country-H1-02-Justina.IO?node-id=6-12&t=uI2kGoMOtgDJAVb9-0)
+
+##✨ Equipo de Desarrollo
 
 <div align="center">
   
