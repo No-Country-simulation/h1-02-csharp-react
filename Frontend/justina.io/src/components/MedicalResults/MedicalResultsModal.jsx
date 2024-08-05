@@ -10,14 +10,14 @@ import TableBodyWrapper from "../../components/TableBody/TableBodyWrapper"
 import TableHeader from "../../components/TableHeader/TableHeader"
 import PaginationControls from "../../components/PaginationControls/PaginationControls"
 import TableContainer from "../../components/TableContainer/TableContainer"
-
-import closeIcon from '../../assets/icons/closeIcon.svg'
-import downloadIcon from '../../assets/icons/downloadIcon.svg'
+import ModalWrapper from "../ModalWrapper/ModalWrapper"
 import DrHomeSearchBar from "../DrHomeSearchbar/DrHomeSearchBar"
-import { HeartIcon, LogoutIcon } from "../icons"
 import FormInput from "../FormInput/FormInput"
 import SelectList from "../SelectList/SelectList"
 import api from "../../api/axios"
+
+import downloadIcon from '../../assets/icons/downloadIcon.svg'
+import { HeartIcon, LogoutIcon } from "../icons"
 
 const columnHelper = createColumnHelper()
 
@@ -33,8 +33,7 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
         value: patient.id,
         label: `${patient.firstName} ${patient.lastName} (${patient.identificationNumber})`
       })) : [] )
-  ]
-  const handleClose = () => onClose()  
+  ]    
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]
@@ -157,18 +156,13 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
   }
 
   return (
-    <div className={`${isOpen ? "fixed" : "hidden"} inset-0 z-50 flex items-center justify-center`}>
-      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={handleClose}></div>
-      <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-2/3">
-        <div className="p-4">
-          <button onClick={handleClose} className="absolute top-3 right-4 text-neutrals600">
-            <img src={closeIcon} alt="Cerrar" />
-          </button>
-          <div className="flex flex-col items-center">                            
+    <ModalWrapper open={isOpen} onClose={onClose}>    
+      <div className="relative shadow-lg no-underline text-neutrals800 backdrop-blur bg-[rgba(253,239,244,0.5)] rounded-3xl w-full">  
+          <div className="flex flex-col items-center p-4">                            
             <h2 className="text-xl text-center font-semibold mb-4">Lista de Archivos</h2>            
             {fileInputOpen ? 
             <>
-                <div className="flex items-center justify-end w-3/4">             
+                <div className="flex items-center justify-center w-3/4">             
                     <button className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 py-2 shadow-glass-effect my-2" onClick={() => setFileInputOpen(!fileInputOpen)}>
                         <LogoutIcon /> Volver
                     </button> 
@@ -213,9 +207,8 @@ const MedicalResultsModal = ({ isOpen, onClose, medicalResults, patients }) => {
             </>
             }                       
           </div>                    
-        </div>
-      </div>
-    </div>
+        </div>        
+    </ModalWrapper>
   )
 }
 
