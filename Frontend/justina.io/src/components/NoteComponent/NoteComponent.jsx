@@ -3,6 +3,7 @@ import useHandleDeleteNote from "../../hooks/useHandleDeleteNote";
 import { CrossIcon } from "../icons";
 import { memo } from "react";
 import { useMemo } from "react";
+import useConfirmStore from "../../store/useConfirmStore";
 
 function getRandomClass() {
   const classes = [
@@ -18,9 +19,15 @@ function getRandomClass() {
 const MemoizedNoteComponent = memo(
   function NoteComponent({ title, desc, id, i = 0 }) {
     const { handleDeleteNote } = useHandleDeleteNote();
+    const { setModalType, setOnConfirm, setOpen } = useConfirmStore();
 
     const handleDelete = () => {
-      handleDeleteNote(id);
+      setModalType("ModalRemoveNote");
+      setOpen(true);
+      setOnConfirm(() => {
+        handleDeleteNote(id);
+        setOpen(false);
+      });
     };
     const classess = useMemo(() => getRandomClass(), []);
     return (
@@ -37,7 +44,7 @@ const MemoizedNoteComponent = memo(
           />
           <div>
             <button
-              className="text-error-200 rounded-full p-1 bg-white/60 w-8 font-bold scale-[0.9]"
+              className="text-error-200 rounded-full p-1 bg-white/60 w-8 font-bold scale-[0.9] outline-none border-none focus:outline-none"
               onClick={handleDelete}
             >
               <CrossIcon />
