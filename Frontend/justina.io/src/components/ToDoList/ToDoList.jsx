@@ -11,12 +11,17 @@ import Task from "./Task";
 import FormTask from "./FormTasks";
 import api from "../../api/axios";
 import { FaPlus } from "react-icons/fa6";
+import { toast } from "react-toastify";
+
+import ConfirmDialog from "./ConfirmDialog";
 
 const ToDoList = () => {
 
 
     const [ modalTask, setModalTask ] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState(null);
 
     const closeModal = () => {
         setModalTask(false);
@@ -115,6 +120,7 @@ const ToDoList = () => {
             });
 
             if (response) {
+                toast.success("Tarea agregada")
                 const tareasActualizadas = tasks.map(tarea => {
                     if (tarea.id === id) {
                         tarea.isCompleted = !tarea.isCompleted;
@@ -130,31 +136,29 @@ const ToDoList = () => {
         }
     }
 
+    const handleDeleteTask = (id) => {
+        setTaskToDelete(id);
+        setConfirmDialogVisible(true);
+    };
 
-    const eliminiarTarea = async id => {
-        
-        const confirmacion = window.confirm("¿Está seguro de que quiere eliminar esta tarea?");
 
-        if (confirmacion){
+    const eliminiarTarea = async () => {
             try{
-                const response = await api.delete(`/api/TaskItem/DeleteTask/${id}`);
-    
+                const response = await api.delete(`/api/TaskItem/DeleteTask/${taskToDelete}`);
                 if (response) {
                     
-                    const tareasActualizadas = tasks.filter(tarea => tarea.id !== id);
+                    const tareasActualizadas = tasks.filter(tarea => tarea.id !== taskToDelete);
                     setTasks(tareasActualizadas);
+                    setTaskToDelete(null);
+                    setConfirmDialogVisible(false);
                 } else {
                     throw new Error('Error en la solicitud');
                 }
             } catch (error) {
                 console.error('Error al eliminar la tarea:', error);
             }
-        }
         
     }
-
-  
-   
     return ( 
 
         <div>
@@ -194,7 +198,7 @@ const ToDoList = () => {
                                 texto={task.taskDescription}
                                 completada={task.isCompleted}
                                 completarTarea={completarTarea}
-                                eliminiarTarea={eliminiarTarea}
+                                eliminiarTarea={handleDeleteTask}
                                 category={task.category}
                             />
                         )
@@ -207,6 +211,14 @@ const ToDoList = () => {
 
             { modalTask && (
                 <FormTask onSubmit={handleNewTask} closeModal={closeModal}/>
+            )}
+
+            {confirmDialogVisible && (
+                <ConfirmDialog
+                    message="¿Está seguro de que quiere eliminar esta tarea?"
+                    onConfirm={eliminiarTarea}
+                    onCancel={() => setConfirmDialogVisible(false)}
+                />
             )}
         </div>
 

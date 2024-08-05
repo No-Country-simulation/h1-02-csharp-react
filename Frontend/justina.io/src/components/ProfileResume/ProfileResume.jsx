@@ -19,8 +19,7 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', is
     allergies:[],
     diseases:[],
     drugs:[],
-    image: malePatientPhoto}  )  
-  
+    image: malePatientPhoto})    
   
   useEffect(() => {
     const fetchPatientData = async () => {      
@@ -44,6 +43,15 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', is
       fetchPatientData()
     }
   }, [patientIdentificationNumber])
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+
+    return `${day}/${month}/${year}`
+}
  
   return (
     <div className={`backdrop-blur ${bgColor ? bgColor : 'bg-[rgba(253,239,244,0.1)]'} rounded-3xl py-6 px-4 w-full mb-4 shadow-custom text-neutrals600 flex flex-col gap-4`}>
@@ -54,7 +62,7 @@ const ProfileResume = ({ bgColor, patientIdentificationNumber ='20389567464', is
         <>
           <FormInput name='Email *' type='text' placeholder='Completar email' id='email' value={selectedPatient.email} readOnly />
           <FormInput name='Teléfono *' type='text' placeholder='Completar teléfono' id='phoneNumber' value={selectedPatient.phoneNumber} readOnly />
-          <FormInput name='Fecha de nacimiento *' type='text' placeholder='Completar fecha de nacimiento' id='birthDate' value={selectedPatient.birthDate} readOnly />
+          <FormInput name='Fecha de nacimiento *' type='text' placeholder='Completar fecha de nacimiento' id='birthDate' value={formatDate(selectedPatient.birthDate)} readOnly />
           <FormInput name='Tipo de sangre *' type='text' placeholder='Completar tipo de sangre' id='bloodTypeDescription' value={selectedPatient.bloodTypeDescription} readOnly />          
           <FormInput name='Peso *' type='text' placeholder='Completar peso' id='weight' value={selectedPatient.weight || ''} readOnly />
           <TextAreaInput name='Alergias *' placeholder='Completar alergias' id='allergies' value={selectedPatient.allergies.map(a => a.name).join(', ')} height='h-[90px]' readOnly />

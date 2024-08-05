@@ -29,7 +29,7 @@ const menuPatient = [
   {
     icon: <HeartIcon />,
     text: "Estudios",
-    link: "/#",
+    link: "/patientstudies",
   },
   {
     icon: <MedicalIcon />,

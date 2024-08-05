@@ -11,6 +11,7 @@ export default function FormInput({
   autoComplete = "off",
   readOnly = false,
   inputStyle = "",
+  inputRef,
 }) {
   return (
     <div className="mb-1 w-full">
@@ -35,13 +36,15 @@ export default function FormInput({
           type={type}
           placeholder={placeholder}
           name={id}
-          value={value || ""}
+          value={type === "file" ? undefined : value || ""}
           onChange={onChange}
           autoComplete={autoComplete || ""}
           disabled={readOnly}
           readOnly={readOnly}
+          ref={inputRef}
         />
       </div>
     </div>
   );
 }
+

@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
-import RecordingService from "./audioRecordingService";
+import {startRecording,stopRecording,isRecording} from "./handleAudioRecording";
 
 const useRecording = () => {
   const [recorder, setRecorder] = useState();
   const [isNotSupported, setIsNotSupported] = useState(false);
   const audioChunks = useRef([]);
 
-  const startRecording = () => {
-    RecordingService.startRecording().then((newRecorder) => {
+  const startRecordingAudio = () => {
+    startRecording().then((newRecorder) => {
       if (newRecorder) {
         newRecorder.ondataavailable = (event) => {
           audioChunks.current.push(event.data);
@@ -20,8 +20,8 @@ const useRecording = () => {
     });
   };
 
-  const stopRecording = () => {
-    return RecordingService.stopRecording(recorder, audioChunks.current).then(
+  const stopRecordingAudio = () => {
+    return stopRecording(recorder, audioChunks.current).then(
       (audioBlob) => {
         audioChunks.current = [];
         setRecorder(undefined);
@@ -32,10 +32,10 @@ const useRecording = () => {
   };
 
   return {
-    isRecording: RecordingService.isRecording(recorder),
+    isRecording: isRecording(recorder),
     isNotSupported,
-    stopRecording,
-    startRecording,
+    startRecordingAudio,
+    stopRecordingAudio,
   };
 };
 
