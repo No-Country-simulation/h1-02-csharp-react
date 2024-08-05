@@ -1,11 +1,11 @@
 import useUserStore from "../../store/useUserStore";
-import doctorProfile from "../../assets/imgs/medico.png";
 import userProfile from "../../assets/imgs/avatar.png";
+import medicalCenterProfile from "../../assets/imgs/medicalCenterProfile.png";
 
 export default function HeaderTitles() {
   const { user } = useUserStore();
-  const isPatient = user.roles === "Patient";
-  const profile = isPatient ? userProfile : doctorProfile;
+  const isMedicalCenter = user.roles === "MedicalCenter";
+  const profile = isMedicalCenter ? medicalCenterProfile : userProfile;
 
   return (
     <div className="pr-[36.24px] p-4 bg-neutral-50/opacity-10 rounded-2xl ">
@@ -20,7 +20,7 @@ export default function HeaderTitles() {
         Buen día {user.fullname}
       </p>
       <p className="text-neutral-600 text-subtitulo font-normal font-['Noto Sans'] leading-tight">
-        {isPatient
+        {isMedicalCenter
           ? "Aqui puedes registrar todos tus tratamientos"
           : "Revisa el progreso de los pacientes y los tratamientos"}
       </p>
