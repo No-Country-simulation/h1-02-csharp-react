@@ -77,7 +77,7 @@ const PatientsTable = ({ patients, onAddRecordClick }) => {
           <div className="flex space-x-2">
             <button
               onClick={() => onAddRecordClick(row.original)}
-              className="flex justify-center items-center gap-2 text-primary font-normal bg-rose-o20 rounded-[32px] px-6 shadow-glass-effect my-2"
+              className="flex justify-center items-center gap-1 text-primary font-normal px-1 w-full"
             >
               <HeartIcon /> Agregar Record
             </button>           
@@ -95,7 +95,7 @@ const PatientsTable = ({ patients, onAddRecordClick }) => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    columnResizeMode: "onChange",
+    columnResizeMode: "off",
     defaultColumn: {
       minSize: 80,
       size: 216,

@@ -16,20 +16,21 @@ const RecordDetail = ({ item, isEditMode, medicalCenterInfo, pathologiesList, pa
     description: "",
     createdDate: "",
     medicalCenterCuit: "",
-    patientIdentificationNumber: patient?.identificationNumber || "",
+    patientIdentificationNumber: "",
     pathologyDescription: "",
     healthCareProviderIdentificationNumber: ""
   })
 
   useEffect(() => {
-    if (isEditMode && medicalCenterInfo) {
+    if (isEditMode && medicalCenterInfo && patient) {
       setNewRecord(prevState => ({
         ...prevState,
         medicalCenterCuit: medicalCenterInfo.cuit || '',
-        createdDate: nowDate || ''
+        createdDate: nowDate || '',
+        patientIdentificationNumber: patient?.identificationNumber || '',
       }))
     }
-  }, [medicalCenterInfo])
+  }, [medicalCenterInfo, patient])
 
   const handleInputChange = (e) => {
     const { id, value } = e.target
