@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import handleDeleteDoctor from "../../hooks/useHandleDeleteDoctor";
+import handleDeleteDoctor from "../../hooks/handleDeleteDoctor";
 import useConfirmStore from "../../store/useConfirmStore";
 import useDoctorStore from "../../store/useDoctorStore";
 import { CrossIcon } from "../icons";

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 
 const useChatbotStore =create(((set) => ({
-  openChatBot: true,
+  openChatBot: false,
   buttonRef: null,
   setButtonRef: (ref) => set({ buttonRef: ref }),
   setOpenChatbot: (openChatBot) => {
