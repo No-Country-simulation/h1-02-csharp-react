@@ -21,8 +21,10 @@ const useAuth = ()=> {
             authStore.setToken(response.token);
             authStore.setUser(getValidUser(payload));
             navigate("/patientdetails");
+            return true;
         } catch(e){
             console.error("Error: ",e);
+            return false;
         }
     }
 
