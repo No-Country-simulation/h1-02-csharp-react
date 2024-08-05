@@ -5,22 +5,36 @@ import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import logo from "../../assets/imgs/imagotype.webp";
 import { EyeIcon } from "../../components/icons";
+import { toast } from "react-toastify";
+import { useRef } from "react";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const { login } = useAuth();
+  const toastId = useRef(undefined);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    toastId.current = toast.loading("Iniciando Sesion...");
     try {
       login({
         email,
         password,
-      }).then(() => {
-        setEmail("");
-        setPassword("");
+      }).then((success) => {
+        toast.done(toastId.current);
+        if (success) {
+          setEmail("");
+          setPassword("");
+          toast.success("Sesion Iniciada");
+        } else {
+          toast.error("Las credenciales no son validas");
+        }
+        setIsLoading(false);
+        toastId.current = undefined;
       });
     } catch (error) {
       console.error("Error al Iniciar sesion:", error);
@@ -96,6 +110,7 @@ const Login = () => {
             <button
               type="submit"
               className="bg-primary text-parrafo py-2 px-4 rounded-[32px] text-white w-full"
+              disabled={isLoading}
             >
               Ingresar
             </button>

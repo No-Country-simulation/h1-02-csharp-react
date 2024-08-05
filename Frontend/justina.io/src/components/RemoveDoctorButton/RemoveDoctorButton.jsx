@@ -3,20 +3,24 @@ import handleDeleteDoctor from "../../hooks/handleDeleteDoctor";
 import useConfirmStore from "../../store/useConfirmStore";
 import useDoctorStore from "../../store/useDoctorStore";
 import { CrossIcon } from "../icons";
+import { toast } from "react-toastify";
 
 const RemoveDoctorButton = ({ id }) => {
   const { removeId, doctors } = useDoctorStore();
   const { setOnConfirm, setModalType, setOpen } = useConfirmStore();
-  const handleDeleted = useCallback(
-    () =>
-      handleDeleteDoctor(id).then((res) => {
-        if (res) {
-          removeId(id);
-        }
-        setOpen(false);
-      }),
-    [id, doctors, removeId]
-  );
+  const handleDeleted = useCallback(() => {
+    const toastId = toast.loading("Eliminando...");
+    handleDeleteDoctor(id).then((res) => {
+      if (res) {
+        toast.done(toastId);
+        removeId(id);
+        toast.success("Se ha eliminado el medico.");
+      } else {
+        toast.error("Ha ocurrido un error");
+      }
+      setOpen(false);
+    });
+  }, [id, doctors, removeId]);
   const onRemove = () => {
     setModalType("RemoveDoctor");
     setOpen(true);

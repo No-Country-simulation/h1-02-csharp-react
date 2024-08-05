@@ -16,6 +16,7 @@ import CrossIcon from "./CrossIcon.jsx";
 import PlusIcon from "./PlusIcon.jsx";
 import SaveIcon from "./SaveIcon.jsx";
 import EyeIcon from "./EyeIcon.jsx";
+import FormIcon from "./FormIcon.jsx";
 
 export {
   HomeIcon,
@@ -34,5 +35,7 @@ export {
   AskIcon,
   CrossIcon,
   PlusIcon,
-  SaveIcon,EyeIcon
+  SaveIcon,
+  EyeIcon,
+  FormIcon,
 };
