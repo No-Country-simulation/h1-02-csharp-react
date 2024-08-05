@@ -59,7 +59,9 @@ const RecordingNotes = () => {
               defaultValue="Title"
               onChange={(e) => setNewNoteTitle(e.target.value)}
             />
-            <RecordingButton setNewNoteText={(val) => setNewNoteText(val)} />
+            <RecordingButton
+              setNewNoteText={(val) => setNewNoteText(`${newNoteText} ${val}`)}
+            />
           </div>
           <textarea
             placeholder="Note..."
