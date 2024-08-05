@@ -60,6 +60,7 @@ export default function RegisterDoctorModal() {
       setOpenRegisterDoctor(false);
     });
   };
+
   return (
     <ModalWrapper
       className="h-[90dvh] max-h-[625px]"
@@ -165,7 +166,12 @@ export default function RegisterDoctorModal() {
               value={values.password}
             />
             <button
-              onClick={() => setShowPass((prev) => !prev)}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setShowPass((prev) => !prev);
+              }}
               className={`show-pass-style ${
                 showPass
                   ? "opacity-100 bg-rose-o60"
@@ -187,7 +193,12 @@ export default function RegisterDoctorModal() {
               value={values.confirmedPassword}
             />
             <button
-              onClick={() => setShowConfirmedPass((prev) => !prev)}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setShowConfirmedPass((prev) => !prev);
+              }}
               className={`show-pass-style ${
                 showConfirmedPass
                   ? "opacity-100 bg-rose-o60"
