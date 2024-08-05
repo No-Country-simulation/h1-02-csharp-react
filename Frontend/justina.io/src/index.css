@@ -196,3 +196,44 @@ html,
     transform: translateY(0%);
   }
 }
+
+body {
+  & .rcb-chat-bot {
+    & .rcb-chat-footer-container {
+      display: none;
+    }
+
+    & .rcb-chat-window {
+      background-color: rgb(253 239 244);
+    }
+    & .rcb-bot-message-container {
+      & .rcb-bot-message {
+        background: var(--color-secondary) !important;
+      }
+    }
+
+    & .rcb-chat-input {
+      background-color: rgb(250 250 250 / 40%);
+
+      & textarea {
+        background-color: rgb(250 250 250 / 60%);
+      }
+    }
+    & .rcb-send-button {
+      background-color: var(--color-secondary) !important;
+    }
+
+    & .rcb-options {
+      border-color: var(--color-secondary) !important;
+      color: var(--color-primary) !important;
+      font-weight: 600;
+    }
+  }
+}
+
+@supports (backdrop-filter: blur(6px)) {
+  body .rcb-chat-bot .rcb-chat-window {
+    background-color: var(--color-rose-o60);
+    backdrop-filter: blur(6px);
+  }
+}
